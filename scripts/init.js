@@ -11,9 +11,9 @@ const config={
 	type: Phaser.AUTO,
 	scene: [mainScene]
 }
-
+var Game;
 function initGame(){
-	var Game=new Phaser.Game(config);
+	Game=new Phaser.Game(config);
 }
 
 initGame();
