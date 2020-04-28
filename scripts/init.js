@@ -9,7 +9,7 @@ const config={
 
 	parent : "canvasContainer",
 	type: Phaser.AUTO,
-	scene: [mainScene]
+	scene: [ mainScene ,hud ]
 }
 var Game;
 function initGame(){

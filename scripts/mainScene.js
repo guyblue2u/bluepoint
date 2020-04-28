@@ -1,27 +1,39 @@
 let prueba;
 
-class mainScene extends Phaser.Scene{
+let upKey;
+let downKey;
+let rightKey;
+let leftKey;
+let enterKey;
 
-	constructor(){
-		super('mainScene');
-	}
 
-	init(data){
-		
-	}
+let poly;
 
-    preload(){
+var mainScene = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize:
+
+    function mainScene (){
+        Phaser.Scene.call(this, { key: 'mainScene', active: true });
+    },
+
+    preload: function(){
         this.load.image("background_1","./assets/images/base1.png");
 
         this.load.spritesheet("discoBall","./assets/images/disco ball.png",{frameWidth:36,frameHeight:36}); //ball
         this.load.spritesheet("blueGuy" , "./assets/images/guy blue sprites.png",{frameWidth:36,frameHeight:36}); // blue character
         this.load.spritesheet("redGuy" , "./assets/images/red guy blue sprites.png",{frameWidth:36,frameHeight:36}); // blue character
         this.load.spritesheet("NPC" ,"./assets/images/NPC sprites.png",{frameWidth:36,frameHeight:36} );  // NPC
-        this.load.image("drums" , "./assets/images/drums.png")
-        this.load.image("table" , "./assets/images/table.png")
-    }
+        
+        this.load.image("drums" , "./assets/images/drums.png");                 //Objects
+        this.load.image("table" , "./assets/images/table.png");
+        this.load.image("speakers" , "./assets/images/speakers.png");
 
-    create(){
+    },
+
+    create: function(){
         const background = this.add.image(0,0,"background_1").setOrigin(0,0);
         player["avatar"]= this.add.sprite(player.x, player.y , "blueGuy" , 0);
 
@@ -30,25 +42,25 @@ class mainScene extends Phaser.Scene{
         this.anims.create({
             key: "walkRight",
             repeat: -1,
-            frameRate: 5,
+            frameRate: 10,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 14,15 ] })           
         })
         this.anims.create({
             key: "walkLeft",
             repeat: -1,
-            frameRate: 5,
+            frameRate: 10,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 12,13 ] })           
         })
         this.anims.create({
             key: "walkDown",
             repeat: -1,
-            frameRate: 5,
+            frameRate: 10,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 4,5,6,7 ] })           
         })
         this.anims.create({
             key: "walkUp",
             repeat: -1,
-            frameRate: 5,
+            frameRate: 10,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 8,9,10,11 ] })           
         })
         this.anims.create({
@@ -89,7 +101,7 @@ class mainScene extends Phaser.Scene{
         this.anims.create({
             key: "idleSally",
             repeat: -1,
-            frameRate: 5,
+            frameRate: 2,
             frames: this.anims.generateFrameNumbers('NPC', { frames: [ 16,17 ] })           
         })
 
@@ -145,21 +157,21 @@ class mainScene extends Phaser.Scene{
         this.anims.create({
             key: "idleAaron",
             repeat: -1,
-            frameRate: 5,
-            frames: this.anims.generateFrameNumbers('NPC', { frames: [ 104,105,104,104,104] })           
+            frameRate: 1,
+            frames: this.anims.generateFrameNumbers('NPC', { frames: [ 104,104,104,105] })           
         })
 
         this.anims.create({
             key: "idleSam",
             repeat: -1,
-            frameRate: 5,
-            frames: this.anims.generateFrameNumbers('NPC', { frames: [ 115,116] })           
+            frameRate: 1,
+            frames: this.anims.generateFrameNumbers('NPC', { frames: [ 115,116,115,115] })           
         })
 
         this.anims.create({
             key: "idleAlex",
             repeat: -1,
-            frameRate: 5,
+            frameRate: 2,
             frames: this.anims.generateFrameNumbers('NPC', { frames: [ 137,138,139,140] })           
         })
 
@@ -194,7 +206,7 @@ class mainScene extends Phaser.Scene{
         this.anims.create({
             key: "discoBall",
             repeat: -1,
-            frameRate: 5,
+            frameRate: 1,
             frames: this.anims.generateFrameNumbers('discoBall', { frames: [ 0,1] })           
         })
 
@@ -266,29 +278,44 @@ class mainScene extends Phaser.Scene{
 
         this.add.image(234,96,"table").setDepth(96);
         this.add.image(371,162,"drums").setDepth(162);
+        prueba=this.add.image(335,136 , "speakers").setDepth(136);
         this.add.sprite(281,55,"discoBall").play("discoBall");
 
         player["avatar"].play("idleDown");
-        
-
-        this.input.keyboard.on('keydown', (event) => {player.move(event.keyCode)})
 
         this.input.keyboard.on('keyup', (event)=> {
             player.returnToIdle();
             player.direction=null;
             player.moving=false;
         })
-     
 
-        //prueba=this;
+        upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
+        // polygon for the floor boundaries
+        poly=new Phaser.Geom.Polygon([new Phaser.Geom.Point(0,257.33),new Phaser.Geom.Point(0,210.39),new Phaser.Geom.Point(5.22,204.13),new Phaser.Geom.Point(14.95,204.13),new Phaser.Geom.Point(39.3,180.13),new Phaser.Geom.Point(43.82,180.13),new Phaser.Geom.Point(63.64,160.66),new Phaser.Geom.Point(52.86,157.88),new Phaser.Geom.Point(95.98,114.76),new Phaser.Geom.Point(119.28,128.67),new Phaser.Geom.Point(146.4,114.76),new Phaser.Geom.Point(148.14,97.02),new Phaser.Geom.Point(199.95,98.06),new Phaser.Geom.Point(199.95,113.36),new Phaser.Geom.Point(269.16,112.32),new Phaser.Geom.Point(269.5,98.06),new Phaser.Geom.Point(316.45,98.06),new Phaser.Geom.Point(353.66,132.84),new Phaser.Geom.Point(296.28,132.84),new Phaser.Geom.Point(295.58,143.27),new Phaser.Geom.Point(374.52,222.56),new Phaser.Geom.Point(440.59,220.82),new Phaser.Geom.Point(443.03,223.25),new Phaser.Geom.Point(443.03,258.03),new Phaser.Geom.Point(0,257.33)]);
+
+        prueba=this.cameras.main;
+
+    },
+
+    update: function(time,delta){
+        if (downKey.isDown){
+            player.move(down)
+        }
+        if (upKey.isDown){
+            player.move(up)
+        }
+        if (rightKey.isDown){
+            player.move(right)
+        }
+        if (leftKey.isDown){
+            player.move(left)
+        }
+
 
     }
-
-    update(time,delta){
-
-    }
-
-
-
-
-}
+})

@@ -2,7 +2,10 @@ const left=37;
 const up=38;
 const right=39;
 const down=40;
-speed=2;
+const speed=1;
+const radiusInteraction=30;
+
+let NPCS=[];
 
 let player={
     x:176,
@@ -13,28 +16,33 @@ let player={
     direction: null,
     avatar:null,
     move(params){
+        
         switch(params){
             case left:
-                this.avatar.x-=speed;
+                if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x-speed,this.avatar.y+16))
+                    this.avatar.x-=speed;
                 if(this.direction!=left && !this.moving) this.avatar.play("walkLeft");
                 this.direction=left;
                 this.moving=true;
                 break
             case right:
-                this.avatar.x+=speed;
+                if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x+speed,this.avatar.y+16))
+                 this.avatar.x+=speed;
                 if(this.direction!=right && !this.moving) this.avatar.play("walkRight");
                 this.direction=right;
                 this.moving=true;
                 break;
             case up:
-                this.avatar.y-=speed;
+                if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y-speed+16))
+                    this.avatar.y-=speed;
                 if(this.direction!=up && !this.moving) this.avatar.play("walkUp");
                 this.direction=up;
                 this.moving=true;
                 this.avatar.depth=this.avatar.y;
                 break;
             case down:
-                this.avatar.y+=speed;
+                if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+speed+16))
+                    this.avatar.y+=speed;
                 if(this.direction!=down && !this.moving) this.avatar.play("walkDown");
                 this.direction=down;
                 this.moving=true;
@@ -93,7 +101,23 @@ let Door1= new NPC("Door" , 140,150,"It's locked", "I don’t want to leave yet,
 let Door2= new NPC("Door" , 150,160,"It's locked", "I don’t want to leave yet, we gotta do something!");
 let Exit= new NPC("Exit" , 150,160," I don’t want to leave yet, the concert just started.", "I don’t want to leave yet, we gotta do something!");
 
+// TO DO ----- I HAVE TO INCLUDE THE DOORS
+NPCS.push(Ella,Chester,Tyler,Bela,Nick,Jon,Sally,Benny,Anna,Dillon,Sam,Aaron,Alex);
+
+
 // without interaction
 let drummer= new NPC("" , 380,150 , "" , "")
 let bassist= new NPC("" , 330,140 , "" , "")
 let guitarrist= new NPC("" , 400,185 , "" , "")
+
+
+function minDistance() {
+    return NPCS.reduce((acc,val)=>{
+        if (Math.sqrt((player.avatar.x - val.avatar.x)**2 + (player.avatar.y - val.avatar.y)**2) < acc[0] ) {
+             acc[0]=Math.sqrt((player.avatar.x - val.avatar.x)**2 + (player.avatar.y - val.avatar.y)**2);
+             acc[1]=val;
+        }
+        return acc;
+    } , [999])
+} 
+
