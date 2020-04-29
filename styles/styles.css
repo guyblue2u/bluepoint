@@ -7,8 +7,11 @@ html,body{
 }
 
 #canvasContainer{
-    width: 100%;
-    margin:0;
+    width: 60%;
+    margin:0 auto;
     padding: 0;
+    min-width: 444px;
+    height: 100%;
+    
 }
 

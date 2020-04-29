@@ -50,7 +50,7 @@ var hud = new Phaser.Class({
         hideDialogue();
 
         this.input.keyboard.on('keydown_ENTER', function (event) {
-            if(!showDialogue) showDialogue();
+            if(!showingDialogue) showDialogue();
             else hideDialogue();
         });
 
