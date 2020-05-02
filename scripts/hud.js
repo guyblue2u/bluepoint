@@ -32,7 +32,14 @@ var hud = new Phaser.Class({
     preload: function(){
         this.load.image("messageBoard" , "./assets/images/dialogue window rectangle.png");      // dialogue window       
         this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml');		//load the font
-        
+      
+        //------------------------------- Joystick
+        var url;
+  
+        url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
+        this.load.plugin('rexvirtualjoystickplugin', url, true);
+
+
     },
 
     create: function(){
@@ -76,6 +83,23 @@ var hud = new Phaser.Class({
         buttonInteract.on('pointerout', ()=> {	buttonInteract.setScale(0.7,0.2);});
 
         PKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);        // ONLY FOR TESTING
+
+
+        // ------------------------- Joystick
+        this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+            x: 50,
+            y: 200,
+            radius: 40,
+            base: this.add.circle(0, 0, 40, 0xCF000000).setAlpha(0.5),
+            thumb: this.add.circle(0, 0, 20, 0xcccccc),
+        })
+        ;
+
+        this.usingJoystick=false;
+
+
+        //this.dumpJoyStickState;
+
 
     },
 
@@ -124,8 +148,50 @@ var hud = new Phaser.Class({
 
         })
 
+        this.dumpJoyStickState();
 
-    }    
+    } ,
+        
+    dumpJoyStickState: function() {
+        var cursorKeys = this.joyStick.createCursorKeys();
+        let counterKeys=0;
+        for (var name in cursorKeys) { 
+            if (cursorKeys[name].isDown) {
+                if (name==="up"){
+                    player.move(up);
+                    this.usingJoystick=true;
+                    counterKeys++;
+                }
+                 if(name=== "down"){
+                    player.move(down);
+                    this.usingJoystick=true;
+                    counterKeys++;
+                }
+                
+                if(name=== "left"){
+                    player.move(left);
+                    this.usingJoystick=true;
+                    counterKeys++;
+                }
+                if(name=== "right"){
+                    player.move(right);
+                    this.usingJoystick=true;
+                    counterKeys++;
+                }
+                
+            }
+            
+    }if(this.usingJoystick && counterKeys===0){
+        console.log(counterKeys)
+            this.usingJoystick=false;
+            player.returnToIdle();
+            player.direction=null;
+            player.moving=false;
+            console.log("its not moving");
+        }
+
+    }   
+    
 })
 
 function hideDialogue(){
@@ -173,9 +239,13 @@ function interact(){
         score++;
         scoreText.text=score;
     }   
-    
 
-
-    
     
 }
+
+
+
+
+
+
+

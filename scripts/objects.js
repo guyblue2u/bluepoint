@@ -17,40 +17,44 @@ let player={
     avatar:null,
     move(params){
         
-        switch(params){
-            case left:
-                if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x-speed,this.avatar.y+16))
-                    this.avatar.x-=speed;
-                if(this.direction!=left && !this.moving) this.avatar.play("walkLeft");
+        
+        if (params===left) { 
+            if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x-speed,this.avatar.y+16))
+                this.avatar.x-=speed;
+            
+            if (!this.moving) {
                 this.direction=left;
-                this.moving=true;
-                break
-            case right:
-                if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x+speed,this.avatar.y+16))
-                 this.avatar.x+=speed;
-                if(this.direction!=right && !this.moving) this.avatar.play("walkRight");
+                this.avatar.play("walkLeft");
+            }
+            this.moving=true;}
+            
+        if(params===right){
+            if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x+speed,this.avatar.y+16))
+                this.avatar.x+=speed;
+            if(!this.moving) {
+                this.avatar.play("walkRight");
                 this.direction=right;
-                this.moving=true;
-                break;
-            case up:
-                if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y-speed+16))
-                    this.avatar.y-=speed;
-                if(this.direction!=up && !this.moving) this.avatar.play("walkUp");
-                this.direction=up;
-                this.moving=true;
-                this.avatar.depth=this.avatar.y;
-                break;
-            case down:
-                if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+speed+16))
-                    this.avatar.y+=speed;
-                if(this.direction!=down && !this.moving) this.avatar.play("walkDown");
-                this.direction=down;
-                this.moving=true;
-                this.avatar.depth=this.avatar.y;
-                break;
-            default:
-                break;
-        }
+            }            
+            this.moving=true;
+            }
+        if (params===up){
+            if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y-speed+16))
+                this.avatar.y-=speed;
+            if(this.direction!=up ) this.avatar.play("walkUp");              
+            this.direction=up;
+            this.moving=true;
+            this.avatar.depth=this.avatar.y;
+            }
+        if (params===down){
+            if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+speed+16))
+                this.avatar.y+=speed;
+            if(this.direction!=down ) this.avatar.play("walkDown");
+            this.direction=down;
+            this.moving=true;
+            this.avatar.depth=this.avatar.y;}
+                
+
+        
        
     },
     returnToIdle(){

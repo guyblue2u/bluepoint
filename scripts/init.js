@@ -8,7 +8,8 @@ const config={
     },
 	pixelArt: true,
 	type: Phaser.AUTO,
-	scene: [ mainScene ,hud ]
+	scene: [ mainScene ,hud ],
+	transparent: true
 }
 var Game;
 function initGame(){
