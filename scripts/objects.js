@@ -15,13 +15,10 @@ let player={
     moving:false,
     direction: null,
     avatar:null,
-    move(params){
-        
-        
+    move(params){      
         if (params===left) { 
             if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x-speed,this.avatar.y+16))
-                this.avatar.x-=speed;
-            
+                this.avatar.x-=speed;           
             if (!this.moving) {
                 this.direction=left;
                 this.avatar.play("walkLeft");
@@ -51,12 +48,67 @@ let player={
             if(this.direction!=down ) this.avatar.play("walkDown");
             this.direction=down;
             this.moving=true;
-            this.avatar.depth=this.avatar.y;}
-                
-
-        
-       
+            this.avatar.depth=this.avatar.y;}   
     },
+
+    moveJoystic(x,y){
+
+
+
+        // movement
+        if(x>20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x+speed,this.avatar.y+16)){ 
+            this.avatar.x+=speed;
+            //if(this.direction!==right) this.avatar.play("walkRight")
+        }
+        if(x<-20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x-speed,this.avatar.y+16)) {
+            this.avatar.x-=speed;
+            //if(this.direction!==left) this.avatar.play("walkLeft");
+        }
+        if(y<-20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+16-speed)){
+             this.avatar.y-=speed;
+             this.avatar.depth=this.avatar.y;
+             //if(this.direction!==up) this.avatar.play("walkUp")
+        }
+        if(y>20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+16+speed)) {
+            this.avatar.y+=speed;
+            this.avatar.depth=this.avatar.y;
+            //if(this.direction!==down) this.avatar.play("walkDown")
+        }
+
+        // direction
+        if(Math.abs(x)>20 || Math.abs(y)>20){
+            this.moving=true;
+            if(Math.abs(x)>Math.abs(y)){
+                if (x>0) {
+                    this.direction=right;
+                    if(this.avatar.anims.currentAnim.key!=="walkRight") this.avatar.play("walkRight");
+                }
+                else {
+                    this.direction=left;
+                    if(this.avatar.anims.currentAnim.key!=="walkLeft") this.avatar.play("walkLeft");
+                }
+            }
+            else{
+                if(y>0) {
+                    this.direction=down;
+                    if(this.avatar.anims.currentAnim.key!=="walkDown") this.avatar.play("walkDown");
+                }
+                else {
+                    this.direction=up;
+                    if(this.avatar.anims.currentAnim.key!=="walkUp") this.avatar.play("walkUp");
+                }
+            }
+        }
+        else{
+            this.returnToIdle();
+        }
+        
+
+
+    },
+
+
+
     returnToIdle(){
         switch (this.direction){
             case up:

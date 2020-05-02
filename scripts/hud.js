@@ -19,6 +19,8 @@ let PKey;
 let everybodyIsSleep=false;
 let timeToSleep=999999;
 
+let JOYSTICK;
+
 var hud = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -92,8 +94,9 @@ var hud = new Phaser.Class({
             radius: 40,
             base: this.add.circle(0, 0, 40, 0xCF000000).setAlpha(0.5),
             thumb: this.add.circle(0, 0, 20, 0xcccccc),
-        })
-        ;
+        });
+        
+        JOYSTICK=this.joyStick;
 
         this.usingJoystick=false;
 
@@ -153,43 +156,41 @@ var hud = new Phaser.Class({
     } ,
         
     dumpJoyStickState: function() {
-        var cursorKeys = this.joyStick.createCursorKeys();
-        let counterKeys=0;
-        for (var name in cursorKeys) { 
-            if (cursorKeys[name].isDown) {
-                if (name==="up"){
-                    player.move(up);
-                    this.usingJoystick=true;
-                    counterKeys++;
-                }
-                 if(name=== "down"){
-                    player.move(down);
-                    this.usingJoystick=true;
-                    counterKeys++;
-                }
-                
-                if(name=== "left"){
-                    player.move(left);
-                    this.usingJoystick=true;
-                    counterKeys++;
-                }
-                if(name=== "right"){
-                    player.move(right);
-                    this.usingJoystick=true;
-                    counterKeys++;
-                }
-                
-            }
+        // var cursorKeys = this.joyStick.createCursorKeys();
+        // let counterKeys=0;
+        // for (var name in cursorKeys) { 
+        //     if (cursorKeys[name].isDown) {
+        //         if(name=== "left"){
+        //             player.move(left);
+        //             this.usingJoystick=true;
+        //             counterKeys++;
+        //         }
+        //         if(name=== "right"){
+        //             player.move(right);
+        //             this.usingJoystick=true;
+        //             counterKeys++;
+        //         }
+        //         if (name==="up"){
+        //             player.move(up);
+        //             this.usingJoystick=true;
+        //             counterKeys++;
+        //         }
+        //          if(name=== "down"){
+        //             player.move(down);
+        //             this.usingJoystick=true;
+        //             counterKeys++;
+        //         }       
+        //     }
             
-    }if(this.usingJoystick && counterKeys===0){
-        console.log(counterKeys)
-            this.usingJoystick=false;
-            player.returnToIdle();
-            player.direction=null;
-            player.moving=false;
-            console.log("its not moving");
-        }
-
+        // }if(this.usingJoystick && counterKeys===0){
+        // console.log(counterKeys)
+        //     this.usingJoystick=false;
+        //     player.returnToIdle();
+        //     player.direction=null;
+        //     player.moving=false;
+        //     console.log("its not moving");
+        // }
+        player.moveJoystic(this.joyStick.forceX,this.joyStick.forceY)
     }   
     
 })
