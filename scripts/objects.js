@@ -52,27 +52,20 @@ let player={
     },
 
     moveJoystic(x,y){
-
-
-
         // movement
         if(x>20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x+speed,this.avatar.y+16)){ 
             this.avatar.x+=speed;
-            //if(this.direction!==right) this.avatar.play("walkRight")
         }
         if(x<-20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x-speed,this.avatar.y+16)) {
             this.avatar.x-=speed;
-            //if(this.direction!==left) this.avatar.play("walkLeft");
         }
         if(y<-20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+16-speed)){
              this.avatar.y-=speed;
              this.avatar.depth=this.avatar.y;
-             //if(this.direction!==up) this.avatar.play("walkUp")
         }
         if(y>20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+16+speed)) {
             this.avatar.y+=speed;
             this.avatar.depth=this.avatar.y;
-            //if(this.direction!==down) this.avatar.play("walkDown")
         }
 
         // direction
