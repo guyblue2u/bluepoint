@@ -87,13 +87,18 @@ var hud = new Phaser.Class({
 
 
         this.input.keyboard.on('keydown_ENTER', function (event) {
-            console.log("press enter, showing dialog: " + showingDialogue);
             if(!showingDialogue) interact();
             else hideDialogue();
         });
 
+        this.input.keyboard.on('keydown_SPACE', function (event) {
+            if(!showingDialogue) interact();
+            else hideDialogue();
+        });
+
+
+
         this.input.keyboard.on('keydown' , (event)=>{
-            console.log("any key ,showing dialog: "+ showingDialogue )
             if(showingDialogue && timeShowingDialog>100) hideDialogue();
         })
 
@@ -195,7 +200,6 @@ var hud = new Phaser.Class({
 
 function hideDialogue(){
     timeShowingDialog=0;
-    console.log("hide the dialog")
     showingDialogue=false;
     textTitle.visible=false;
     textDialogue.visible=false;
@@ -206,7 +210,6 @@ function hideDialogue(){
 }
 
 function showDialogue(){
-    console.log("show the dialog")
     showingDialogue=true;
     textTitle.visible=true;
     textDialogue.visible=true;
@@ -216,32 +219,31 @@ function showDialogue(){
 
 function interact(){
     let nearest=minDistance();
-    
-    if(nearest[1].sleeping===0) {           // the NPC is awake at the beggining
-        showDialogue();
-        textTitle.text=nearest[1]["name"];
-        if(nearest[1].message===0){
-        textDialogue.text=nearest[1]["message1"];
-            if(nearest[1].message2!==null){
-                nearest[1].message=1;
+    if(nearest[0]<radiusInteraction){
+        if(nearest[1].sleeping===0) {           // the NPC is awake at the beggining
+            showDialogue();
+            textTitle.text=nearest[1]["name"];
+            if(nearest[1].message===0){
+            textDialogue.text=nearest[1]["message1"];
+                if(nearest[1].message2!==null){
+                    nearest[1].message=1;
+                }
             }
+            else if(nearest[1].message===1){
+                textDialogue.text=nearest[1]["message2"];
+            }
+            NpcLookPlayer(nearest[1]);
         }
-        else if(nearest[1].message===1){
-            textDialogue.text=nearest[1]["message2"];
-        }
-        NpcLookPlayer(nearest[1]);
-    }
-    else if(nearest[1].sleeping===1) {      // the NPC is asleep, awake him/her!
-        console.log(getTimeToSleep(time))
-        awakeNPC(nearest[1]);
-        nearest[1].timeToSleep=time + getTimeToSleep(time);
-        nearest[1].timeToDisappear=999999;
-        nearest[1].sleeping=2;
-        score++;
-        scoreText.text=score;
-    }   
+        else if(nearest[1].sleeping===1) {      // the NPC is asleep, awake him/her!
+            awakeNPC(nearest[1]);
+            nearest[1].timeToSleep=time + getTimeToSleep(time);
+            nearest[1].timeToDisappear=999999;
+            nearest[1].sleeping=2;
+            score++;
+            scoreText.text=score;
+        }   
 
-    
+    }
 }
 
 

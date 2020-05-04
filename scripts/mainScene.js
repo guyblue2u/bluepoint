@@ -4,7 +4,6 @@ let upKey;
 let downKey;
 let rightKey;
 let leftKey;
-let enterKey;
 let AKey;
 let SKey;
 let DKey;
@@ -48,13 +47,13 @@ var mainScene = new Phaser.Class({
         this.anims.create({
             key: "walkRight",
             repeat: -1,
-            frameRate: 10,
+            frameRate: 7,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 14,15 ] })           
         })
         this.anims.create({
             key: "walkLeft",
             repeat: -1,
-            frameRate: 10,
+            frameRate: 7,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 12,13 ] })           
         })
         this.anims.create({
@@ -428,7 +427,7 @@ var mainScene = new Phaser.Class({
         downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
         AKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         SKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         DKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
