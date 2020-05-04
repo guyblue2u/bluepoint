@@ -56,27 +56,28 @@ var hud = new Phaser.Class({
     },
 
     create: function(){
-        dialogueWindow= this.add.image(200,50 , "messageBoard");
-        dialogueWindow.scaleX=1.5;
+        dialogueWindow= this.add.image(400,100 , "messageBoard");
+        dialogueWindow.scaleX=3.5;
+        dialogueWindow.scaleY=1.7;
         //textTitle=this.add.bitmapText(200,165,'Antenna',"testing",20);
-        textTitle=this.add.text(200, 15, 'Hello World', { fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
+        textTitle=this.add.text(400, 40, 'Hello World', { fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(35);
         textTitle.setOrigin(0.5,0.5);
 
-        textDialogue=this.add.text(200,50, "here is the message" , { fontFamily: 'ZCOOL QingKe HuangYou' ,wordWrap: { width: 180, useAdvancedWrap: true } } , ).setFontSize(15);
+        textDialogue=this.add.text(400,100, "here is the message" , { fontFamily: 'ZCOOL QingKe HuangYou' ,wordWrap: { width: 450, useAdvancedWrap: true } }).setFontSize(25);
         textDialogue.setOrigin(0.5,0.5);
-        textDialogue.maxWidth = 150;
+        textDialogue.maxWidth = 400;
 
-        textInstruction = this.add.text(240,90,"Press any button to continue",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(10);
+        textInstruction = this.add.text(500,160,"Press any button to continue",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
         textInstruction.setOrigin(0.5,0.5);
 
-        buttonInteract=this.add.image(440,255,"messageBoard");
+        buttonInteract=this.add.image(880,470,"messageBoard");
         buttonInteract.setOrigin(1,1);
-        buttonInteract.scaleX=0.7;
-        buttonInteract.scaleY=0.2;
+        buttonInteract.scaleX=1.2;
+        buttonInteract.scaleY=0.4;
 
         buttonInteract.setInteractive();
 
-        buttonInteractText=this.add.text(390,245,"talk to",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(10);
+        buttonInteractText=this.add.text(800,450,"talk to",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
         buttonInteractText.setOrigin(0.5,0.5);
 
         hideDialogue();
@@ -119,22 +120,22 @@ var hud = new Phaser.Class({
         if(window.mobileAndTabletCheck()){ //--------------------MOBILE
             // ------------------------- Joystick
             this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-                x: 50,
-                y: 200,
-                radius: 40,
-                base: this.add.circle(0, 0, 40, 0xCF000000).setAlpha(0.5),
-                thumb: this.add.circle(0, 0, 20, 0xcccccc),
+                x: 100,
+                y: 400,
+                radius: 80,
+                base: this.add.circle(0, 0, 80, 0xCF000000).setAlpha(0.5),
+                thumb: this.add.circle(0, 0, 40, 0xcccccc),
             });
 
-            buttonInteract.scaleX=1;
-            buttonInteract.scaleY=0.3;
-            buttonInteractText.setFontSize(15);
-            buttonInteractText.x=370;
-            buttonInteractText.y=237;
+            buttonInteract.scaleX=2;
+            buttonInteract.scaleY=0.6;
+            buttonInteractText.setFontSize(30);
+            buttonInteractText.x=750;
+            buttonInteractText.y=440;
         }
         else {      //-------------------DESKTOP
-            buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(0.8,0.2);});
-            buttonInteract.on('pointerout', ()=> {	buttonInteract.setScale(0.7,0.2);});
+            buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1.3,0.5);});
+            buttonInteract.on('pointerout', ()=> {	buttonInteract.setScale(1.2,0.4);});
         }
     },
 
@@ -161,11 +162,12 @@ var hud = new Phaser.Class({
         }
 
         let nearest=minDistance();
-        if(nearest[0]<radiusInteraction){
+        if(nearest[0]<radiusInteraction && nearest[1].sleeping!==2){
             buttonInteract.visible=true;
             buttonInteractText.visible=true;
-            buttonInteractText.text="talk to " + nearest[1]["name"];
-        }
+            if(nearest[1].sleeping===1) {buttonInteractText.text="wake up " + nearest[1]["name"] + "!";}
+            else {buttonInteractText.text="talk to " + nearest[1]["name"];}       
+        }   
         else {
 
             buttonInteract.visible=false;

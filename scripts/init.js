@@ -3,8 +3,8 @@ const config={
         mode: Phaser.Scale.FIT,
 		parent : 'gameContainer',
 		autoCenter: Phaser.Scale.CENTER_BOTH,	
-		width:444,
-		height: 260
+		width:888,
+		height: 520
     },
 	pixelArt: true,
 	type: Phaser.AUTO,
