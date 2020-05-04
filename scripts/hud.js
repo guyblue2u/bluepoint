@@ -65,7 +65,6 @@ var hud = new Phaser.Class({
 
         textDialogue=this.add.text(400,100, "here is the message" , { fontFamily: 'ZCOOL QingKe HuangYou' ,wordWrap: { width: 450, useAdvancedWrap: true } }).setFontSize(25);
         textDialogue.setOrigin(0.5,0.5);
-        textDialogue.maxWidth = 400;
 
         textInstruction = this.add.text(500,160,"Press any button to continue",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
         textInstruction.setOrigin(0.5,0.5);
