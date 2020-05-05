@@ -402,6 +402,10 @@ var mainScene = new Phaser.Class({
         Benny.avatar.depth=Benny.y;
         Benny["avatar"].play("idleBenny");
 
+        Door1.avatar = {x:Door1.x,y:Door1.y};
+        Door2.avatar = {x:Door2.x,y:Door2.y};
+        Exit.avatar = {x:Exit.x,y:Exit.y};
+
 
         NPCS.forEach(el => {
             el["zzz"]=this.add.sprite(el.avatar.x,el.avatar.y-20,"ZZZ").play("ZZZ");

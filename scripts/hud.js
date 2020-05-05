@@ -12,6 +12,11 @@ let scoreText;
 let scoreTitle;
 let timeText;
 let initialTime;
+let iconZZZ;
+let scoreTitleText;
+
+let sequentialText=false;
+let nextText;
 
 let testVariable=false;
 let PKey;
@@ -42,7 +47,9 @@ var hud = new Phaser.Class({
     preload: function(){
         this.load.image("messageBoard" , "./assets/images/dialogue window rectangle.png");      // dialogue window       
         this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml');		//load the font
-      
+        this.load.spritesheet("ZZZIcon" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
+
+
         //------------------------------- Joystick
         
         if(window.mobileAndTabletCheck()){
@@ -81,9 +88,13 @@ var hud = new Phaser.Class({
 
         hideDialogue();
 
-        // ----------------- Time
+        // ----------------- Score
           
-        scoreText=this.add.text(430 ,10,score,{ fontFamily: 'ZCOOL QingKe HuangYou' });
+        scoreText=this.add.text(800 ,55 ,score,{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(30);
+        iconZZZ=this.add.image(770,80 , "ZZZIcon" , [1]);
+        scoreTitleText=this.add.text(760 ,10,"SCORE",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(35);
+        iconZZZ.scaleX=3;
+        iconZZZ.scaleY=3;
 
 
         this.input.keyboard.on('keydown_ENTER', function (event) {
@@ -165,7 +176,14 @@ var hud = new Phaser.Class({
             buttonInteract.visible=true;
             buttonInteractText.visible=true;
             if(nearest[1].sleeping===1) {buttonInteractText.text="wake up " + nearest[1]["name"] + "!";}
-            else {buttonInteractText.text="talk to " + nearest[1]["name"];}       
+            else { 
+                if(nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
+                    buttonInteractText.text="talk to " + nearest[1]["name"];
+                }
+                else {
+                    buttonInteractText.text="Open door";
+                }
+            }       
         }   
         else {
 
@@ -200,14 +218,22 @@ var hud = new Phaser.Class({
 })
 
 function hideDialogue(){
-    timeShowingDialog=0;
-    showingDialogue=false;
-    textTitle.visible=false;
-    textDialogue.visible=false;
-    textInstruction.visible=false;
-    dialogueWindow.visible=false;
-    let nearest=minDistance();
-    nearest[1].avatar.anims.play("idle"+nearest[1].name);
+    if(sequentialText){
+        timeShowingDialog=0;
+        textDialogue.text=nextText.message;
+        textTitle.text=nextText.title;
+        sequentialText=false;
+    }
+    else{   
+        timeShowingDialog=0;
+        showingDialogue=false;
+        textTitle.visible=false;
+        textDialogue.visible=false;
+        textInstruction.visible=false;
+        dialogueWindow.visible=false;
+        let nearest=minDistance();
+        if(nearest[1].avatar.anims!=undefined) nearest[1].avatar.anims.play("idle"+nearest[1].name);
+    }
 }
 
 function showDialogue(){
@@ -223,17 +249,38 @@ function interact(){
     if(nearest[0]<radiusInteraction){
         if(nearest[1].sleeping===0) {           // the NPC is awake at the beggining
             showDialogue();
-            textTitle.text=nearest[1]["name"];
-            if(nearest[1].message===0){
-            textDialogue.text=nearest[1]["message1"];
-                if(nearest[1].message2!==null){
-                    nearest[1].message=1;
+            if(nearest[1]["sequence"]===undefined){ // for non-sequential conversation
+                textTitle.text=nearest[1]["name"];
+                if(nearest[1].message===0){
+                textDialogue.text=nearest[1]["message1"];
+                    if(nearest[1].message2!==null){
+                        nearest[1].message=1;
+                    }
                 }
+                else if(nearest[1].message===1){
+                    textDialogue.text=nearest[1]["message2"];
+                }
+                NpcLookPlayer(nearest[1]);
             }
-            else if(nearest[1].message===1){
-                textDialogue.text=nearest[1]["message2"];
+            else{           //for sequential conversations
+
+                sequentialText=true;
+                textTitle.text=nearest[1]["sequence"]["name1"];
+                nextText={title:nearest[1]["sequence"]["name2"] , message:nearest[1]["sequence"]["msg2_1"] }
+                if(nearest[1].sequence.message===0){
+                    
+                    textDialogue.text=nearest[1]["sequence"]["msg1_1"];
+                    nextText={title:nearest[1]["sequence"]["name2"] , message:nearest[1]["sequence"]["msg2_1"] };  
+                    if(nearest[1].sequence["msg1_2"]!==null) nearest[1].sequence.message=1;
+                }
+                else{
+                    console.log(nearest[1].sequence["msg1_2"]);
+                    textDialogue.text=nearest[1]["sequence"]["msg1_2"];
+                    nextText={title:nearest[1]["sequence"]["name2"] , message:nearest[1]["sequence"]["msg2_2"] }
+                }
+                    
+                
             }
-            NpcLookPlayer(nearest[1]);
         }
         else if(nearest[1].sleeping===1) {      // the NPC is asleep, awake him/her!
             awakeNPC(nearest[1]);
@@ -241,7 +288,7 @@ function interact(){
             nearest[1].timeToDisappear=999999;
             nearest[1].sleeping=2;
             score++;
-            scoreText.text=score;
+            scoreText.text="x " + score;
         }   
 
     }
