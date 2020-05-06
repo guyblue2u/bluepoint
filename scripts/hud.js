@@ -21,8 +21,6 @@ let nextText;
 let testVariable=false;
 let PKey;
 
-let everybodyIsSleep=false;
-let timeToSleep=999999;
 
 let timeShowingDialog=0;
 
@@ -45,6 +43,12 @@ var hud = new Phaser.Class({
     },
     
     preload: function(){
+
+        this.load.on('progress', function (value) {
+            loadingHUD=value;
+        });
+
+
         this.load.image("messageBoard" , "./assets/images/dialogue window rectangle.png");      // dialogue window       
         this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml');		//load the font
         this.load.spritesheet("ZZZIcon" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
@@ -86,13 +90,24 @@ var hud = new Phaser.Class({
         buttonInteractText=this.add.text(800,450,"talk to",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
         buttonInteractText.setOrigin(0.5,0.5);
 
-        hideDialogue();
+        showingDialogue=false;
+        textTitle.visible=false;
+        textDialogue.visible=false;
+        textInstruction.visible=false;
+        dialogueWindow.visible=false;
+
+
+
+
 
         // ----------------- Score
           
         scoreText=this.add.text(800 ,55 ,score,{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(30);
+        scoreText.visible=false;
         iconZZZ=this.add.image(770,80 , "ZZZIcon" , [1]);
+        iconZZZ.visible=false;
         scoreTitleText=this.add.text(760 ,10,"SCORE",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(35);
+        scoreTitleText.visible=false;
         iconZZZ.scaleX=3;
         iconZZZ.scaleY=3;
 
@@ -151,6 +166,9 @@ var hud = new Phaser.Class({
 
     update: function(t,delta){
 
+        if(loadingMain!==2 || loadingHUD!==1) {console.log("loading"); return false}
+
+
         if(PKey.isDown && !testVariable) {              // ONLY FOR TESTING
             NPCS.forEach((el)=>{
                 el.timeToDisappear=time+Math.random()*10000+5000;
@@ -165,11 +183,6 @@ var hud = new Phaser.Class({
 
         if (showingDialogue && timeShowingDialog>4000) hideDialogue();
 
-
-        if(t>timeToSleep && !everybodyIsSleep){
-            sleepEveryone();
-            everybodyIsSleep=true;
-        }
 
         let nearest=minDistance();
         if(nearest[0]<radiusInteraction && nearest[1].sleeping!==2){
@@ -212,7 +225,8 @@ var hud = new Phaser.Class({
     } ,
         
     dumpJoyStickState: function() {
-        player.moveJoystic(this.joyStick.forceX,this.joyStick.forceY)
+        if(!joystickLocked)
+            player.moveJoystic(this.joyStick.forceX,this.joyStick.forceY)
     }   
     
 })
@@ -236,13 +250,25 @@ function hideDialogue(){
     }
 }
 
-function showDialogue(){
+function showDialogue(message){
+    if (message!=null){
+        textDialogue.text=message;
+        textTitle.text="Guy Blue"
+        timeShowingDialog=0;
+    }
     showingDialogue=true;
     textTitle.visible=true;
     textDialogue.visible=true;
     textInstruction.visible=true;
     dialogueWindow.visible=true;
 }
+
+function showScore(){
+    iconZZZ.visible=true;
+    scoreText.visible=true;
+    scoreTitleText.visible=true;
+}
+
 
 function interact(){
     let nearest=minDistance();
@@ -290,7 +316,6 @@ function interact(){
             score++;
             scoreText.text="x " + score;
         }   
-
     }
 }
 

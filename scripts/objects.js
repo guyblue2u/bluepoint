@@ -241,7 +241,8 @@ function NpcLookPlayer(npc){
 
 function sleepEveryone(){
     NPCS.forEach((el)=>{
-        el.avatar.anims.play("sleep" + el.name);
+        if(el.avatar.anims!==undefined)
+            el.avatar.anims.play("sleep" + el.name);
         el.sleeping=1;
         el["zzz"].visible=true;
     })

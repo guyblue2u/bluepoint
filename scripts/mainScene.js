@@ -8,10 +8,13 @@ let AKey;
 let SKey;
 let DKey;
 let WKey;
-
+let bloom;
 
 let poly;
 let background;
+
+let joystickLocked=true;
+let buttonsLocked=false;
 
 var mainScene = new Phaser.Class({
 
@@ -25,6 +28,8 @@ var mainScene = new Phaser.Class({
 
     preload: function(){
         this.load.image("background_1","./assets/images/base1.png");
+        this.load.image("background_2","./assets/images/base2.png");
+        this.load.image("bloom","./assets/images/lights_bloom.png");
 
         this.load.spritesheet("discoBall","./assets/images/disco ball.png",{frameWidth:36,frameHeight:36}); //ball
         this.load.spritesheet("blueGuy" , "./assets/images/guy blue sprites.png",{frameWidth:36,frameHeight:36}); // blue character
@@ -36,11 +41,21 @@ var mainScene = new Phaser.Class({
         this.load.image("table" , "./assets/images/table.png");
         this.load.image("speakers" , "./assets/images/speakers.png");
 
+        this.load.audio("song" , "./assets/audio/Gutted.mp3");
+
+
+        this.load.on('progress', function (value) {
+            loadingMain=value;
+        });
+                    
+        
     },
 
     create: function(){
         background = this.add.image(0,0,"background_1").setOrigin(0,0);
+        bloom=this.add.image(0,0,"bloom").setOrigin(0,0);
         player["avatar"]= this.add.sprite(player.x, player.y , "blueGuy" , 0);
+        
 
 
         //----------------------------------------     Player Blue shirt
@@ -445,22 +460,122 @@ var mainScene = new Phaser.Class({
         this.cameras.main.startFollow(player.avatar, true)
         this.cameras.main.setBounds(0,20,440,250 );
 
+        
+        loadingMain=2;
+        buttonsLocked=true;
+        this.sound.add('song').play();
+
+
+        // --------------------------- T I M E      E V E N T S
+        timedEvent = this.time.delayedCall(50, ()=>{
+            showDialogue("This is one of my favorite spots, Shea Stadium.");
+            
+        });
+        timedEvent = this.time.delayedCall(3900, ()=>{
+            showDialogue("I wonder what’s happening tonight, let’s ask around.");
+        });
+
+        timedEvent = this.time.delayedCall(8000,()=>{
+            joystickLocked=false;
+            buttonsLocked=false;
+        })
+
+        timedEvent = this.time.delayedCall(16000, ()=>{
+            background.setTexture("background_2")
+        });
+
+        timedEvent = this.time.delayedCall(16100, ()=>{
+            background.setTexture("background_1")
+        });
+
+        timedEvent = this.time.delayedCall(45000, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(45100, ()=>{
+            background.setTexture("background_1")
+        });
+
+        timedEvent = this.time.delayedCall(60000, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(60100, ()=>{
+            background.setTexture("background_1")
+        });
+
+        timedEvent = this.time.delayedCall(65000, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(65100, ()=>{
+            background.setTexture("background_1")
+        });
+        timedEvent = this.time.delayedCall(70000, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(70100, ()=>{
+            background.setTexture("background_1")
+        });
+        timedEvent = this.time.delayedCall(74000, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(74100, ()=>{
+            background.setTexture("background_1")
+        });
+
+        timedEvent = this.time.delayedCall(76000, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(76100, ()=>{
+            background.setTexture("background_1")
+        });
+        timedEvent = this.time.delayedCall(77000, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(77100, ()=>{
+            background.setTexture("background_1")
+        });
+
+        timedEvent = this.time.delayedCall(72000, ()=>{
+            sleepEveryone();
+            //-------------ADD LIGHT EFFECTS!
+        });
+        timedEvent = this.time.delayedCall(77000, ()=>{
+            buttonsLocked=true;
+            joystickLocked=true;
+            showDialogue("What the hell is happening? We have to wake these people up!");
+        });
+        timedEvent = this.time.delayedCall(81000, ()=>{ 
+            buttonsLocked=false;
+            joystickLocked=false;
+            showScore();
+        })
+
+        timedEvent = this.time.delayedCall(174000, ()=>{
+            background.setTexture("background_2")
+            buttonsLocked=true;
+            joystickLocked=true;
+         })
+
     },
 
     update: function(time,delta){
-        if (downKey.isDown || SKey.isDown){
-            player.move(down)
-        }
-        if (upKey.isDown || WKey.isDown){
-            player.move(up)
-        }
-        if (rightKey.isDown || DKey.isDown){
-            player.move(right)
-        }
-        if (leftKey.isDown || AKey.isDown){
-            player.move(left)
+        if(loadingMain!==1 && loadingHUD!==1) return 
+        if(!joystickLocked)
+        {       
+            if (downKey.isDown || SKey.isDown){
+                player.move(down)
+            }
+            if (upKey.isDown || WKey.isDown){
+                player.move(up)
+            }
+            if (rightKey.isDown || DKey.isDown){
+                player.move(right)
+            }
+            if (leftKey.isDown || AKey.isDown){
+                player.move(left)
+            }
         }
 
-
+  
+        bloom.alpha=(((Math.sin(time/1000)+1)/2))
     }
 })
