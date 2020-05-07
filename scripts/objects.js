@@ -4,7 +4,7 @@ const right=39;
 const down=40;
 const speed=1;
 const radiusInteraction=30;
-
+let shirt="Blue";
 let NPCS=[];
 
 
@@ -23,7 +23,7 @@ let player={
                 this.avatar.x-=speed;           
             if (!this.moving) {
                 this.direction=left;
-                this.avatar.play("walkLeft");
+                this.avatar.play("walkLeft"+ shirt);
             }
             this.moving=true;}
             
@@ -32,7 +32,7 @@ let player={
             && !checkColisionNPCS(this.avatar.x+speed,this.avatar.y+16))
                 this.avatar.x+=speed;
             if(!this.moving) {
-                this.avatar.play("walkRight");
+                this.avatar.play("walkRight"+ shirt);
                 this.direction=right;
             }            
             this.moving=true;
@@ -41,7 +41,7 @@ let player={
             if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y-speed+16)
             && !checkColisionNPCS(this.avatar.x,this.avatar.y+16-speed))
                 this.avatar.y-=speed;
-            if(this.direction!=up ) this.avatar.play("walkUp");              
+            if(this.direction!=up ) this.avatar.play("walkUp"+ shirt);              
             this.direction=up;
             this.moving=true;
             this.avatar.depth=this.avatar.y;
@@ -50,7 +50,7 @@ let player={
             if(Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+speed+16)
             && !checkColisionNPCS(this.avatar.x,this.avatar.y+16+speed))
                 this.avatar.y+=speed;
-            if(this.direction!=down ) this.avatar.play("walkDown");
+            if(this.direction!=down ) this.avatar.play("walkDown"+ shirt);
             this.direction=down;
             this.moving=true;
             this.avatar.depth=this.avatar.y;}   
@@ -83,21 +83,21 @@ let player={
             if(Math.abs(x)>Math.abs(y)){
                 if (x>0) {
                     this.direction=right;
-                    if(this.avatar.anims.currentAnim.key!=="walkRight") this.avatar.play("walkRight");
+                    if(this.avatar.anims.currentAnim.key!=="walkRight") this.avatar.play("walkRight" + shirt);
                 }
                 else {
                     this.direction=left;
-                    if(this.avatar.anims.currentAnim.key!=="walkLeft") this.avatar.play("walkLeft");
+                    if(this.avatar.anims.currentAnim.key!=="walkLeft") this.avatar.play("walkLeft"+ shirt);
                 }
             }
             else{
                 if(y>0) {
                     this.direction=down;
-                    if(this.avatar.anims.currentAnim.key!=="walkDown") this.avatar.play("walkDown");
+                    if(this.avatar.anims.currentAnim.key!=="walkDown") this.avatar.play("walkDown"+ shirt);
                 }
                 else {
                     this.direction=up;
-                    if(this.avatar.anims.currentAnim.key!=="walkUp") this.avatar.play("walkUp");
+                    if(this.avatar.anims.currentAnim.key!=="walkUp") this.avatar.play("walkUp"+ shirt);
                 }
             }
         }
@@ -114,16 +114,16 @@ let player={
     returnToIdle(){
         switch (this.direction){
             case up:
-                this.avatar.play("idleUp");
+                this.avatar.play("idleUp"+ shirt);
                 break;
             case down:
-                this.avatar.play("idleDown");
+                this.avatar.play("idleDown"+ shirt);
                 break;
             case right:
-                this.avatar.play("idleRight");
+                this.avatar.play("idleRight"+ shirt);
                 break;
             case left:
-                this.avatar.play("idleLeft");
+                this.avatar.play("idleLeft"+ shirt);
                 break;
         }
     }
@@ -140,8 +140,7 @@ class NPC{
         this.message=0;
         this.sleeping=0; //0--> normal , 1-->slept , 2-->awaken
         this.timeToSleep=999999.9;
-        //this.timeToDisappear=Math.random()*144000 + 174000;
-        this.timeToDisappear=Math.random()*93000;
+        this.timeToDisappear=Math.random()*93000 + 81000;
         this.visible=true;
     }
 }
@@ -241,16 +240,18 @@ function NpcLookPlayer(npc){
 
 function sleepEveryone(){
     NPCS.forEach((el)=>{
-        if(el.avatar.anims!==undefined)
+        if(el.avatar.anims!==undefined){
             el.avatar.anims.play("sleep" + el.name);
-        el.sleeping=1;
-        el["zzz"].visible=true;
+            el.sleeping=1;
+            el["zzz"].visible=true;
+        }
+        console.log(el.timeToDisappear);
     })
 }
 
 function sleepNPC(npc){
-    npc.avatar.anims.play("sleep" + npc.name);
     npc.sleeping=1;
+    npc.avatar.anims.play("sleep" + npc.name);    
     npc["zzz"].visible=true;
 }
 
@@ -275,4 +276,10 @@ function checkColisionNPCS(X,Y){
         Y1=el.avatar.y+16;
         return (X>X1-10 && X<X1+10 && Y<Y1+5 && Y>Y1-5)        
     })
+}
+
+function deleteDoors(){
+    NPCS.pop();
+    NPCS.pop();
+    NPCS.pop();
 }

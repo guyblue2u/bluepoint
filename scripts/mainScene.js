@@ -9,7 +9,7 @@ let SKey;
 let DKey;
 let WKey;
 let bloom;
-
+const initialTime=2000;
 let poly;
 let background;
 
@@ -27,77 +27,130 @@ var mainScene = new Phaser.Class({
         Phaser.Scene.call(this, { key: 'mainScene', active: false });
     },
 
-    preload: function(){
-
-
-        
-
-
-        this.load.on('progress', function (value) {
-            loadingMain=value;
-        });
-                    
-        
-    },
+    preload: function(){  },
 
     create: function(){
         background = this.add.image(0,0,"background_1").setOrigin(0,0);
         bloom=this.add.image(0,0,"bloom").setOrigin(0,0);
+        bloom.visible=false;
         player["avatar"]= this.add.sprite(player.x, player.y , "blueGuy" , 0);
 
-        //let music=this.sound.add('song');
-        
-        
-
+  
         //----------------------------------------     Player Blue shirt
         this.anims.create({
-            key: "walkRight",
+            key: "walkRightBlue",
             repeat: -1,
             frameRate: 7,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 14,15 ] })           
         })
         this.anims.create({
-            key: "walkLeft",
+            key: "walkLeftBlue",
             repeat: -1,
             frameRate: 7,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 12,13 ] })           
         })
         this.anims.create({
-            key: "walkDown",
+            key: "walkDownBlue",
             repeat: -1,
             frameRate: 10,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 4,5,6,7 ] })           
         })
         this.anims.create({
-            key: "walkUp",
+            key: "walkUpBlue",
             repeat: -1,
             frameRate: 10,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 8,9,10,11 ] })           
         })
         this.anims.create({
-            key: "idleDown",
+            key: "idleDownBlue",
             repeat: -1,
             frameRate: 5,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 0 ] })           
         })
         this.anims.create({
-            key: "idleLeft",
+            key: "idleLeftBlue",
             repeat: -1,
             frameRate: 5,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 1 ] })           
         })
         this.anims.create({
-            key: "idleRight",
+            key: "idleRightBlue",
             repeat: -1,
             frameRate: 5,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 3 ] })           
         })
         this.anims.create({
-            key: "idleUp",
+            key: "idleUpBlue",
             repeat: -1,
             frameRate: 5,
             frames: this.anims.generateFrameNumbers('blueGuy', { frames: [ 2 ] })           
         })
+
+        //----------------------------------------     Player Red shirt
+        this.anims.create({
+            key: "walkRightRed",
+            repeat: -1,
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers('redGuy', { frames: [ 14,15 ] })           
+        })
+        this.anims.create({
+            key: "walkLeftRed",
+            repeat: -1,
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers('redGuy', { frames: [ 12,13 ] })           
+        })
+        this.anims.create({
+            key: "walkDownRed",
+            repeat: -1,
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('redGuy', { frames: [ 4,5,6,7 ] })           
+        })
+        this.anims.create({
+            key: "walkUpRed",
+            repeat: -1,
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('redGuy', { frames: [ 8,9,10,11 ] })           
+        })
+        this.anims.create({
+            key: "idleDownRed",
+            repeat: -1,
+            frameRate: 5,
+            frames: this.anims.generateFrameNumbers('redGuy', { frames: [ 0 ] })           
+        })
+        this.anims.create({
+            key: "idleLeftRed",
+            repeat: -1,
+            frameRate: 5,
+            frames: this.anims.generateFrameNumbers('redGuy', { frames: [ 1 ] })           
+        })
+        this.anims.create({
+            key: "idleRightRed",
+            repeat: -1,
+            frameRate: 5,
+            frames: this.anims.generateFrameNumbers('redGuy', { frames: [ 3 ] })           
+        })
+        this.anims.create({
+            key: "idleUpRed",
+            repeat: -1,
+            frameRate: 5,
+            frames: this.anims.generateFrameNumbers('redGuy', { frames: [ 2 ] })           
+        })
+
+        //---- collapsing
+        this.anims.create({
+            key: "collapseBlue",
+            repeat: 0,
+            frameRate: 2,
+            frames: this.anims.generateFrameNumbers('collapsingBlue', { frames: [ 0,1,2,3 ] })           
+        })
+
+        this.anims.create({
+            key: "collapseRed",
+            repeat: 0,
+            frameRate: 2,
+            frames: this.anims.generateFrameNumbers('collapsingRed', { frames: [ 0,1,2,3 ] })           
+        })
+
 
 
         //--------------------------------------------------     NPC's
@@ -414,18 +467,30 @@ var mainScene = new Phaser.Class({
 
 
         NPCS.forEach(el => {
-            el["zzz"]=this.add.sprite(el.avatar.x,el.avatar.y-20,"ZZZ").play("ZZZ");
-            el["zzz"].setDepth(el.avatar.depth);
-            el["zzz"].visible=false;
+            if(el["name"]!== "Door" && el["name"]!=="exit"){
+                el["zzz"]=this.add.sprite(el.avatar.x,el.avatar.y-20,"ZZZ").play("ZZZ");
+                el["zzz"].setDepth(el.avatar.depth);
+                el["zzz"].visible=false;
+                el["tween"] = this.tweens.add({
+                    targets: el["avatar"],
+                    alpha: { from: 0, to: 1 },
+                    duration: 500,
+                    ease: 'Sine.easeInOut',
+                    loop: -1,
+                });
+                el["tween"].stop();
+            }
         });
 
 
-        this.add.image(234,96,"table").setDepth(96);
-        this.add.image(371,162,"drums").setDepth(162);
-        prueba=this.add.image(335,136 , "speakers").setDepth(136);
-        this.add.sprite(281,55,"discoBall").play("discoBall");
 
-        player["avatar"].play("idleDown");
+
+        this.table=this.add.image(234,96,"table").setDepth(96);
+        this.drums=this.add.image(371,162,"drums").setDepth(162);
+        this.speakers=this.add.image(335,136 , "speakers").setDepth(136);
+        this.discoball=this.add.sprite(281,55,"discoBall").play("discoBall");
+
+        player["avatar"].play("idleDownBlue");
 
         this.input.keyboard.on('keyup', (event)=> {
             player.returnToIdle();
@@ -459,82 +524,97 @@ var mainScene = new Phaser.Class({
         // --------------------------- T I M E      E V E N T S
 
 
-        timedEvent = this.time.delayedCall(8000,()=>{
+        timedEvent = this.time.delayedCall(8000 + initialTime,()=>{
             joystickLocked=false;
             buttonsLocked=false;
         })
 
-        timedEvent = this.time.delayedCall(16000, ()=>{
+        timedEvent = this.time.delayedCall(16000+ initialTime, ()=>{
             background.setTexture("background_2")
         });
 
-        timedEvent = this.time.delayedCall(16100, ()=>{
+        timedEvent = this.time.delayedCall(16100+ initialTime, ()=>{
             background.setTexture("background_1")
         });
 
-        timedEvent = this.time.delayedCall(45000, ()=>{
+        timedEvent = this.time.delayedCall(45000+ initialTime, ()=>{
             background.setTexture("background_2")
         });
-        timedEvent = this.time.delayedCall(45100, ()=>{
+        timedEvent = this.time.delayedCall(45100+ initialTime, ()=>{
             background.setTexture("background_1")
         });
 
-        timedEvent = this.time.delayedCall(60000, ()=>{
+        timedEvent = this.time.delayedCall(60000+ initialTime, ()=>{
             background.setTexture("background_2")
         });
-        timedEvent = this.time.delayedCall(60100, ()=>{
+        timedEvent = this.time.delayedCall(60100+ initialTime, ()=>{
             background.setTexture("background_1")
         });
 
-        timedEvent = this.time.delayedCall(65000, ()=>{
+        timedEvent = this.time.delayedCall(65000+ initialTime, ()=>{
             background.setTexture("background_2")
         });
-        timedEvent = this.time.delayedCall(65100, ()=>{
+        timedEvent = this.time.delayedCall(65100+ initialTime, ()=>{
             background.setTexture("background_1")
         });
-        timedEvent = this.time.delayedCall(70000, ()=>{
+        timedEvent = this.time.delayedCall(70000+ initialTime, ()=>{
             background.setTexture("background_2")
         });
-        timedEvent = this.time.delayedCall(70100, ()=>{
+        timedEvent = this.time.delayedCall(70100+ initialTime, ()=>{
             background.setTexture("background_1")
         });
-        timedEvent = this.time.delayedCall(74000, ()=>{
+        timedEvent = this.time.delayedCall(74000+ initialTime, ()=>{
             background.setTexture("background_2")
         });
-        timedEvent = this.time.delayedCall(74100, ()=>{
-            background.setTexture("background_1")
-        });
-
-        timedEvent = this.time.delayedCall(76000, ()=>{
-            background.setTexture("background_2")
-        });
-        timedEvent = this.time.delayedCall(76100, ()=>{
-            background.setTexture("background_1")
-        });
-        timedEvent = this.time.delayedCall(77000, ()=>{
-            background.setTexture("background_2")
-        });
-        timedEvent = this.time.delayedCall(77100, ()=>{
+        timedEvent = this.time.delayedCall(74100+ initialTime, ()=>{
             background.setTexture("background_1")
         });
 
-        timedEvent = this.time.delayedCall(72000, ()=>{
+        timedEvent = this.time.delayedCall(76000+ initialTime, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(76100+ initialTime, ()=>{
+            background.setTexture("background_1")
+        });
+        timedEvent = this.time.delayedCall(77000+ initialTime, ()=>{
+            background.setTexture("background_2")
+        });
+        timedEvent = this.time.delayedCall(77100+ initialTime, ()=>{
+            background.setTexture("background_1")
+        });
+
+        timedEvent = this.time.delayedCall(72000+ initialTime, ()=>{
+            deleteDoors()
             sleepEveryone();
-            //-------------ADD LIGHT EFFECTS!
+            bloom.visible=true;
         });
 
-        timedEvent = this.time.delayedCall(174000, ()=>{
-            background.setTexture("background_2")
+        timedEvent = this.time.delayedCall(174000+ initialTime, ()=>{
+            background.setTexture("background_2");
+            this.table.visible=false;
+            this.drums.visible=false;
+            this.speakers.visible=false;
+            this.discoball.visible=false;
+
             buttonsLocked=true;
             joystickLocked=true;
+            player.avatar.play("collapse" + shirt);
+            bloom.visible=false;
          })
 
-         this.scene.launch("hud");
+         timedEvent= this.time.delayedCall(192000+ initialTime, ()=>{
+            this.cameras.main.fadeOut(5000);
 
+         })
+
+
+
+         this.scene.launch("hud");
+         this.cameras.main.fadeIn(2000);
     },
 
     update: function(time,delta){
-        if(loadingMain!==1 && loadingHUD!==1) return 
+
         if(!joystickLocked)
         {       
             if (downKey.isDown || SKey.isDown){
@@ -552,6 +632,6 @@ var mainScene = new Phaser.Class({
         }
 
   
-        bloom.alpha=(((Math.sin(time/1000)+1)/2))
+        if(bloom.visible===true) bloom.alpha=(((Math.sin(time/200)+1)/2))
     }
 })

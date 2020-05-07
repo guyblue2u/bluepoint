@@ -1,6 +1,8 @@
 let music;
 let complete=false;
 
+let pruebaa;
+
 var loading = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -11,7 +13,9 @@ var loading = new Phaser.Class({
     },
 
     preload: function(){
-        
+
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+
         this.load.image("background_1","./assets/images/base1.png");
         this.load.image("background_2","./assets/images/base2.png");
         this.load.image("bloom","./assets/images/lights_bloom.png");
@@ -19,6 +23,9 @@ var loading = new Phaser.Class({
         this.load.spritesheet("discoBall","./assets/images/disco ball.png",{frameWidth:36,frameHeight:36}); //ball
         this.load.spritesheet("blueGuy" , "./assets/images/guy blue sprites.png",{frameWidth:36,frameHeight:36}); // blue character
         this.load.spritesheet("redGuy" , "./assets/images/red guy blue sprites.png",{frameWidth:36,frameHeight:36}); // blue character
+        this.load.spritesheet("collapsingRed" , "./assets/images/collapsing_red.png",{frameWidth:36,frameHeight:36});
+        this.load.spritesheet("collapsingBlue" , "./assets/images/collapsing_blue.png",{frameWidth:36,frameHeight:36});
+
         this.load.spritesheet("NPC" ,"./assets/images/NPC sprites.png",{frameWidth:36,frameHeight:36} );  // NPC
         this.load.spritesheet("ZZZ" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
 
@@ -33,16 +40,24 @@ var loading = new Phaser.Class({
         this.load.audio("song" , "./assets/audio/Gutted.mp3");
         text = this.add.text(400, 300, 'Loading...', { font: '40px Courier', fill: '#00ff00' });
 
-        
+
         this.load.on('complete', function () {
-            complete=true;
+            //complete=true;
         });
 
 
     },
 
     create: function(){
-        
+        pruebaa=WebFont.load({
+            google: {
+                families: [ 'ZCOOL QingKe HuangYou']
+            },
+            active: function(){
+                complete=true;
+            }
+        });
+
     },
 
     update: function(){
@@ -67,16 +82,15 @@ var menu = new Phaser.Class({
     },
 
     create: function(){
-        
 
         let buttonStart=this.add.image(440,230,"messageBoard");
-        buttonStart.setOrigin(1,1);
+        buttonStart.setOrigin(0.5,0.5);
         buttonStart.scaleX=1.2;
         buttonStart.scaleY=0.4;
 
         buttonStart.setInteractive();
 
-        let buttonStartText=this.add.text(440,230,"Start",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(40);
+        let buttonStartText=this.add.text(440,230,"Start",{ fontFamily: 'ZCOOL QingKe HuangYou', fontSize: 40})
         buttonStartText.setOrigin(0.5,0.5);
 
         music=this.sound.add('song');

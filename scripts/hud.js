@@ -11,7 +11,6 @@ let time=0;
 let scoreText;
 let scoreTitle;
 let timeText;
-let initialTime;
 let iconZZZ;
 let scoreTitleText;
 
@@ -108,28 +107,28 @@ var hud = new Phaser.Class({
 
         this.input.keyboard.on('keydown_ENTER', function (event) {
             if(!showingDialogue) interact();
-            else hideDialogue();
+            else if(!buttonsLocked) hideDialogue();
         });
 
         this.input.keyboard.on('keydown_SPACE', function (event) {
             if(!showingDialogue) interact();
-            else hideDialogue();
+            else if(!buttonsLocked)hideDialogue();
         });
 
 
 
         this.input.keyboard.on('keydown' , (event)=>{
-            if(showingDialogue && timeShowingDialog>100) hideDialogue();
+            if(showingDialogue && timeShowingDialog>100 && !buttonsLocked) hideDialogue();
         })
 
         buttonInteract.on('pointerdown' , ()=>{   
             if(!showingDialogue) interact();
-            else hideDialogue();
+            else if(!buttonsLocked) hideDialogue();
         });
 
         this.input.on('pointerdown' , ()=>{
             
-            if(showingDialogue && timeShowingDialog>100) hideDialogue();
+            if(showingDialogue && timeShowingDialog>100 && !buttonsLocked) hideDialogue();
         })
 
         PKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);        // ONLY FOR TESTING
@@ -159,40 +158,33 @@ var hud = new Phaser.Class({
 
 
         // ------------------------- Time events
-        timedEvent = this.time.delayedCall(50, ()=>{
+        timedEvent = this.time.delayedCall(50+ initialTime, ()=>{
             showDialogue("This is one of my favorite spots, Shea Stadium.");
             
         });
-        timedEvent = this.time.delayedCall(3900, ()=>{
+        timedEvent = this.time.delayedCall(3900+ initialTime, ()=>{
             showDialogue("I wonder what’s happening tonight, let’s ask around.");
         });
 
 
-        timedEvent = this.time.delayedCall(77000, ()=>{
+        timedEvent = this.time.delayedCall(77000+ initialTime, ()=>{
             buttonsLocked=true;
             joystickLocked=true;
+            if(showingDialogue) hideDialogue;
             showDialogue("What the hell is happening? We have to wake these people up!");
         });
-        timedEvent = this.time.delayedCall(81000, ()=>{ 
+        timedEvent = this.time.delayedCall(81000+ initialTime, ()=>{ 
             buttonsLocked=false;
             joystickLocked=false;
             showScore();
         })
-
+        
 
     },
 
     update: function(t,delta){
 
         
-        if(PKey.isDown && !testVariable) {              // ONLY FOR TESTING
-            NPCS.forEach((el)=>{
-                el.timeToDisappear=time+Math.random()*10000+5000;
-            })
-            timeToSleep=time+100; 
-            testVariable=true
-        }
-
         time+=delta;
 
         if(showingDialogue) timeShowingDialog+=delta;
@@ -204,7 +196,11 @@ var hud = new Phaser.Class({
         if(nearest[0]<radiusInteraction && nearest[1].sleeping!==2){
             buttonInteract.visible=true;
             buttonStartText.visible=true;
-            if(nearest[1].sleeping===1) {buttonStartText.text="wake up " + nearest[1]["name"] + "!";}
+            if(nearest[1].sleeping===1) {
+                if(nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
+                    buttonStartText.text="wake up " + nearest[1]["name"] + "!";
+                }
+            }
             else { 
                 if(nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
                     buttonStartText.text="talk to " + nearest[1]["name"];
@@ -221,11 +217,19 @@ var hud = new Phaser.Class({
         }
 
 
-        NPCS.forEach((el)=>{
+        NPCS.forEach((el, index, object)=>{
+            if(el.timeToDisappear<time+5000 && el.sleeping && !el["tween"].isPlaying()){
+                el["tween"].play();
+            }
+
+
+
             if(el.timeToDisappear<time && el.sleeping===1){
                 el.visible=false;
                 el.avatar.visible=false;
                 el["zzz"].visible=false;
+                el["tween"].stop();
+                object.splice(index, 1);
             }
 
             if(el.timeToSleep<time && el.sleeping!==1){
@@ -294,10 +298,11 @@ function interact(){
             if(nearest[1]["sequence"]===undefined){ // for non-sequential conversation
                 textTitle.text=nearest[1]["name"];
                 if(nearest[1].message===0){
-                textDialogue.text=nearest[1]["message1"];
-                    if(nearest[1].message2!==null){
-                        nearest[1].message=1;
-                    }
+                    if(nearest[1].name==="Alex") shirt="Red";
+                    textDialogue.text=nearest[1]["message1"];
+                        if(nearest[1].message2!==null){
+                            nearest[1].message=1;
+                        }
                 }
                 else if(nearest[1].message===1){
                     textDialogue.text=nearest[1]["message2"];
@@ -316,7 +321,6 @@ function interact(){
                     if(nearest[1].sequence["msg1_2"]!==null) nearest[1].sequence.message=1;
                 }
                 else{
-                    console.log(nearest[1].sequence["msg1_2"]);
                     textDialogue.text=nearest[1]["sequence"]["msg1_2"];
                     nextText={title:nearest[1]["sequence"]["name2"] , message:nearest[1]["sequence"]["msg2_2"] }
                 }
@@ -331,6 +335,10 @@ function interact(){
             nearest[1].sleeping=2;
             score++;
             scoreText.text="x " + score;
+            if(nearest[1]["tween"].isPlaying()){
+                nearest[1]["tween"].stop();
+                nearest[1].avatar.alpha=1;
+            }
         }   
     }
 }
