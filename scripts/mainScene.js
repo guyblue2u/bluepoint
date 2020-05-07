@@ -55,9 +55,9 @@ var mainScene = new Phaser.Class({
         background = this.add.image(0,0,"background_1").setOrigin(0,0);
         bloom=this.add.image(0,0,"bloom").setOrigin(0,0);
         player["avatar"]= this.add.sprite(player.x, player.y , "blueGuy" , 0);
-        
-
-
+        console.log("cargando la música")
+        this.sound.add('song').play();
+        console.log("suena la música")
         //----------------------------------------     Player Blue shirt
         this.anims.create({
             key: "walkRight",
@@ -463,7 +463,7 @@ var mainScene = new Phaser.Class({
         
         loadingMain=2;
         buttonsLocked=true;
-        this.sound.add('song').play();
+        
 
 
         // --------------------------- T I M E      E V E N T S
