@@ -4,7 +4,7 @@ let textTitle;
 let textDialogue;
 let textInstruction;
 let buttonInteract;
-let buttonInteractText;
+let buttonStartText;
 let showingDialogue=false;
 let score=0;
 let time=0;
@@ -39,7 +39,7 @@ var hud = new Phaser.Class({
     initialize:
 
     function hud (){
-        Phaser.Scene.call(this, { key: 'hud', active: true });
+        Phaser.Scene.call(this, { key: 'hud', active: false });
     },
     
     preload: function(){
@@ -47,12 +47,6 @@ var hud = new Phaser.Class({
         this.load.on('progress', function (value) {
             loadingHUD=value;
         });
-
-
-        this.load.image("messageBoard" , "./assets/images/dialogue window rectangle.png");      // dialogue window       
-        this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml');		//load the font
-        this.load.spritesheet("ZZZIcon" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
-
 
         //------------------------------- Joystick
         
@@ -87,8 +81,8 @@ var hud = new Phaser.Class({
 
         buttonInteract.setInteractive();
 
-        buttonInteractText=this.add.text(800,450,"talk to",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
-        buttonInteractText.setOrigin(0.5,0.5);
+        buttonStartText=this.add.text(800,450,"talk to",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
+        buttonStartText.setOrigin(0.5,0.5);
 
         showingDialogue=false;
         textTitle.visible=false;
@@ -154,9 +148,9 @@ var hud = new Phaser.Class({
 
             buttonInteract.scaleX=2;
             buttonInteract.scaleY=0.6;
-            buttonInteractText.setFontSize(30);
-            buttonInteractText.x=750;
-            buttonInteractText.y=440;
+            buttonStartText.setFontSize(30);
+            buttonStartText.x=750;
+            buttonStartText.y=440;
         }
         else {      //-------------------DESKTOP
             buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1.3,0.5);});
@@ -166,9 +160,7 @@ var hud = new Phaser.Class({
 
     update: function(t,delta){
 
-        if(loadingMain!==2 || loadingHUD!==1) {console.log("loading"); return false}
-
-
+        
         if(PKey.isDown && !testVariable) {              // ONLY FOR TESTING
             NPCS.forEach((el)=>{
                 el.timeToDisappear=time+Math.random()*10000+5000;
@@ -187,21 +179,21 @@ var hud = new Phaser.Class({
         let nearest=minDistance();
         if(nearest[0]<radiusInteraction && nearest[1].sleeping!==2){
             buttonInteract.visible=true;
-            buttonInteractText.visible=true;
-            if(nearest[1].sleeping===1) {buttonInteractText.text="wake up " + nearest[1]["name"] + "!";}
+            buttonStartText.visible=true;
+            if(nearest[1].sleeping===1) {buttonStartText.text="wake up " + nearest[1]["name"] + "!";}
             else { 
                 if(nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
-                    buttonInteractText.text="talk to " + nearest[1]["name"];
+                    buttonStartText.text="talk to " + nearest[1]["name"];
                 }
                 else {
-                    buttonInteractText.text="Open door";
+                    buttonStartText.text="Open door";
                 }
             }       
         }   
         else {
 
             buttonInteract.visible=false;
-            buttonInteractText.visible=false;
+            buttonStartText.visible=false;
         }
 
 

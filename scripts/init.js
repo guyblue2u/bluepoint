@@ -8,8 +8,11 @@ const config={
     },
 	pixelArt: true,
 	type: Phaser.AUTO,
-	scene: [ mainScene ,hud ],
-	transparent: true
+	scene: [ loading , mainScene ,hud ],
+	transparent: true,
+	audio: {
+		disableWebAudio: true,
+    }
 }
 let loadingMain=0;
 let loadingHUD=0; 

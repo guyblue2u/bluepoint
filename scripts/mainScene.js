@@ -23,25 +23,14 @@ var mainScene = new Phaser.Class({
     initialize:
 
     function mainScene (){
-        Phaser.Scene.call(this, { key: 'mainScene', active: true });
+        
+        Phaser.Scene.call(this, { key: 'mainScene', active: false });
     },
 
     preload: function(){
-        this.load.image("background_1","./assets/images/base1.png");
-        this.load.image("background_2","./assets/images/base2.png");
-        this.load.image("bloom","./assets/images/lights_bloom.png");
 
-        this.load.spritesheet("discoBall","./assets/images/disco ball.png",{frameWidth:36,frameHeight:36}); //ball
-        this.load.spritesheet("blueGuy" , "./assets/images/guy blue sprites.png",{frameWidth:36,frameHeight:36}); // blue character
-        this.load.spritesheet("redGuy" , "./assets/images/red guy blue sprites.png",{frameWidth:36,frameHeight:36}); // blue character
-        this.load.spritesheet("NPC" ,"./assets/images/NPC sprites.png",{frameWidth:36,frameHeight:36} );  // NPC
-        this.load.spritesheet("ZZZ" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
 
-        this.load.image("drums" , "./assets/images/drums.png");                 //Objects
-        this.load.image("table" , "./assets/images/table.png");
-        this.load.image("speakers" , "./assets/images/speakers.png");
-
-        this.load.audio("song" , "./assets/audio/Gutted.mp3");
+        
 
 
         this.load.on('progress', function (value) {
@@ -55,9 +44,11 @@ var mainScene = new Phaser.Class({
         background = this.add.image(0,0,"background_1").setOrigin(0,0);
         bloom=this.add.image(0,0,"bloom").setOrigin(0,0);
         player["avatar"]= this.add.sprite(player.x, player.y , "blueGuy" , 0);
-        console.log("cargando la música")
-        this.sound.add('song').play();
-        console.log("suena la música")
+
+        //let music=this.sound.add('song');
+        
+        
+
         //----------------------------------------     Player Blue shirt
         this.anims.create({
             key: "walkRight",
@@ -460,8 +451,7 @@ var mainScene = new Phaser.Class({
         this.cameras.main.startFollow(player.avatar, true)
         this.cameras.main.setBounds(0,20,440,250 );
 
-        
-        loadingMain=2;
+
         buttonsLocked=true;
         
 
@@ -554,6 +544,8 @@ var mainScene = new Phaser.Class({
             buttonsLocked=true;
             joystickLocked=true;
          })
+
+         this.scene.launch("hud");
 
     },
 
