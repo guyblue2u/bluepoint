@@ -156,6 +156,30 @@ var hud = new Phaser.Class({
             buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1.3,0.5);});
             buttonInteract.on('pointerout', ()=> {	buttonInteract.setScale(1.2,0.4);});
         }
+
+
+        // ------------------------- Time events
+        timedEvent = this.time.delayedCall(50, ()=>{
+            showDialogue("This is one of my favorite spots, Shea Stadium.");
+            
+        });
+        timedEvent = this.time.delayedCall(3900, ()=>{
+            showDialogue("I wonder what’s happening tonight, let’s ask around.");
+        });
+
+
+        timedEvent = this.time.delayedCall(77000, ()=>{
+            buttonsLocked=true;
+            joystickLocked=true;
+            showDialogue("What the hell is happening? We have to wake these people up!");
+        });
+        timedEvent = this.time.delayedCall(81000, ()=>{ 
+            buttonsLocked=false;
+            joystickLocked=false;
+            showScore();
+        })
+
+
     },
 
     update: function(t,delta){

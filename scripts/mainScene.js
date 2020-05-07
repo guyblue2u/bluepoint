@@ -457,13 +457,7 @@ var mainScene = new Phaser.Class({
 
 
         // --------------------------- T I M E      E V E N T S
-        timedEvent = this.time.delayedCall(50, ()=>{
-            showDialogue("This is one of my favorite spots, Shea Stadium.");
-            
-        });
-        timedEvent = this.time.delayedCall(3900, ()=>{
-            showDialogue("I wonder what’s happening tonight, let’s ask around.");
-        });
+
 
         timedEvent = this.time.delayedCall(8000,()=>{
             joystickLocked=false;
@@ -528,16 +522,6 @@ var mainScene = new Phaser.Class({
             sleepEveryone();
             //-------------ADD LIGHT EFFECTS!
         });
-        timedEvent = this.time.delayedCall(77000, ()=>{
-            buttonsLocked=true;
-            joystickLocked=true;
-            showDialogue("What the hell is happening? We have to wake these people up!");
-        });
-        timedEvent = this.time.delayedCall(81000, ()=>{ 
-            buttonsLocked=false;
-            joystickLocked=false;
-            showScore();
-        })
 
         timedEvent = this.time.delayedCall(174000, ()=>{
             background.setTexture("background_2")
