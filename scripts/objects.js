@@ -83,21 +83,21 @@ let player={
             if(Math.abs(x)>Math.abs(y)){
                 if (x>0) {
                     this.direction=right;
-                    if(this.avatar.anims.currentAnim.key!=="walkRight") this.avatar.play("walkRight" + shirt);
+                    if(this.avatar.anims.currentAnim.key!=="walkRight"+shirt) this.avatar.play("walkRight" + shirt);
                 }
                 else {
                     this.direction=left;
-                    if(this.avatar.anims.currentAnim.key!=="walkLeft") this.avatar.play("walkLeft"+ shirt);
+                    if(this.avatar.anims.currentAnim.key!=="walkLeft"+shirt) this.avatar.play("walkLeft"+ shirt);
                 }
             }
             else{
                 if(y>0) {
                     this.direction=down;
-                    if(this.avatar.anims.currentAnim.key!=="walkDown") this.avatar.play("walkDown"+ shirt);
+                    if(this.avatar.anims.currentAnim.key!=="walkDown"+shirt) this.avatar.play("walkDown"+ shirt);
                 }
                 else {
                     this.direction=up;
-                    if(this.avatar.anims.currentAnim.key!=="walkUp") this.avatar.play("walkUp"+ shirt);
+                    if(this.avatar.anims.currentAnim.key!=="walkUp"+shirt) this.avatar.play("walkUp"+ shirt);
                 }
             }
         }

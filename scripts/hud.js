@@ -89,6 +89,17 @@ var hud = new Phaser.Class({
         textInstruction.visible=false;
         dialogueWindow.visible=false;
 
+        // GeneralInstructions
+        this.instructionText = this.add.text(300,450,"WASD or arrows to move \n Spacebar or Enter to interact",{ fontFamily: 'ZCOOL QingKe HuangYou' ,fontSize:30, align:'center'});
+
+        flashingTextTween = this.tweens.add({
+            targets: this.instructionText,
+            alpha: { from: 0, to: 1 },
+            duration: 500,
+            ease: 'Sine.easeInOut',
+            loop: -1,
+        }).stop();
+        
 
 
 
@@ -130,10 +141,6 @@ var hud = new Phaser.Class({
             
             if(showingDialogue && timeShowingDialog>100 && !buttonsLocked) hideDialogue();
         })
-
-        PKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);        // ONLY FOR TESTING
-
-
         
         if(window.mobileAndTabletCheck()){ //--------------------MOBILE
             // ------------------------- Joystick
@@ -150,6 +157,8 @@ var hud = new Phaser.Class({
             buttonStartText.setFontSize(30);
             buttonStartText.x=750;
             buttonStartText.y=440;
+
+            this.instructionText.text="use the virtual joystick to move \n Press the button to interact"
         }
         else {      //-------------------DESKTOP
             buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1.3,0.5);});
@@ -166,6 +175,10 @@ var hud = new Phaser.Class({
             showDialogue("I wonder what’s happening tonight, let’s ask around.");
         });
 
+        timedEvent=this.time.delayedCall(15000+initialTime , ()=>{
+            this.instructionText.visible=false;
+        })
+
 
         timedEvent = this.time.delayedCall(77000+ initialTime, ()=>{
             buttonsLocked=true;
@@ -177,8 +190,16 @@ var hud = new Phaser.Class({
             buttonsLocked=false;
             joystickLocked=false;
             showScore();
+            this.instructionText.visible=true;
+            flashingTextTween.play();
+            this.instructionText.text='Interact with people to wake them up'
         })
         
+        timedEvent = this.time.delayedCall(174000+ initialTime, ()=>{ 
+            flashingTextTween.stop();
+            this.instructionText.visible=false;
+
+        })
 
     },
 
