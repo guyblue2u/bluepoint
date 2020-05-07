@@ -8,7 +8,7 @@ const config={
     },
 	pixelArt: true,
 	type: Phaser.AUTO,
-	scene: [ loading , mainScene ,hud ],
+	scene: [ loading , menu , mainScene ,hud ],
 	transparent: true,
 	audio: {
 		disableWebAudio: true,

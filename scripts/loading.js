@@ -1,4 +1,5 @@
 let music;
+let complete=false;
 
 var loading = new Phaser.Class({
 
@@ -25,15 +26,44 @@ var loading = new Phaser.Class({
         this.load.image("table" , "./assets/images/table.png");
         this.load.image("speakers" , "./assets/images/speakers.png");
 
-        
-
         this.load.image("messageBoard" , "./assets/images/dialogue window rectangle.png");      // dialogue window       
         this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml');		//load the font
         this.load.spritesheet("ZZZIcon" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
-
-        
+      
         this.load.audio("song" , "./assets/audio/Gutted.mp3");
         text = this.add.text(400, 300, 'Loading...', { font: '40px Courier', fill: '#00ff00' });
+
+        
+        this.load.on('complete', function () {
+            complete=true;
+        });
+
+
+    },
+
+    create: function(){
+        
+    },
+
+    update: function(){
+        if (complete) this.scene.start("menu")
+    }
+
+    
+})
+
+
+var menu = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize: function menu (){
+        
+        Phaser.Scene.call(this, { key: 'menu', active: false });
+    },
+
+    preload: function(){
+        
     },
 
     create: function(){
