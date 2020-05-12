@@ -592,7 +592,7 @@ var mainScene = new Phaser.Class({
             bloom.visible=true;
         });
 
-        timedEvent = this.time.delayedCall(142000+ initialTime, ()=>{
+        timedEvent = this.time.delayedCall(140000+ initialTime, ()=>{
             background.setTexture("background_2");
             this.table.visible=false;
             this.drums.visible=false;
@@ -622,8 +622,8 @@ var mainScene = new Phaser.Class({
         })
 
 
-         timedEvent= this.time.delayedCall(184000+ initialTime, ()=>{
-            this.cameras.main.fadeOut(5000);
+         timedEvent= this.time.delayedCall(182000+ initialTime, ()=>{
+            this.cameras.main.fadeOut(8000);
 
          })
 

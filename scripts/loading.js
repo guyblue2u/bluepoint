@@ -38,7 +38,7 @@ var loading = new Phaser.Class({
         this.load.spritesheet("ZZZIcon" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
       
         this.load.audio("song" , "./assets/audio/Gutted.mp3");
-        text = this.add.text(400, 300, 'Loading...', { font: '40px Courier', fill: '#00ff00' });
+        text = this.add.text(350,300,"Loading...",{ fontFamily: 'ZCOOL QingKe HuangYou', fontSize: 50})
 
 
         this.load.on('complete', function () {

@@ -149,8 +149,8 @@ var hud = new Phaser.Class({
                 thumb: this.add.circle(0, 0, 40, 0xcccccc),
             });
 
-            buttonInteract.scaleX=2;
-            buttonInteract.scaleY=0.6;
+            buttonInteract.scaleX=1.5;
+            buttonInteract.scaleY=1.5;
             buttonStartText.setFontSize(30);
             buttonStartText.x=750;
             buttonStartText.y=440;
@@ -158,8 +158,8 @@ var hud = new Phaser.Class({
             this.instructionText.text="use the virtual joystick to move \n Press the button to interact"
         }
         else {      //-------------------DESKTOP
-            buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1.3,0.4);});
-            buttonInteract.on('pointerout', ()=> {	buttonInteract.setScale(1.2,0.4);});
+            buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1,1.1);});
+            buttonInteract.on('pointerout', ()=> {	buttonInteract.setScale(1,1);});
         }
 
 
@@ -206,10 +206,6 @@ var hud = new Phaser.Class({
             showDialogue("What the hell is happening? We have to wake these people up!");
         });
 
-
-        
-
-
         timedEvent = this.time.delayedCall(74000+ initialTime, ()=>{ 
             buttonsLocked=false;
             joystickLocked=false;
@@ -219,7 +215,7 @@ var hud = new Phaser.Class({
             this.instructionText.text='Interact with people to wake them up'
         })
         
-        timedEvent = this.time.delayedCall(144000+ initialTime, ()=>{ 
+        timedEvent = this.time.delayedCall(140000+ initialTime, ()=>{ 
             flashingTextTween.stop();
             this.instructionText.visible=false;
             
@@ -235,7 +231,7 @@ var hud = new Phaser.Class({
             this.scene.resume();
         });
 
-        this.texto=this.add.text(10,10,"aaaaaa");
+        //this.texto=this.add.text(10,10,"aaaaaa");
 
     },
 
@@ -243,7 +239,7 @@ var hud = new Phaser.Class({
 
         time+=delta;
 
-        this.texto.text=Math.floor( (time+initialTime)/1000);
+        //this.texto.text=Math.floor( (time+initialTime)/1000);
 
         if(showingDialogue) timeShowingDialog+=delta;
 
