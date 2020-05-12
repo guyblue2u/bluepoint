@@ -43,10 +43,6 @@ var hud = new Phaser.Class({
     
     preload: function(){
 
-        this.load.on('progress', function (value) {
-            loadingHUD=value;
-        });
-
         //------------------------------- Joystick
         
         if(window.mobileAndTabletCheck()){
@@ -54,9 +50,6 @@ var hud = new Phaser.Class({
             url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
             this.load.plugin('rexvirtualjoystickplugin', url, true);
         }
-
-
-
     },
 
     create: function(){
@@ -73,14 +66,14 @@ var hud = new Phaser.Class({
         textInstruction = this.add.text(500,160,"Press any button to continue",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
         textInstruction.setOrigin(0.5,0.5);
 
-        buttonInteract=this.add.image(880,470,"messageBoard");
+        buttonInteract=this.add.image(880,470,"interactButton");
         buttonInteract.setOrigin(1,1);
-        buttonInteract.scaleX=1.2;
-        buttonInteract.scaleY=0.4;
+        buttonInteract.scaleX=1;
+        buttonInteract.scaleY=1;
 
         buttonInteract.setInteractive();
 
-        buttonStartText=this.add.text(800,450,"talk to",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
+        buttonStartText=this.add.text(790,450,"talk to",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
         buttonStartText.setOrigin(0.5,0.5);
 
         showingDialogue=false;
@@ -89,8 +82,12 @@ var hud = new Phaser.Class({
         textInstruction.visible=false;
         dialogueWindow.visible=false;
 
+        let NPCDIalogueIndex=-1;
+
         // GeneralInstructions
         this.instructionText = this.add.text(300,450,"WASD or arrows to move \n Spacebar or Enter to interact",{ fontFamily: 'ZCOOL QingKe HuangYou' ,fontSize:30, align:'center'});
+
+        this.instructionText.visible=false;
 
         flashingTextTween = this.tweens.add({
             targets: this.instructionText,
@@ -128,9 +125,9 @@ var hud = new Phaser.Class({
 
 
 
-        this.input.keyboard.on('keydown' , (event)=>{
-            if(showingDialogue && timeShowingDialog>100 && !buttonsLocked) hideDialogue();
-        })
+        // this.input.keyboard.on('keydown' , (event)=>{
+        //     if(showingDialogue && timeShowingDialog>100 && !buttonsLocked) hideDialogue();
+        // })
 
         buttonInteract.on('pointerdown' , ()=>{   
             if(!showingDialogue) interact();
@@ -161,32 +158,59 @@ var hud = new Phaser.Class({
             this.instructionText.text="use the virtual joystick to move \n Press the button to interact"
         }
         else {      //-------------------DESKTOP
-            buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1.3,0.5);});
+            buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1.3,0.4);});
             buttonInteract.on('pointerout', ()=> {	buttonInteract.setScale(1.2,0.4);});
         }
 
 
         // ------------------------- Time events
+        console.log("initial time: " +initialTime)
         timedEvent = this.time.delayedCall(50+ initialTime, ()=>{
             showDialogue("This is one of my favorite spots, Shea Stadium.");
+            textInstruction.visible=false;
             
         });
-        timedEvent = this.time.delayedCall(3900+ initialTime, ()=>{
+        timedEvent = this.time.delayedCall(3000+ initialTime, ()=>{
             showDialogue("I wonder what’s happening tonight, let’s ask around.");
+            textInstruction.visible=false;
         });
+
+        timedEvent =this.time.delayedCall(6000+initialTime, ()=>{
+            this.instructionText.visible=true;
+            joystickLocked=false;
+            buttonsLocked=false;
+        })
+
 
         timedEvent=this.time.delayedCall(15000+initialTime , ()=>{
             this.instructionText.visible=false;
         })
 
+        timedEvent = this.time.delayedCall(68000+ initialTime, ()=>{
 
-        timedEvent = this.time.delayedCall(77000+ initialTime, ()=>{
+            if(showingDialogue) endAllDialogs();
+            sleepEveryone();
+
+            //doors now show the secondary message
+            NPCS[16].message=1;
+            NPCS[17].message=1;
+            NPCS[18].message=1;
+
+
+        });
+
+        timedEvent = this.time.delayedCall(70000+ initialTime, ()=>{
             buttonsLocked=true;
             joystickLocked=true;
-            if(showingDialogue) hideDialogue;
+            player.avatar.play("idleDown"+shirt);
             showDialogue("What the hell is happening? We have to wake these people up!");
         });
-        timedEvent = this.time.delayedCall(81000+ initialTime, ()=>{ 
+
+
+        
+
+
+        timedEvent = this.time.delayedCall(74000+ initialTime, ()=>{ 
             buttonsLocked=false;
             joystickLocked=false;
             showScore();
@@ -195,18 +219,31 @@ var hud = new Phaser.Class({
             this.instructionText.text='Interact with people to wake them up'
         })
         
-        timedEvent = this.time.delayedCall(174000+ initialTime, ()=>{ 
+        timedEvent = this.time.delayedCall(144000+ initialTime, ()=>{ 
             flashingTextTween.stop();
             this.instructionText.visible=false;
-
+            
         })
+
+         //when the game loses its focus it should stop the clock
+         this.game.events.on('blur',  ()=>{
+            this.scene.pause();
+            this.time.paused=true
+        });
+        this.game.events.on('focus',  ()=>{
+            this.time.paused=false
+            this.scene.resume();
+        });
+
+        this.texto=this.add.text(10,10,"aaaaaa");
 
     },
 
     update: function(t,delta){
 
-        
         time+=delta;
+
+        this.texto.text=Math.floor( (time+initialTime)/1000);
 
         if(showingDialogue) timeShowingDialog+=delta;
 
@@ -224,7 +261,9 @@ var hud = new Phaser.Class({
             }
             else { 
                 if(nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
-                    buttonStartText.text="talk to " + nearest[1]["name"];
+                    if(nearest[1].sequence!==undefined) buttonStartText.text="talk to " + nearest[1].sequence.sequentialName;
+                    
+                    else buttonStartText.text="talk to " + nearest[1]["name"];
                 }
                 else {
                     buttonStartText.text="Open door";
@@ -237,13 +276,10 @@ var hud = new Phaser.Class({
             buttonStartText.visible=false;
         }
 
-
         NPCS.forEach((el, index, object)=>{
             if(el.timeToDisappear<time+5000 && el.sleeping && !el["tween"].isPlaying()){
                 el["tween"].play();
             }
-
-
 
             if(el.timeToDisappear<time && el.sleeping===1){
                 el.visible=false;
@@ -286,10 +322,28 @@ function hideDialogue(){
         textDialogue.visible=false;
         textInstruction.visible=false;
         dialogueWindow.visible=false;
-        let nearest=minDistance();
-        if(nearest[1].avatar.anims!=undefined) nearest[1].avatar.anims.play("idle"+nearest[1].name);
+        let NPCSpeaking=NPCS[this.NPCDIalogueIndex];
+        if(NPCSpeaking!==undefined)
+            if(NPCSpeaking.avatar.anims!=undefined) NPCSpeaking.avatar.anims.play("idle"+NPCSpeaking.name);
+        this.NPCDIalogueIndex=-1;
     }
 }
+
+function endAllDialogs(){   // hide any dialog when NPCS go to sleep
+    sequentialText=false;
+    timeShowingDialog=0;
+    showingDialogue=false;
+    textTitle.visible=false;
+    textDialogue.visible=false;
+    textInstruction.visible=false;
+    dialogueWindow.visible=false;
+    let NPCSpeaking=NPCS[this.NPCDIalogueIndex];
+    if(NPCSpeaking!==undefined)
+        if(NPCSpeaking.avatar.anims!=undefined) NPCSpeaking.avatar.anims.play("idle"+NPCSpeaking.name);
+    this.NPCDIalogueIndex=-1;
+}  
+
+
 
 function showDialogue(message){
     if (message!=null){
@@ -314,14 +368,18 @@ function showScore(){
 function interact(){
     let nearest=minDistance();
     if(nearest[0]<radiusInteraction){
+        this.NPCDIalogueIndex=NPCS.indexOf(nearest[1]);
         if(nearest[1].sleeping===0) {           // the NPC is awake at the beggining
             showDialogue();
             if(nearest[1]["sequence"]===undefined){ // for non-sequential conversation
                 textTitle.text=nearest[1]["name"];
                 if(nearest[1].message===0){
-                    if(nearest[1].name==="Alex") shirt="Red";
+                    if(nearest[1].name==="Alex") {
+                        shirt="Red";
+                        player.move(up);
+                    }
                     textDialogue.text=nearest[1]["message1"];
-                        if(nearest[1].message2!==null){
+                        if(nearest[1].message2!==null && nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
                             nearest[1].message=1;
                         }
                 }

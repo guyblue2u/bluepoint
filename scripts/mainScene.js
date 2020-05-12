@@ -9,7 +9,7 @@ let SKey;
 let DKey;
 let WKey;
 let bloom;
-const initialTime=2000;
+const initialTime=10;
 let poly;
 let background;
 
@@ -254,7 +254,7 @@ var mainScene = new Phaser.Class({
         })
 
         this.anims.create({
-            key: "idleGuitarrist",
+            key: "idleGuitarist",
             repeat: -1,
             frameRate: 5,
             frames: this.anims.generateFrameNumbers('NPC', { frames: [ 154,155,156] })           
@@ -368,7 +368,7 @@ var mainScene = new Phaser.Class({
         })
 
         this.anims.create({
-            key: "sleepGuitarrist",
+            key: "sleepGuitarist",
             repeat: -1,
             frameRate: 2,
             frames: this.anims.generateFrameNumbers('NPC', { frames: [ 163,164] })           
@@ -449,9 +449,9 @@ var mainScene = new Phaser.Class({
         bassist.avatar.depth=bassist.y;
         bassist["avatar"].play("idleBassist");
 
-        guitarrist.avatar= this.add.sprite(guitarrist.x, guitarrist.y , "NPC" , 0);
-        guitarrist.avatar.depth=guitarrist.y;
-        guitarrist["avatar"].play("idleGuitarrist");
+        guitarist.avatar= this.add.sprite(guitarist.x, guitarist.y , "NPC" , 0);
+        guitarist.avatar.depth=guitarist.y;
+        guitarist["avatar"].play("idleGuitarist");
 
         drummer.avatar= this.add.sprite(drummer.x, drummer.y , "NPC" , 0);
         drummer.avatar.depth=drummer.y;
@@ -482,8 +482,15 @@ var mainScene = new Phaser.Class({
             }
         });
 
-
-
+        //when the game loses its focus it should stop the clock
+        this.game.events.on('blur',  ()=>{
+            this.scene.pause();
+            this.time.paused=true
+        });
+        this.game.events.on('focus',  ()=>{
+            this.time.paused=false
+            this.scene.resume();
+        });
 
         this.table=this.add.image(234,96,"table").setDepth(96);
         this.drums=this.add.image(371,162,"drums").setDepth(162);
@@ -493,7 +500,8 @@ var mainScene = new Phaser.Class({
         player["avatar"].play("idleDownBlue");
 
         this.input.keyboard.on('keyup', (event)=> {
-            player.returnToIdle();
+            if(!joystickLocked)
+                player.returnToIdle();
             player.direction=null;
             player.moving=false;
         })
@@ -511,7 +519,7 @@ var mainScene = new Phaser.Class({
         // polygon for the floor boundaries
         poly=new Phaser.Geom.Polygon([new Phaser.Geom.Point(0,257.33),new Phaser.Geom.Point(0,210.39),new Phaser.Geom.Point(5.22,204.13),new Phaser.Geom.Point(14.95,204.13),new Phaser.Geom.Point(39.3,180.13),new Phaser.Geom.Point(43.82,180.13),new Phaser.Geom.Point(63.64,160.66),new Phaser.Geom.Point(52.86,157.88),new Phaser.Geom.Point(95.98,114.76),new Phaser.Geom.Point(119.28,128.67),new Phaser.Geom.Point(146.4,114.76),new Phaser.Geom.Point(148.14,97.02),new Phaser.Geom.Point(199.95,98.06),new Phaser.Geom.Point(199.95,113.36),new Phaser.Geom.Point(269.16,112.32),new Phaser.Geom.Point(269.5,98.06),new Phaser.Geom.Point(316.45,98.06),new Phaser.Geom.Point(353.66,132.84),new Phaser.Geom.Point(296.28,132.84),new Phaser.Geom.Point(295.58,143.27),new Phaser.Geom.Point(374.52,222.56),new Phaser.Geom.Point(440.59,220.82),new Phaser.Geom.Point(443.03,223.25),new Phaser.Geom.Point(443.03,258.03),new Phaser.Geom.Point(0,257.33)]);
 
-        prueba=this.cameras.main;
+        prueba=this.game;
         this.cameras.main.zoom=4;
         this.cameras.main.startFollow(player.avatar, true)
         this.cameras.main.setBounds(0,20,440,250 );
@@ -524,10 +532,7 @@ var mainScene = new Phaser.Class({
         // --------------------------- T I M E      E V E N T S
 
 
-        timedEvent = this.time.delayedCall(8000 + initialTime,()=>{
-            joystickLocked=false;
-            buttonsLocked=false;
-        })
+
 
         timedEvent = this.time.delayedCall(16000+ initialTime, ()=>{
             background.setTexture("background_2")
@@ -583,13 +588,11 @@ var mainScene = new Phaser.Class({
             background.setTexture("background_1")
         });
 
-        timedEvent = this.time.delayedCall(72000+ initialTime, ()=>{
-            deleteDoors()
-            sleepEveryone();
+        timedEvent = this.time.delayedCall(68000+ initialTime, ()=>{
             bloom.visible=true;
         });
 
-        timedEvent = this.time.delayedCall(174000+ initialTime, ()=>{
+        timedEvent = this.time.delayedCall(142000+ initialTime, ()=>{
             background.setTexture("background_2");
             this.table.visible=false;
             this.drums.visible=false;
@@ -598,17 +601,33 @@ var mainScene = new Phaser.Class({
 
             buttonsLocked=true;
             joystickLocked=true;
-            player.avatar.play("collapse" + shirt);
+            player.avatar.play("idleDown" + shirt);
             bloom.visible=false;
+            hideAllCharacters();
          })
 
-         timedEvent= this.time.delayedCall(192000+ initialTime, ()=>{
+         timedEvent = this.time.delayedCall(144000+ initialTime, ()=>{
+            player.avatar.play("collapse" + shirt);
+            
+         })
+
+         timedEvent = this.time.delayedCall(148000+ initialTime, ()=>{
+            this.tweens.add({
+                targets: this.cameras.main,
+                zoom: { from: 4, to: 2 },
+                duration: 4000,
+                ease: 'Linear',
+                loop: 0,
+            });
+        })
+
+
+         timedEvent= this.time.delayedCall(184000+ initialTime, ()=>{
             this.cameras.main.fadeOut(5000);
 
          })
 
-
-
+ 
          this.scene.launch("hud");
          this.cameras.main.fadeIn(2000);
     },

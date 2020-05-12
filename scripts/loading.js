@@ -1,7 +1,5 @@
 let music;
-let complete=false;
-
-let pruebaa;
+let complete=0;
 
 var loading = new Phaser.Class({
 
@@ -34,6 +32,8 @@ var loading = new Phaser.Class({
         this.load.image("speakers" , "./assets/images/speakers.png");
 
         this.load.image("messageBoard" , "./assets/images/dialogue window rectangle.png");      // dialogue window       
+        this.load.image("startButton" , "./assets/images/start_button.png");      // start button       
+        this.load.image("interactButton" , "./assets/images/interact_button.png");      // interact window       
         this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml');		//load the font
         this.load.spritesheet("ZZZIcon" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
       
@@ -42,7 +42,7 @@ var loading = new Phaser.Class({
 
 
         this.load.on('complete', function () {
-            //complete=true;
+            complete++;
         });
 
 
@@ -54,14 +54,14 @@ var loading = new Phaser.Class({
                 families: [ 'ZCOOL QingKe HuangYou']
             },
             active: function(){
-                complete=true;
+                complete++;
             }
         });
 
     },
 
     update: function(){
-        if (complete) this.scene.start("menu")
+        if (complete==2) this.scene.start("menu")
     }
 
     
@@ -83,17 +83,31 @@ var menu = new Phaser.Class({
 
     create: function(){
 
-        let buttonStart=this.add.image(440,230,"messageBoard");
+        let buttonStart=this.add.image(440,230,"startButton");
         buttonStart.setOrigin(0.5,0.5);
-        buttonStart.scaleX=1.2;
-        buttonStart.scaleY=0.4;
+        buttonStart.scaleX=1.5;
+        buttonStart.scaleY=1.5;
 
         buttonStart.setInteractive();
+
+
+
 
         let buttonStartText=this.add.text(440,230,"Start",{ fontFamily: 'ZCOOL QingKe HuangYou', fontSize: 40})
         buttonStartText.setOrigin(0.5,0.5);
 
         music=this.sound.add('song');
+
+
+
+        buttonStart.on('pointerover', ()=> {
+            buttonStart.setScale(1.6);
+            buttonStartText.setFontSize(45);
+        });
+        buttonStart.on('pointerout', ()=> {
+                buttonStart.setScale(1.5);
+                buttonStartText.setFontSize(40);
+            });
 
         buttonStart.on('pointerdown' , ()=>{   
             
