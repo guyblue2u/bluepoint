@@ -37,6 +37,10 @@ var loading = new Phaser.Class({
         this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml');		//load the font
         this.load.spritesheet("ZZZIcon" , "./assets/images/white z.png" , {frameWidth:36 , frameHeight:36} ) // zzz when sleeping
       
+        this.load.image("facebook","./assets/images/facebook.png");
+        this.load.image("twitter","./assets/images/twitter.png");
+
+
         this.load.audio("song" , "./assets/audio/Gutted.mp3");
         text = this.add.text(350,300,"Loading...",{ fontFamily: 'ZCOOL QingKe HuangYou', fontSize: 50})
 

@@ -98,7 +98,26 @@ var hud = new Phaser.Class({
         }).stop();
         
 
+        //social media
+        this.facebook=this.add.image(40,40,"facebook").setScale(0.4);
+        this.facebook.setInteractive();
+        this.facebook.on('pointerdown' , ()=>{   
+            shareFacebook();
+        });
 
+        this.facebook.on('pointerover', ()=> {	this.facebook.setScale(0.5);});
+        this.facebook.on('pointerout', ()=> {	this.facebook.setScale(0.4);});
+
+
+
+        this.twitter=this.add.image(100,40,"twitter").setScale(0.4);
+        this.twitter.setInteractive();
+        this.twitter.on('pointerdown' , ()=>{   
+            shareTwitter();
+        });
+
+        this.twitter.on('pointerover', ()=> {	this.twitter.setScale(0.5);});
+        this.twitter.on('pointerout', ()=> {	this.twitter.setScale(0.4);});
 
 
         // ----------------- Score
