@@ -116,19 +116,19 @@ var menu = new Phaser.Class({
         buttonStart.on('pointerdown' , ()=>{           
             music.play();
             console.log(music.isPlaying);
-            while(!music.isPlaying){
-                console.log("no está sonando")
-            }
+            // while(!music.isPlaying){
+            //     console.log("no está sonando")
+            // }
     
-            this.scene.start("mainScene");
+            // this.scene.start("mainScene");
         })
 
 
     },
 
     update: function(){
-        // console.log(music.isPlaying)
-        // if(music.isPlaying) this.scene.start("mainScene");
+
+        if(music.isPlaying) this.scene.start("mainScene");
     }
 
     
