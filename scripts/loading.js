@@ -113,18 +113,23 @@ var menu = new Phaser.Class({
                 buttonStartText.setFontSize(40);
             });
 
-        buttonStart.on('pointerdown' , ()=>{   
-            
-            this.scene.start("mainScene");
+        buttonStart.on('pointerdown' , ()=>{           
             music.play();
+            console.log(music.isPlaying);
+            while(!music.isPlaying){
+                console.log("no está sonando")
+            }
+    
+            this.scene.start("mainScene");
         })
-
-        
 
 
     },
 
-    update: function(){}
+    update: function(){
+        // console.log(music.isPlaying)
+        // if(music.isPlaying) this.scene.start("mainScene");
+    }
 
     
 })

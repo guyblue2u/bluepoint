@@ -2,7 +2,7 @@ const left=37;
 const up=38;
 const right=39;
 const down=40;
-const speed=1;
+const speed=0.8;
 const radiusInteraction=30;
 let shirt="Blue";
 let NPCS=[];
@@ -61,20 +61,20 @@ let player={
 
     moveJoystic(x,y){
         // movement
-        if(x>20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x+speed,this.avatar.y+16) 
+        if(x>30 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x+speed,this.avatar.y+16) 
         && !checkColisionNPCS(this.avatar.x+speed,this.avatar.y+16)){ 
             this.avatar.x+=speed;
         }
-        if(x<-20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x-speed,this.avatar.y+16)
+        if(x<-30 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x-speed,this.avatar.y+16)
         && !checkColisionNPCS(this.avatar.x-speed,this.avatar.y+16)) {
             this.avatar.x-=speed;
         }
-        if(y<-20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+16-speed)
+        if(y<-30 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+16-speed)
         && !checkColisionNPCS(this.avatar.x,this.avatar.y+16-speed)){
              this.avatar.y-=speed;
              this.avatar.depth=this.avatar.y;
         }
-        if(y>20 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+16+speed) 
+        if(y>30 && Phaser.Geom.Polygon.Contains(poly,this.avatar.x,this.avatar.y+16+speed) 
         && !checkColisionNPCS(this.avatar.x,this.avatar.y+16+speed)) {
             this.avatar.y+=speed;
             this.avatar.depth=this.avatar.y;
@@ -158,7 +158,7 @@ let Nick = new NPC ("Nick" , 300, 150 , "Shhh... I hear they record the shows he
 let Jon = new NPC ("Jon" , 330 , 180 , "I threw up last time I saw these guys.", "Don’t worry, it probably won’t happen this time" , 0,2);
 
 // without rotation
-let Sally = new NPC ("Sally" , 100, 110 , "You shouldn’t sit on this couch. It’s disgusting." , null , null,13);
+let Sally = new NPC ("Sally" , 100, 110 , "You shouldn’t sit on this couch. It’s disgusting." , null , 11,13);
 let Benny = new NPC ("Benny" , 140, 100 , "I don’t care what she thinks. This couch is comfy" , null,null,121);
 
 // without rotation , with sequential interaction
@@ -192,15 +192,15 @@ Aaron.sequence=Sam.sequence;
 
 
 let Alex = new NPC("Alex" , 235, 87, "You wanna buy a shirt? Sure thing." , "You already have a shirt.",null,132);
-let Door1= new NPC("Door" , 180,55,"It's locked", "I don’t want to leave yet, we gotta do something!",null,null);
-let Door2= new NPC("Door" ,350,105,"It's locked", "I don’t want to leave yet, we gotta do something!",null,null);
-let Exit= new NPC("Exit" , 80,115," I don’t want to leave yet, the concert just started.", "I don’t want to leave yet, we gotta do something!",null,null);
+let Door1= new NPC("Guy Blue" , 180,55,"It's locked", "I don’t want to leave yet, we gotta do something!",null,null);
+let Door2= new NPC("Guy Blue" ,350,105,"It's locked", "I don’t want to leave yet, we gotta do something!",null,null);
+let Exit= new NPC("Guy Blue" , 80,115," I don’t want to leave yet, the concert just started.", "I don’t want to leave yet, we gotta do something!",null,null);
 
 
 // without interaction
 let drummer= new NPC("Drummer" , 380,150 , "" ,"", null,165)
-let bassist= new NPC("Bassist" , 400,185 , "slap* slap" ,"", null,143)
-let guitarist= new NPC("Guitarist" , 330,140 , "can’t you see I’m shredding?" ,"", null,154)
+let bassist= new NPC("Bassist" , 400,185 , "slap* slap" ,null, null,143)
+let guitarist= new NPC("Guitarist" , 330,140 , "can’t you see I’m shredding?" ,null, null,154)
 
 
 

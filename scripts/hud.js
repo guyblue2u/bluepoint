@@ -63,7 +63,7 @@ var hud = new Phaser.Class({
         textDialogue=this.add.text(400,100, "here is the message" , { fontFamily: 'ZCOOL QingKe HuangYou' ,wordWrap: { width: 450, useAdvancedWrap: true } }).setFontSize(25);
         textDialogue.setOrigin(0.5,0.5);
 
-        textInstruction = this.add.text(500,160,"Press any button to continue",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
+        textInstruction = this.add.text(480,160,"Press space bar or interact to continue",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
         textInstruction.setOrigin(0.5,0.5);
 
         buttonInteract=this.add.image(880,470,"interactButton");
@@ -222,6 +222,7 @@ var hud = new Phaser.Class({
             buttonsLocked=true;
             joystickLocked=true;
             player.avatar.play("idleDown"+shirt);
+            textInstruction.visible=false;
             showDialogue("What the hell is happening? We have to wake these people up!");
         });
 
@@ -250,7 +251,7 @@ var hud = new Phaser.Class({
             this.scene.resume();
         });
 
-        //this.texto=this.add.text(10,10,"aaaaaa");
+        this.texto=this.add.text(10,10,"aaaaaa");
 
     },
 
@@ -258,11 +259,11 @@ var hud = new Phaser.Class({
 
         time+=delta;
 
-        //this.texto.text=Math.floor( (time+initialTime)/1000);
+        this.texto.text=Math.floor( (time+initialTime)/1000);
 
         if(showingDialogue) timeShowingDialog+=delta;
 
-        if (showingDialogue && timeShowingDialog>4000) hideDialogue();
+        if (showingDialogue && timeShowingDialog>3000) hideDialogue();
 
 
         let nearest=minDistance();
@@ -270,12 +271,12 @@ var hud = new Phaser.Class({
             buttonInteract.visible=true;
             buttonStartText.visible=true;
             if(nearest[1].sleeping===1) {
-                if(nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
+                if(nearest[1].name!=="Guy Blue"){
                     buttonStartText.text="wake up " + nearest[1]["name"] + "!";
                 }
             }
             else { 
-                if(nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
+                if(nearest[1].name!=="Guy Blue"){
                     if(nearest[1].sequence!==undefined) buttonStartText.text="talk to " + nearest[1].sequence.sequentialName;
                     
                     else buttonStartText.text="talk to " + nearest[1]["name"];
@@ -394,7 +395,7 @@ function interact(){
                         player.move(up);
                     }
                     textDialogue.text=nearest[1]["message1"];
-                        if(nearest[1].message2!==null && nearest[1].name!=="Door" && nearest[1].name!=="Exit"){
+                        if(nearest[1].message2!==null && nearest[1].name!=="Guy Blue"){
                             nearest[1].message=1;
                         }
                 }
