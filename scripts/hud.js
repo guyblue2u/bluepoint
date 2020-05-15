@@ -14,6 +14,8 @@ let timeText;
 let iconZZZ;
 let scoreTitleText;
 
+let textToShow="";
+
 let sequentialText=false;
 let nextText;
 
@@ -61,10 +63,10 @@ var hud = new Phaser.Class({
         textTitle=this.add.text(400, 40, 'Hello World', { fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(35);
         textTitle.setOrigin(0.5,0.5);
 
-        textDialogue=this.add.text(400,100, "here is the message" , { fontFamily: 'ZCOOL QingKe HuangYou' ,wordWrap: { width: 450, useAdvancedWrap: true } }).setFontSize(25);
-        textDialogue.setOrigin(0.5,0.5);
+        textDialogue=this.add.text(200,70, "here is the message" , { fontFamily: 'ZCOOL QingKe HuangYou' ,wordWrap: { width: 450, useAdvancedWrap: true } ,  align:'left' }).setFontSize(25);
+        //textDialogue.setOrigin(0.5,0.5);
 
-        textInstruction = this.add.text(480,160,"Press space bar or interact to continue",{ fontFamily: 'ZCOOL QingKe HuangYou' }).setFontSize(20);
+        textInstruction = this.add.text(480,160,"Press space bar or interact to continue",{ fontFamily: 'ZCOOL QingKe HuangYou'}).setFontSize(20);
         textInstruction.setOrigin(0.5,0.5);
 
         buttonInteract=this.add.image(880,470,"interactButton");
@@ -404,6 +406,7 @@ var hud = new Phaser.Class({
         })
 
         if(this.joyStick!=null)  this.dumpJoyStickState();
+        if(showDialogue) textDialogue.text=textToShow;
 
     } ,
         
@@ -418,7 +421,8 @@ var hud = new Phaser.Class({
 function hideDialogue(){
     if(sequentialText){
         timeShowingDialog=0;
-        textDialogue.text=nextText.message;
+        //textDialogue.text=nextText.message;
+        textWriting(nextText.message);
         textTitle.text=nextText.title;
         sequentialText=false;
     }
@@ -454,6 +458,7 @@ function endAllDialogs(){   // hide any dialog when NPCS go to sleep
 
 function showDialogue(message){
     if (message!=null){
+        textWriting(message);
         textDialogue.text=message;
         textTitle.text="Guy Blue"
         timeShowingDialog=0;
@@ -485,13 +490,15 @@ function interact(){
                         shirt="Red";
                         player.move(up);
                     }
-                    textDialogue.text=nearest[1]["message1"];
+                    textWriting(nearest[1]["message1"]);
+                    //textDialogue.text=nearest[1]["message1"];
                         if(nearest[1].message2!==null && nearest[1].name!=="Guy Blue"){
                             nearest[1].message=1;
                         }
                 }
                 else if(nearest[1].message===1){
-                    textDialogue.text=nearest[1]["message2"];
+                    textWriting(nearest[1]["message2"]);
+                    //textDialogue.text=nearest[1]["message2"];
                 }
                 NpcLookPlayer(nearest[1]);
             }
@@ -502,12 +509,14 @@ function interact(){
                 nextText={title:nearest[1]["sequence"]["name2"] , message:nearest[1]["sequence"]["msg2_1"] }
                 if(nearest[1].sequence.message===0){
                     
-                    textDialogue.text=nearest[1]["sequence"]["msg1_1"];
+                    textWriting(nearest[1]["sequence"]["msg1_1"]);
+                    //textDialogue.text=nearest[1]["sequence"]["msg1_1"];
                     nextText={title:nearest[1]["sequence"]["name2"] , message:nearest[1]["sequence"]["msg2_1"] };  
                     if(nearest[1].sequence["msg1_2"]!==null) nearest[1].sequence.message=1;
                 }
                 else{
-                    textDialogue.text=nearest[1]["sequence"]["msg1_2"];
+                    //textDialogue.text=nearest[1]["sequence"]["msg1_2"];
+                    textWriting(nearest[1]["sequence"]["msg1_2"]);
                     nextText={title:nearest[1]["sequence"]["name2"] , message:nearest[1]["sequence"]["msg2_2"] }
                 }
                     
@@ -530,23 +539,29 @@ function interact(){
 }
 
 function copyStringToClipboard () {
-    // Create new element
     var el = document.createElement('textarea');
-    // Set value (string to be copied)
     el.value = window.location.href;
-    // Set non-editable to avoid focus and move outside of view
     el.setAttribute('readonly', '');
     el.style = {position: 'absolute', left: '-9999px'};
     document.body.appendChild(el);
-    // Select text inside element
     el.select();
-    // Copy text to clipboard
     document.execCommand('copy');
-    // Remove temporary element
     document.body.removeChild(el);
  }
 
+ async function textWriting(text){
+    let splittedWords = text.split(" ");
+    timeInBetween=Math.floor(2000/splittedWords.length)
+    textToShow="";
+    for(let i=0;i<splittedWords.length;i++){
+        textToShow+=splittedWords[i]+" ";
+        await sleep(timeInBetween);
+       // console.log(textToShow);
+    }
+ }
 
-
+ function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 
