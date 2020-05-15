@@ -53,6 +53,7 @@ var hud = new Phaser.Class({
     },
 
     create: function(){
+        music.play();
         dialogueWindow= this.add.image(400,100 , "messageBoard");
         dialogueWindow.scaleX=3.5;
         dialogueWindow.scaleY=1.7;
