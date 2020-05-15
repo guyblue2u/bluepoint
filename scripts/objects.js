@@ -291,7 +291,7 @@ function hideAllCharacters(){
 
 function shareTwitter(){        //share score on twitter        
     var tweetbegin = 'https://twitter.com/intent/tweet?text=';   
-    var tweettxt = 'I%20scored%20'+score+'%20at%20this%20game%20-&url='+ 'https://www.facebook.com/sharer/sharer.php?u=' + window.location.href;;    
+    var tweettxt = 'I%20scored%20'+score+'%20at%20this%20game%20-&url='+ window.location.href;;    
     var finaltweet = tweetbegin +tweettxt;
     window.open(finaltweet,'_blank');    
 }
