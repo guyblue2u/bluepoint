@@ -592,7 +592,7 @@ var mainScene = new Phaser.Class({
             bloom.visible=true;
         });
 
-        timedEvent = this.time.delayedCall(140000+ initialTime, ()=>{
+        timedEvent = this.time.delayedCall(141000+ initialTime, ()=>{
             background.setTexture("background_2");
             this.table.visible=false;
             this.drums.visible=false;

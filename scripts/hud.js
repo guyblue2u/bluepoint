@@ -82,8 +82,6 @@ var hud = new Phaser.Class({
         textInstruction.visible=false;
         dialogueWindow.visible=false;
 
-        let NPCDIalogueIndex=-1;
-
         // GeneralInstructions
         this.instructionText = this.add.text(300,450,"WASD or arrows to move \n Spacebar or Enter to interact",{ fontFamily: 'ZCOOL QingKe HuangYou' ,fontSize:30, align:'center'});
 
@@ -98,19 +96,64 @@ var hud = new Phaser.Class({
         }).stop();
         
 
-        //social media
-        this.facebook=this.add.image(40,40,"facebook").setScale(0.4);
+        //----------------------------------------S O C I A L     M E D I A
+        //---------------Share button
+        this.share=this.add.image(40,40,"shareIcon").setScale(0.09);
+        this.share.setInteractive();
+        this.share.on('pointerover', ()=> {	this.share.setScale(0.1);});
+        this.share.on('pointerout', ()=> {	this.share.setScale(0.09);});
+        this.share.on('pointerdown' , ()=>{   
+            if(!this.facebook.visible){     // show the icons
+                this.facebook.visible=true;
+                this.facebook.tweenIn.play();
+                this.twitter.visible=true;
+                this.twitter.tweenIn.play();
+                this.copyURL.visible=true;
+                this.copyURL.tweenIn.play();
+            }
+            else{  //hide the icons
+                this.time.delayedCall(200, ()=>{
+                    this.facebook.visible=false;
+                    this.twitter.visible=false;
+                    this.copyURL.visible=false;
+                });
+                this.facebook.tweenOut.play();               
+                this.twitter.tweenOut.play();
+                this.copyURL.tweenOut.play();
+
+            }
+        });
+
+
+        //---------------Facebook
+        this.facebook=this.add.image(40,100,"facebook").setScale(0.4).setVisible(false);
         this.facebook.setInteractive();
         this.facebook.on('pointerdown' , ()=>{   
             shareFacebook();
+            
         });
 
         this.facebook.on('pointerover', ()=> {	this.facebook.setScale(0.5);});
         this.facebook.on('pointerout', ()=> {	this.facebook.setScale(0.4);});
 
+        this.facebook.tweenIn=this.tweens.add({
+            targets: this.facebook,
+            y: { from: 40, to: 100 },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        });
 
+        this.facebook.tweenOut=this.tweens.add({
+            targets: this.facebook,
+            y: { from: 100, to: 40 },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        });
 
-        this.twitter=this.add.image(100,40,"twitter").setScale(0.4);
+        //----------------Twitter
+        this.twitter=this.add.image(40,160,"twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
         this.twitter.on('pointerdown' , ()=>{   
             shareTwitter();
@@ -118,6 +161,52 @@ var hud = new Phaser.Class({
 
         this.twitter.on('pointerover', ()=> {	this.twitter.setScale(0.5);});
         this.twitter.on('pointerout', ()=> {	this.twitter.setScale(0.4);});
+
+        this.twitter.tweenIn=this.tweens.add({
+            targets: this.twitter,
+            y: { from: 40, to: 150 },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        });
+
+        
+        this.twitter.tweenOut=this.tweens.add({
+            targets: this.twitter,
+            y: { from: 150, to: 40 },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        });
+
+         //----------------Copy to clipboard
+         this.copyURL=this.add.image(40,210,"copyIcon").setScale(1).setVisible(false);
+         this.copyURL.setInteractive();
+         this.copyURL.on('pointerdown' , ()=>{   
+             copyStringToClipboard();
+         });
+ 
+         this.copyURL.on('pointerover', ()=> {	this.copyURL.setScale(1.2);});
+         this.copyURL.on('pointerout', ()=> {	this.copyURL.setScale(1);});
+ 
+         this.copyURL.tweenIn=this.tweens.add({
+             targets: this.copyURL,
+             y: { from: 40, to: 210 },
+             duration: 200,
+             ease: 'Linear',
+             loop: 0,
+         });
+ 
+         
+         this.copyURL.tweenOut=this.tweens.add({
+             targets: this.copyURL,
+             y: { from: 210, to: 40 },
+             duration: 200,
+             ease: 'Linear',
+             loop: 0,
+         });
+ 
+
 
 
         // ----------------- Score
@@ -259,8 +348,8 @@ var hud = new Phaser.Class({
 
         time+=delta;
 
-        this.texto.text=Math.floor( (time+initialTime)/1000);
-
+        this.texto.text=Math.floor( (time+initialTime)/10)/100 + "- Audio:" + Math.floor(music.seek*100)/100;
+        
         if(showingDialogue) timeShowingDialog+=delta;
 
         if (showingDialogue && timeShowingDialog>3000) hideDialogue();
@@ -320,8 +409,9 @@ var hud = new Phaser.Class({
     dumpJoyStickState: function() {
         if(!joystickLocked)
             player.moveJoystic(this.joyStick.forceX,this.joyStick.forceY)
-    }   
+    }  , 
     
+
 })
 
 function hideDialogue(){
@@ -438,7 +528,22 @@ function interact(){
     }
 }
 
-
+function copyStringToClipboard () {
+    // Create new element
+    var el = document.createElement('textarea');
+    // Set value (string to be copied)
+    el.value = window.location.href;
+    // Set non-editable to avoid focus and move outside of view
+    el.setAttribute('readonly', '');
+    el.style = {position: 'absolute', left: '-9999px'};
+    document.body.appendChild(el);
+    // Select text inside element
+    el.select();
+    // Copy text to clipboard
+    document.execCommand('copy');
+    // Remove temporary element
+    document.body.removeChild(el);
+ }
 
 
 

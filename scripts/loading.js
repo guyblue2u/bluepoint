@@ -39,7 +39,8 @@ var loading = new Phaser.Class({
       
         this.load.image("facebook","./assets/images/facebook.png");
         this.load.image("twitter","./assets/images/twitter.png");
-
+        this.load.image("shareIcon","./assets/images/pngwave.png");
+        this.load.image("copyIcon","./assets/images/copy.png");
 
         this.load.audio("song" , "./assets/audio/Gutted.mp3");
         text = this.add.text(350,300,"Loading...",{ fontFamily: 'ZCOOL QingKe HuangYou', fontSize: 50})
