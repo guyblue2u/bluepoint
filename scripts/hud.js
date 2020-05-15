@@ -343,7 +343,7 @@ var hud = new Phaser.Class({
             this.scene.resume();
         });
 
-        this.texto=this.add.text(10,10,"aaaaaa");
+        //this.texto=this.add.text(10,10,"");
 
     },
 
@@ -351,7 +351,7 @@ var hud = new Phaser.Class({
 
         time+=delta;
 
-        this.texto.text=Math.floor( (time+initialTime)/10)/100 + "- Audio:" + Math.floor(music.seek*100)/100;
+        //this.texto.text=Math.floor( (time+initialTime)/10)/100 + "- Audio:" + Math.floor(music.seek*100)/100;
         
         if(showingDialogue) timeShowingDialog+=delta;
 
