@@ -54,7 +54,7 @@ var loading = new Phaser.Class({
     },
 
     create: function(){
-        pruebaa=WebFont.load({
+        WebFont.load({
             google: {
                 families: [ 'ZCOOL QingKe HuangYou']
             },
@@ -101,7 +101,7 @@ var menu = new Phaser.Class({
         let buttonStartText=this.add.text(440,230,"Start",{ fontFamily: 'ZCOOL QingKe HuangYou', fontSize: 40})
         buttonStartText.setOrigin(0.5,0.5);
 
-        music=this.sound.add('song');
+        music=this.sound.add('song',{delay:0});
 
 
 

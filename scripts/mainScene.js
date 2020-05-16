@@ -1,20 +1,14 @@
-let prueba;
 
-let upKey;
-let downKey;
-let rightKey;
-let leftKey;
-let AKey;
-let SKey;
-let DKey;
-let WKey;
 let bloom;
 const initialTime=10;
 let poly;
 let background;
 
-let joystickLocked=true;
-let buttonsLocked=false;
+let controls={
+    joystickLocked:true,
+    buttonsLocked:false
+}
+
 
 var mainScene = new Phaser.Class({
 
@@ -500,32 +494,32 @@ var mainScene = new Phaser.Class({
         player["avatar"].play("idleDownBlue");
 
         this.input.keyboard.on('keyup', (event)=> {
-            if(!joystickLocked)
+            if(!controls.joystickLocked)
                 player.returnToIdle();
             player.direction=null;
             player.moving=false;
         })
 
-        upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        AKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        SKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        DKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        WKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.AKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.SKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.DKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.WKey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
         // polygon for the floor boundaries
         poly=new Phaser.Geom.Polygon([new Phaser.Geom.Point(0,257.33),new Phaser.Geom.Point(0,210.39),new Phaser.Geom.Point(5.22,204.13),new Phaser.Geom.Point(14.95,204.13),new Phaser.Geom.Point(39.3,180.13),new Phaser.Geom.Point(43.82,180.13),new Phaser.Geom.Point(63.64,160.66),new Phaser.Geom.Point(52.86,157.88),new Phaser.Geom.Point(95.98,114.76),new Phaser.Geom.Point(119.28,128.67),new Phaser.Geom.Point(146.4,114.76),new Phaser.Geom.Point(148.14,97.02),new Phaser.Geom.Point(199.95,98.06),new Phaser.Geom.Point(199.95,113.36),new Phaser.Geom.Point(269.16,112.32),new Phaser.Geom.Point(269.5,98.06),new Phaser.Geom.Point(316.45,98.06),new Phaser.Geom.Point(353.66,132.84),new Phaser.Geom.Point(296.28,132.84),new Phaser.Geom.Point(295.58,143.27),new Phaser.Geom.Point(374.52,222.56),new Phaser.Geom.Point(440.59,220.82),new Phaser.Geom.Point(443.03,223.25),new Phaser.Geom.Point(443.03,258.03),new Phaser.Geom.Point(0,257.33)]);
 
-        prueba=this.game;
+      
         this.cameras.main.zoom=4;
         this.cameras.main.startFollow(player.avatar, true)
         this.cameras.main.setBounds(0,20,440,250 );
 
 
-        buttonsLocked=true;
+        controls.buttonsLocked=true;
         
 
 
@@ -599,11 +593,12 @@ var mainScene = new Phaser.Class({
             this.speakers.visible=false;
             this.discoball.visible=false;
 
-            buttonsLocked=true;
-            joystickLocked=true;
+            controls.buttonsLocked=true;
+            controls.joystickLocked=true;
             player.avatar.play("idleDown" + shirt);
             bloom.visible=false;
             hideAllCharacters();
+            console.log("end gamepart in: " + song.seek);
          })
 
          timedEvent = this.time.delayedCall(144000+ initialTime, ()=>{
@@ -634,18 +629,18 @@ var mainScene = new Phaser.Class({
 
     update: function(time,delta){
 
-        if(!joystickLocked)
+        if(!controls.joystickLocked)
         {       
-            if (downKey.isDown || SKey.isDown){
+            if (this.downKey.isDown || this.SKey.isDown){
                 player.move(down)
             }
-            if (upKey.isDown || WKey.isDown){
+            if (this.upKey.isDown || this.WKey.isDown){
                 player.move(up)
             }
-            if (rightKey.isDown || DKey.isDown){
+            if (this.rightKey.isDown || this.DKey.isDown){
                 player.move(right)
             }
-            if (leftKey.isDown || AKey.isDown){
+            if (this.leftKey.isDown || this.AKey.isDown){
                 player.move(left)
             }
         }

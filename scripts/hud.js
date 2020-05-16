@@ -22,7 +22,8 @@ let nextText;
 let testVariable=false;
 let PKey;
 
-
+let prueba;
+let putavariable;
 let timeShowingDialog=0;
 
 window.mobileAndTabletCheck = function() {
@@ -55,7 +56,37 @@ var hud = new Phaser.Class({
     },
 
     create: function(){
-        music.play();
+
+
+        this.eventTyping=undefined;
+
+        this.typingEffect=(text)=>{
+            let i=0;
+            if(this.eventTyping!==undefined) this.eventTyping.remove(false);
+            putavariable=this.time.addEvent({
+            delay: 500,                // ms
+            callback: (text)=>{    
+                let splittedWords = text.split(" ");
+                timeInBetween=Math.floor(2000/splittedWords.length)
+                textToShow="";           
+                //textToShow+=splittedWords[i]+" ";
+                console.log(splittedWords[i]);
+                i++
+            },
+            args: [text],
+            repeat: 4
+        });},
+
+
+
+
+
+
+
+
+
+        
+        
         dialogueWindow= this.add.image(400,100 , "messageBoard");
         dialogueWindow.scaleX=3.5;
         dialogueWindow.scaleY=1.7;
@@ -106,6 +137,10 @@ var hud = new Phaser.Class({
         this.share.on('pointerover', ()=> {	this.share.setScale(0.1);});
         this.share.on('pointerout', ()=> {	this.share.setScale(0.09);});
         this.share.on('pointerdown' , ()=>{   
+
+
+            this.typingEffect("esta es una prueba");
+
             if(!this.facebook.visible){     // show the icons
                 this.facebook.visible=true;
                 this.facebook.tweenIn.play();
@@ -226,12 +261,12 @@ var hud = new Phaser.Class({
 
         this.input.keyboard.on('keydown_ENTER', function (event) {
             if(!showingDialogue) interact();
-            else if(!buttonsLocked) hideDialogue();
+            else if(!controls.buttonsLocked) hideDialogue();
         });
 
         this.input.keyboard.on('keydown_SPACE', function (event) {
             if(!showingDialogue) interact();
-            else if(!buttonsLocked)hideDialogue();
+            else if(!controls.buttonsLocked)hideDialogue();
         });
 
 
@@ -242,13 +277,13 @@ var hud = new Phaser.Class({
 
         buttonInteract.on('pointerdown' , ()=>{   
             if(!showingDialogue) interact();
-            else if(!buttonsLocked) hideDialogue();
+            else if(!controls.buttonsLocked) hideDialogue();
         });
 
-        this.input.on('pointerdown' , ()=>{
+        // this.input.on('pointerdown' , ()=>{
             
-            if(showingDialogue && timeShowingDialog>100 && !buttonsLocked) hideDialogue();
-        })
+        //     if(showingDialogue && timeShowingDialog>100 && !buttonsLocked) hideDialogue();
+        // })
         
         if(window.mobileAndTabletCheck()){ //--------------------MOBILE
             // ------------------------- Joystick
@@ -267,6 +302,7 @@ var hud = new Phaser.Class({
             buttonStartText.y=440;
 
             this.instructionText.text="use the virtual joystick to move \n Press the button to interact"
+            textInstruction.text="Press interact to continue"
         }
         else {      //-------------------DESKTOP
             buttonInteract.on('pointerover', ()=> {	buttonInteract.setScale(1,1.1);});
@@ -275,7 +311,6 @@ var hud = new Phaser.Class({
 
 
         // ------------------------- Time events
-        console.log("initial time: " +initialTime)
         timedEvent = this.time.delayedCall(50+ initialTime, ()=>{
             showDialogue("This is one of my favorite spots, Shea Stadium.");
             textInstruction.visible=false;
@@ -288,8 +323,8 @@ var hud = new Phaser.Class({
 
         timedEvent =this.time.delayedCall(6000+initialTime, ()=>{
             this.instructionText.visible=true;
-            joystickLocked=false;
-            buttonsLocked=false;
+            controls.joystickLocked=false;
+            controls.buttonsLocked=false;
         })
 
 
@@ -301,7 +336,7 @@ var hud = new Phaser.Class({
 
             if(showingDialogue) endAllDialogs();
             sleepEveryone();
-
+            console.log("people sleeping in: " + music.seek);
             //doors now show the secondary message
             NPCS[16].message=1;
             NPCS[17].message=1;
@@ -311,16 +346,16 @@ var hud = new Phaser.Class({
         });
 
         timedEvent = this.time.delayedCall(70000+ initialTime, ()=>{
-            buttonsLocked=true;
-            joystickLocked=true;
-            player.avatar.play("idleDown"+shirt);
-            textInstruction.visible=false;
+            controls.buttonsLocked=true;
+            controls.joystickLocked=true;
+            player.avatar.play("idleDown"+shirt);         
             showDialogue("What the hell is happening? We have to wake these people up!");
+            textInstruction.visible=false;
         });
 
         timedEvent = this.time.delayedCall(74000+ initialTime, ()=>{ 
-            buttonsLocked=false;
-            joystickLocked=false;
+            controls.buttonsLocked=false;
+            controls.joystickLocked=false;
             showScore();
             this.instructionText.visible=true;
             flashingTextTween.play();
@@ -343,15 +378,28 @@ var hud = new Phaser.Class({
             this.scene.resume();
         });
 
-        //this.texto=this.add.text(10,10,"");
 
+        var i=0;
+        // test to create an event
+
+
+
+        console.log(this.time)
+        
+        this.texto=this.add.text(10,10,"");
+        music.play();
+
+        
     },
 
     update: function(t,delta){
 
-        time+=delta;
+        
 
-        //this.texto.text=Math.floor( (time+initialTime)/10)/100 + "- Audio:" + Math.floor(music.seek*100)/100;
+        time+=delta;
+        //console.log(time+initialTime, music.seek)
+
+        this.texto.text= Math.floor((Math.floor( (time+initialTime)/10)/100 - Math.floor(music.seek*100)/100)*10)/10;
         
         if(showingDialogue) timeShowingDialog+=delta;
 
@@ -411,7 +459,7 @@ var hud = new Phaser.Class({
     } ,
         
     dumpJoyStickState: function() {
-        if(!joystickLocked)
+        if(!controls.joystickLocked)
             player.moveJoystic(this.joyStick.forceX,this.joyStick.forceY)
     }  , 
     

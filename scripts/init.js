@@ -10,9 +10,9 @@ const config={
 	type: Phaser.AUTO,
 	scene: [ loading , menu , mainScene ,hud ],
 	transparent: true,
-	audio: {
-		disableWebAudio: true,
-    }
+	// audio: {
+	// 	disableWebAudio: true,
+    // }
 }
 let loadingMain=0;
 let loadingHUD=0; 
