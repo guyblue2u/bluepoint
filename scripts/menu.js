@@ -49,9 +49,128 @@ var menu = new Phaser.Class({
 
 
 
+        //-------------hamburger icon
+        this.hamburguer = this.add.image(820, 50, "hambugerIcon").setScale(0.5).setInteractive();
+
+        this.hamburguer.on('pointerover', () => {
+            this.hamburguer.setScale(0.6);
+        });
+        this.hamburguer.on('pointerout', () => {
+            this.hamburguer.setScale(0.5);
+        });
+
+        this.hamburguer.on('pointerdown', () => {
+            if (!this.loserBoardRect.visible) { // show the icons
+                this.loserBoardRect.visible = true;
+                this.loserBoardRect.tweenIn.play();
+                this.MapRect.visible = true;
+                this.MapRect.tweenIn.play();
+                this.time.delayedCall(200, () => {
+                    this.loserBoardtext.setVisible(true);
+                    this.Maptext.setVisible(true);
+
+                });
+
+            } else { //hide the icons
+                this.loserBoardtext.setVisible(false);
+                this.Maptext.setVisible(false);
+                this.time.delayedCall(200, () => {
+                    this.loserBoardRect.visible = false;
+                    this.MapRect.visible = false;
+
+                });
+                this.loserBoardRect.tweenOut.play();
+                this.MapRect.tweenOut.play();
+
+            }
+        })
+
+
+        // link to loserboard
+        this.loserBoardRect = this.add.rectangle(750, 140, 200, 30).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
+        this.loserBoardtext = this.add.text(750, 140, "Loser Board", {
+            fontFamily: 'euroStyle',
+            fontSize: 20
+        }).setOrigin(0.5, 0.5).setVisible(false);
+
+        this.loserBoardRect.on('pointerover', () => {
+            this.loserBoardRect.setFillStyle(0x4063FF, 1);
+        });
+        this.loserBoardRect.on('pointerout', () => {
+            this.loserBoardRect.setFillStyle(0x4063FF, 0.6);
+        });
+
+        this.loserBoardRect.on('pointerdown', () => {
+            this.scene.start("loserBoard", {
+                type: 3,
+                name: null,
+                score: 0
+            })
+        });
+
+        this.loserBoardRect.tweenIn = this.tweens.add({
+            targets: this.loserBoardRect,
+            y: {
+                from: 40,
+                to: 140
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+        this.loserBoardRect.tweenOut = this.tweens.add({
+            targets: this.loserBoardRect,
+            y: {
+                from: 140,
+                to: 40
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+
+
+        // ----------link to Map
+        this.MapRect = this.add.rectangle(750, 200, 200, 30).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
+        this.Maptext = this.add.text(750, 200, "Map", {
+            fontFamily: 'euroStyle',
+            fontSize: 20
+        }).setOrigin(0.5, 0.5).setVisible(false);
+
+        this.MapRect.on('pointerover', () => {
+            this.MapRect.setFillStyle(0x4063FF, 1);
+        });
+        this.MapRect.on('pointerout', () => {
+            this.MapRect.setFillStyle(0x4063FF, 0.6);
+        });
+
+        this.MapRect.tweenIn = this.tweens.add({
+            targets: this.MapRect,
+            y: {
+                from: 40,
+                to: 200
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+        this.MapRect.tweenOut = this.tweens.add({
+            targets: this.MapRect,
+            y: {
+                from: 200,
+                to: 40
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+
         //---------------Share button
-        this.share = this.add.image(40, 40, "shareIcon").setScale(0.09);
-        this.share.setInteractive();
+        this.share = this.add.image(40, 40, "shareIcon").setScale(0.09).setInteractive();
         this.share.on('pointerover', () => {
             this.share.setScale(0.1);
         });
@@ -179,18 +298,28 @@ var menu = new Phaser.Class({
             ease: 'Linear',
             loop: 0,
         });
-
-
-
+        this.copyURL.tweenOut = this.tweens.add({
+            targets: this.copyURL,
+            y: {
+                from: 150,
+                to: 40
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        });
 
 
 
         this.input.keyboard.on('keydown_SPACE', (event) => {
             if (!this.rectangleDialog.visible)
-                this.startMessage();
-            else
-                this.typingEffect();
+                if (this.flashingText.visible) this.startMessage();
+                else
+                    this.typingEffect();
         });
+
+
+
 
         this.flashingText.on('pointerdown', () => {
             if (!this.rectangleDialog.visible)
@@ -275,14 +404,21 @@ var menu = new Phaser.Class({
             tr: 10,
             bl: 10,
             br: 10
-        }).setVisible(false);
+        }).setVisible(false).setInteractive();
 
+        this.rectangleDialog = this.add.rectangle(400,375, 700, 150).setVisible(false).setInteractive().setFillStyle(0x4063FF, 0.6);
+
+
+
+        this.rectangleDialog.on('pointerdown', () => {
+            this.typingEffect();
+        })
 
 
         this.textDialog = this.add.text(120, 340, this.dialogMessages[this.currentMessageIndex], {
             fontFamily: 'euroStyle',
             wordWrap: {
-                width: 550,
+                width: 600,
                 useAdvancedWrap: true
             },
         }).setFontSize(25).setVisible(false);

@@ -32,36 +32,62 @@ var loserBoard = new Phaser.Class({
         this.xt1 = 152;
         this.xt2 = 320;
         this.yt1 = 133;
-        this.yt2 = 350;
+        this.yt2 = 320;
 
 
         graphics = this.add.graphics();
         graphics.fillStyle(0x4063FF, 0.6);
+        buttonGraphics = this.add.graphics();
+        buttonGraphics.fillStyle(0x334fcb);
         //elements of the window
-        this.rectangleDialog = graphics.fillRect(140, 100, 700, 400);
+        this.rectangleDialog = graphics.fillRect(100, 60, 720, 420);
 
-        console.log(this.sceneType)
+        this.textTile = this.add.text(400, 70, "Loser board ", {
+            fontFamily: 'euroStyle',
+            fontSize: 25
+        });
 
+  
         if (this.sceneType !== 3) { // if the scene is not type 3, show the score
-            this.add.text(600, 150, "your score")
-            this.scoretext = this.add.text(600, 200, this.score) // score
-            console.log(this.scoretext);
-            
+            this.add.text(650, 130, "your score", {
+                fontFamily: 'euroStyle',
+                fontSize: 18
+            })
+            this.scoretext = this.add.text(670, 160, this.score + " ", {
+                fontFamily: 'euroStyle',
+                fontSize: 40
+            }) // score
+
         }
 
         if (this.sceneType === 2) { // show the submit form
             this.yt2 = 240;
             // submit form
-            
-            this.form = this.add.dom(300, 400).createFromCache('form');
-            this.buttonSubmit = this.add.text(200, 430, "submit").setInteractive();
 
-            this.buttonSubmit.on('pointerdown', () => {
+            this.form = this.add.dom(320, 400).createFromCache('form').setScale(0.9);
 
-                yt2 = 350;
-                this.backgroundTable.commandBuffer[4] = yt2;
+            this.buttonSubmitRect = this.add.rectangle(330, 450, 200, 40).setFillStyle(0x334fcb).setInteractive();
+
+            this.buttonSubmit = this.add.text(280, 435, "submit", {
+                fontFamily: 'euroStyle',
+                fontSize: 25
+            });
+
+            this.buttonSubmitRect.on('pointerover', () => {
+                this.buttonSubmitRect.setFillStyle(0x1f317d);
+            });
+            this.buttonSubmitRect.on('pointerout', () => {
+                this.buttonSubmitRect.setFillStyle(0x334fcb);
+            });
+
+           
+            this.buttonSubmitRect.on('pointerdown', () => {
+
+                this.yt2 = 300;
+                this.backgroundTable.commandBuffer[7] = this.yt2;
                 this.buttonSubmit.visible = false;
                 this.form.visible = false;
+                this.buttonSubmitRect.visible = false;
 
                 var inputName = this.form.getChildByID('formName').value;
                 var inputEmail = this.form.getChildByID('formEmail').value;
@@ -74,35 +100,72 @@ var loserBoard = new Phaser.Class({
             })
         }
 
-
-
-
-
-        graphics.fillStyle(0xFFFFFF, 0.5);
         backgroundTableGraphics = this.add.graphics();
+        backgroundTableGraphics.fillStyle(0xffffff, 0.5);
         this.backgroundTable = backgroundTableGraphics.fillRect(this.xt1, this.yt1, this.xt2, this.yt2);
-
+ 
         container = this.add.container(0, 0); // container
 
         this.populateTable();
 
         this.zone = this.add.zone(this.xt1, this.yt1, this.xt2, this.yt2).setOrigin(0).setInteractive();
 
-       
-
-        this.buttonShare = graphics.fillRect(600, 250, 200, 50);
-        this.add.text(600, 250, "share score")
-
-        this.buttonPlayAgain = graphics.fillRect(600, 320, 200, 50);
-        this.add.text(600, 320, "Play again")
-
-        this.buttonNextLevel = graphics.fillRect(600, 390, 200, 50);
-        this.add.text(600, 390, "Next Level")
 
 
 
 
+        // share score
+        this.buttonShare = this.add.rectangle(700, 260, 200, 40).setFillStyle(0x334fcb).setInteractive();
+        this.add.text(650, 250, "Share score", {
+            fontFamily: 'euroStyle',
+            fontSize: 20
+        })
+        this.buttonShare.on('pointerover', () => {
+            this.buttonShare.setFillStyle(0x1f317d);
+        });
+        this.buttonShare.on('pointerout', () => {
+            this.buttonShare.setFillStyle(0x334fcb);
+        });
+        this.buttonShare.on('pointerdown', () => {
+            // share things
+        })
 
+
+        // Restart the game
+        this.buttonPlayAgain = this.add.rectangle(700, 330, 200, 40).setFillStyle(0x334fcb).setInteractive();
+        this.add.text(650, 320, "Play again", {
+            fontFamily: 'euroStyle',
+            fontSize: 20
+        })
+        this.buttonPlayAgain.on('pointerover', () => {
+            this.buttonPlayAgain.setFillStyle(0x1f317d);
+        });
+        this.buttonPlayAgain.on('pointerout', () => {
+            this.buttonPlayAgain.setFillStyle(0x334fcb);
+        });
+        this.buttonPlayAgain.on('pointerdown', () => {
+            resetGame();
+            this.scene.start("mainScene")
+        })
+
+        //this.buttonNextLevel = buttonGraphics.fillRect(600, 380, 200, 40);
+        this.buttonNextLevel = this.add.rectangle(700, 400, 200, 40).setFillStyle(0x334fcb).setInteractive();
+        this.buttonNextLevelText = this.add.text(700, 390, "Next Level", {
+            fontFamily: 'euroStyle',
+            fontSize: 20,
+        }).setOrigin(0.5, 0);
+        testo = this.buttonNextLevelText;
+        this.buttonNextLevel.on('pointerover', () => {
+            this.buttonNextLevelText.text = "Coming 8/20"
+            this.buttonNextLevel.setFillStyle(0xa9afc9);
+        });
+        this.buttonNextLevel.on('pointerout', () => {
+            this.buttonNextLevelText.text = "Next Level"
+            this.buttonNextLevel.setFillStyle(0x334fcb);
+        });
+        this.buttonNextLevel.on('pointerdown', () => {
+            // go to the next level
+        })
 
 
     },
@@ -126,17 +189,22 @@ var loserBoard = new Phaser.Class({
 
             let heightLastItem = 0;
             let heightContainer = currentScene.yt2;
-            const heightCell = 20;
+            const heightCell = 25;
 
             //headers
-            currentScene.add.text(currentScene.xt1 + 0, currentScene.yt1 - 20, 'Rank', {
-                fontFamily: 'euroStyle'
+            currentScene.add.rectangle(312, 120, 320, 25).setFillStyle(0x7187e9);
+
+            currentScene.add.text(currentScene.xt1 + 0, currentScene.yt1 - 25, 'Rank', {
+                fontFamily: 'euroStyle',
+                fontSize: 18
             });
-            currentScene.add.text(currentScene.xt1 + 70, currentScene.yt1 - 20, 'Name', {
-                fontFamily: 'euroStyle'
+            currentScene.add.text(currentScene.xt1 + 70, currentScene.yt1 - 25, 'Name', {
+                fontFamily: 'euroStyle',
+                fontSize: 18
             });
-            currentScene.add.text(currentScene.xt1 + 250, currentScene.yt1 - 20, 'Score', {
-                fontFamily: 'euroStyle'
+            currentScene.add.text(currentScene.xt1 + 250, currentScene.yt1 - 25, 'Score', {
+                fontFamily: 'euroStyle',
+                fontSize: 18
             });
 
             let fontColor = '#ffffff';
@@ -187,7 +255,7 @@ var loserBoard = new Phaser.Class({
                     yoyo: false,
                 })
             }
-
+  
             var mask = new Phaser.Display.Masks.GeometryMask(currentScene, backgroundTableGraphics);
             container.setMask(mask);
 

@@ -27,7 +27,8 @@ var loading = new Phaser.Class({
         this.load.image("background_2", "./assets/images/base2.png");
         this.load.image("bloom", "./assets/images/lights_bloom.png");
         this.load.image("dust","./assets/images/dust.gif");
-        this.load.image("whiteSquare","./assets/images/white_square.png")
+        this.load.image("whiteSquare","./assets/images/white_square.png");
+        this.load.image("hambugerIcon","./assets/images/Hamburger_icon.png")
 
         this.load.spritesheet("discoBall", "./assets/images/disco ball.png", {
             frameWidth: 36,
@@ -114,6 +115,6 @@ var loading = new Phaser.Class({
     },
 
     update: function () {
-        if (complete == 2) this.scene.start("mainScene")
+        if (complete == 2) this.scene.start("menu")
     }
 })
