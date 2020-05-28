@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,11 @@
     <link rel="stylesheet" href="styles/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
 </head>
+
 <body>
+
+    <div style="font-family:euroStyle; position:absolute; left:-1000px; visibility:hidden;">.</div>
+
     <div id="canvasContainer">
         <div id="gameContainer">
 
@@ -16,12 +21,24 @@
 
     </div>
 
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script> -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
+
     <script type="text/javascript" src="./scripts/phaser.min.js"></script>
     <script type="text/javascript" src="./scripts/loading.js"></script>
+    <script type="text/javascript" src="./scripts/menu.js"></script>
     <script type="text/javascript" src="./scripts/objects.js"></script>
+    <script type="text/javascript" src="./scripts/loserBoard.js"></script>
     <script type="text/javascript" src="./scripts/mainScene.js"></script>
     <script type="text/javascript" src="./scripts/hud.js"></script>
+    <script type="text/javascript" src="./scripts/tests.js"></script>
     <script type="text/javascript" src="./scripts/init.js"></script>
+    
 
 </body>
+
 </html>

@@ -1,6 +1,9 @@
 let music;
 let complete = 0;
 
+
+
+
 var loading = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -13,13 +16,18 @@ var loading = new Phaser.Class({
         });
     },
 
-    preload: function () {
+    preload: function () { //loads all the assets from the complete game
 
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+        
+        this.load.html('form', './scripts/form.html');
 
+        this.load.image("black" , "./assets/images/black.png");
         this.load.image("background_1", "./assets/images/base1.png");
         this.load.image("background_2", "./assets/images/base2.png");
         this.load.image("bloom", "./assets/images/lights_bloom.png");
+        this.load.image("dust","./assets/images/dust.gif");
+        this.load.image("whiteSquare","./assets/images/white_square.png")
 
         this.load.spritesheet("discoBall", "./assets/images/disco ball.png", {
             frameWidth: 36,
@@ -62,14 +70,23 @@ var loading = new Phaser.Class({
         this.load.spritesheet("ZZZIcon", "./assets/images/white z.png", {
             frameWidth: 36,
             frameHeight: 36
-        }) // zzz when sleeping
+        })
 
+        // initial screen
+        this.load.image("guttedText", "./assets/images/gutted shea stadium solo smaller.png");
+        this.load.image("bluepointLogo", "./assets/images/bluepoint solo smaller.png");
+        this.load.image("lvl1Text", "./assets/images/lvl 1 solo smaller.png");
+
+        // social media icons
         this.load.image("facebook", "./assets/images/facebook.png");
         this.load.image("twitter", "./assets/images/twitter.png");
         this.load.image("shareIcon", "./assets/images/pngwave.png");
         this.load.image("copyIcon", "./assets/images/copy.png");
 
+        // audios
         this.load.audio("song", "./assets/audio/Gutted.mp3");
+
+        // fonts
         text = this.add.text(350, 300, "Loading...", {
             fontFamily: 'ZCOOL QingKe HuangYou',
             fontSize: 50
@@ -81,6 +98,8 @@ var loading = new Phaser.Class({
     },
 
     create: function () {
+
+     
         WebFont.load({
             google: {
                 families: ['ZCOOL QingKe HuangYou']
@@ -89,65 +108,12 @@ var loading = new Phaser.Class({
                 complete++;
             }
         });
-
-    },
-
-    update: function () {
-        if (complete == 2) this.scene.start("menu")
-    }
-})
-
-var menu = new Phaser.Class({
-
-    Extends: Phaser.Scene,
-
-    initialize: function menu() {
-
-        Phaser.Scene.call(this, {
-            key: 'menu',
-            active: false
-        });
-    },
-
-    preload: function () { },
-
-    create: function () {
-
-        let buttonStart = this.add.image(440, 230, "startButton");
-        buttonStart.setOrigin(0.5, 0.5);
-        buttonStart.scaleX = 1.5;
-        buttonStart.scaleY = 1.5;
-
-        buttonStart.setInteractive();
-
-        let buttonStartText = this.add.text(440, 230, "Start", {
-            fontFamily: 'ZCOOL QingKe HuangYou',
-            fontSize: 40
-        })
-        buttonStartText.setOrigin(0.5, 0.5);
-
         music = this.sound.add('song', {
             delay: 0
         });
-
-
-        buttonStart.on('pointerover', () => {
-            buttonStart.setScale(1.6);
-            buttonStartText.setFontSize(45);
-        });
-        buttonStart.on('pointerout', () => {
-            buttonStart.setScale(1.5);
-            buttonStartText.setFontSize(40);
-        });
-
-        buttonStart.on('pointerdown', () => {
-
-            this.scene.start("mainScene");
-        })
-
-
     },
 
     update: function () {
+        if (complete == 2) this.scene.start("mainScene")
     }
 })

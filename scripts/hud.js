@@ -1,5 +1,3 @@
-//@ts-check
-
 let mobileAndTabletCheck = function () {
     let check = false;
     (function (a) {
@@ -8,7 +6,7 @@ let mobileAndTabletCheck = function () {
     return check;
 };
 
-
+let testFunctionReset;
 
 var hud = new Phaser.Class({
 
@@ -39,36 +37,130 @@ var hud = new Phaser.Class({
         this.score = 0;
         this.textToShow = "";
         this.sequentialText = false;
-        this.nextText='';
+        this.nextText = '';
         this.eventTyping = undefined;
+
+
+        this.textDialogue = this.add.text(190, 70, "", { //text showing the message of the NPC or Guy Blue
+            fontFamily: 'ZCOOL QingKe HuangYou',
+            wordWrap: {
+                width: 430,
+                useAdvancedWrap: true
+            },
+            align: 'left'
+        }).setFontSize(25).setDepth(2);
+
+
+
+        //------------------ Final text
+        graphics = this.add.graphics();
+        graphics.fillStyle(0x1f317d, 0.6);
+        this.rectangleDialog = graphics.fillRect(200, 400, 500, 110).setVisible(false);
+
+
+
+        this.buttonSubmitRect = graphics.fillRect(240, 470, 200, 30).setVisible(false);
+        this.buttonSkipRect = graphics.fillRect(460, 470, 200, 30).setVisible(false);
+        //------------------form
+        this.form = this.add.dom(450, 430).createFromCache('form').setVisible(false);
+        graphics.fillStyle(0x334fcb, 0.9);
+
+        this.buttonSubmit = this.add.text(290, 470, "Submit", {
+            fontFamily: 'euroStyle',
+            fontSize: 25
+        }).setInteractive().setVisible(false);
+        this.buttonSkip = this.add.text(490, 470, "Skip", {
+            fontFamily: 'euroStyle',
+            fontSize: 25
+        }).setInteractive().setVisible(false);
+
+        this.buttonSubmit.on('pointerdown', () => {
+            var inputName = this.form.getChildByID('formName').value;
+            var inputEmail = this.form.getChildByID('formEmail').value;
+
+            this.form.visible = false;
+            this.rectangleDialog.visible = false;
+
+            this.buttonSkip.visible = false;
+            this.buttonSkipRect.visible = false;
+            this.buttonSubmit.visible = false;
+            this.buttonSubmitRect.visible = false;
+
+            testDB(inputName, this.score, inputEmail)
+            this.scene.launch("loserBoard", {
+                type: 1,
+                score: this.score,
+                name: inputName
+            })
+        })
+
+        this.buttonSkip.on('pointerdown', () => {
+
+            this.form.visible = false;
+            this.rectangleDialog.visible = false;
+
+            this.buttonSkip.visible = false;
+            this.buttonSkipRect.visible = false;
+            this.buttonSubmit.visible = false;
+            this.buttonSubmitRect.visible = false;
+
+            this.scene.launch("loserBoard", {
+                type: 2,
+                score: this.score,
+                name:undefined
+            })
+        })
+
+
+
+        this.finalTypingMessage = (text) => {
+            let i = 0;
+            this.textToShow = "";
+            this.eventTyping = this.time.addEvent({ // create the event that makes the typing effect
+                delay: 50,
+                callback: (text) => {
+                    this.textToShow += text[i]
+                    i++
+                },
+                args: [text],
+                repeat: text.length - 1
+            });
+
+            this.eventCloseDialog = this.time.addEvent({ // create the event that closes the dialog box after 2 seconds of finished
+                delay: text.length * 50 + 2000,
+                callback: () => {
+                    this.hideDialogue();
+                },
+                args: [text]
+            });
+        }
+
 
         this.typingEffect = (text) => {
 
-            console.log(text)
                 let i = 0;
                 this.textToShow = "";
-                if (this.eventTyping !== undefined) this.eventTyping.remove(false);  //stop all the typing events, if exist
-                this.eventTyping = this.time.addEvent({     // create the event that makes the typing effect
-                    delay: 50, 
+                this.textDialogue.text = this.textToShow;
+                if (this.eventTyping !== undefined) this.eventTyping.remove(false); //stop all the typing events, if exist
+                this.eventTyping = this.time.addEvent({ // create the event that makes the typing effect
+                    delay: 50,
                     callback: (text) => {
-                        this.textToShow+=text[i]
-                        console.log(this.textToShow);
+                        this.textToShow += text[i]
+                        this.textDialogue.text = this.textToShow;
                         i++
                     },
                     args: [text],
-                    repeat: text.length-1
+                    repeat: text.length - 1
                 });
 
-                if (this.eventCloseDialog !== undefined) this.eventCloseDialog.remove(false);  //stop all the timer events, if exist
-                this.eventCloseDialog = this.time.addEvent({     // create the event that closes the dialog box after 2 seconds of finished
-                    delay: text.length*50+2000, 
-                    callback: (text) => {
+                if (this.eventCloseDialog !== undefined) this.eventCloseDialog.remove(false); //stop all the timer events, if exist
+                this.eventCloseDialog = this.time.addEvent({ // create the event that closes the dialog box after 2 seconds of finished
+                    delay: text.length * 50 + 2000,
+                    callback: () => {
                         this.hideDialogue();
                     },
-                    args: [text],
+                    args: [text]
                 });
-
-
             },
 
 
@@ -81,15 +173,6 @@ var hud = new Phaser.Class({
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(35);
         this.textTitle.setOrigin(0.5, 0.5);
-
-        this.textDialogue = this.add.text(190, 70, "", { //text showing the message of the NPC or Guy Blue
-            fontFamily: 'ZCOOL QingKe HuangYou',
-            wordWrap: {
-                width: 430,
-                useAdvancedWrap: true
-            },
-            align: 'left'
-        }).setFontSize(25);
 
 
         this.textInstruction = this.add.text(480, 160, "Press space bar or interact to continue", {
@@ -147,6 +230,7 @@ var hud = new Phaser.Class({
             this.share.setScale(0.09);
         });
         this.share.on('pointerdown', () => {
+
 
             if (!this.facebook.visible) { // show the icons
                 this.facebook.visible = true;
@@ -403,6 +487,29 @@ var hud = new Phaser.Class({
 
         })
 
+
+        this.timedEvent = this.time.delayedCall(170000 + initialTime, () => {
+
+            this.scoreText.visible=false;
+            this.scoreTitleText.visible=false;
+            this.iconZZZ.visible=false;
+
+            this.rectangleDialog.visible = true;
+            this.textDialogue.visible = true;
+            this.textDialogue.y = 430;
+            this.textDialogue.x=240;
+            this.typingEffect("Oh, you’re still here?  We should stick together.")
+        })
+        this.timedEvent = this.time.delayedCall(175000 + initialTime, () => {
+            this.textDialogue.visible = false;
+            this.form.visible = true;
+            this.buttonSkipRect.visible = true;
+            this.buttonSubmitRect.visible = true;
+            this.buttonSubmit.visible = true;
+            this.buttonSkip.visible = true;
+        })
+
+
         //when the game loses its focus it should stop the clock
         this.game.events.on('blur', () => {
             this.scene.pause();
@@ -415,6 +522,9 @@ var hud = new Phaser.Class({
 
         this.texto = this.add.text(10, 10, "");
         music.play();
+
+
+
     },
 
     update: function (t, delta) {
@@ -466,7 +576,7 @@ var hud = new Phaser.Class({
             }
         })
         if (this.joyStick != null) this.dumpJoyStickState();
-        if (this.showingDialogue) this.textDialogue.text = this.textToShow;
+
     },
 
     dumpJoyStickState: function () {
@@ -509,7 +619,6 @@ var hud = new Phaser.Class({
     showDialogue(message) { // shows the dialogue window with a specific message
         if (message != null) {
             this.typingEffect(message);
-            this.textDialogue.text = message;
             this.textTitle.text = "Guy Blue"
         }
         this.showingDialogue = true;
@@ -591,7 +700,3 @@ var hud = new Phaser.Class({
     }
 
 })
-
-
-
-

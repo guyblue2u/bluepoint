@@ -10,11 +10,32 @@ const timeStartGame = 68000;
 const timeEndGame = 142000;
 
 
+//NPCS
+let Ella;
+let Chester;
+let Tyler;
+let Bela;
+let Nick;
+let Jon;
+let Sally;
+let Benny;
+let Anna;
+let Dillon;
+let Sam;
+let Aaron;
+let Alex;
+let Door1;
+let Door2;
+let Exit;
+let drummer;
+let bassist;
+let guitarist;
+
+
 let player = {
     x: 98,
     y: 141,
     shirt: "Blue",
-    points: 0,
     moving: false,
     direction: null,
     avatar: null,
@@ -142,64 +163,82 @@ class NPC {
     }
 }
 
-// with rotation
-let Ella = new NPC("Ella", 210, 190, "All my friends are out on the balcony but this bassist can really hold it down.", null, 44, 46);
-let Chester = new NPC("Chester", 270, 200, "It’s not that crowded tonight. I’m gonna graffiti the bathroom while I have the chance.", null, 33, 35);
-let Tyler = new NPC("Tyler", 350, 200, "Did you see Future Islands on Letterman? Crazy. I saw them play here back in 2010.", null, 77, 79);
-let Bela = new NPC("Bela", 310, 110, "Did you know that Titus Andronicus practices here? The lead singer took my ticket at the door.", null, 55, 56);
-let Nick = new NPC("Nick", 300, 150, "Shhh... I hear they record the shows here. Don’t want to mess it up.", null, 88, 90);
-let Jon = new NPC("Jon", 330, 180, "I threw up last time I saw these guys.", "Don’t worry, it probably won’t happen this time", 0, 2);
 
-// without rotation
-let Sally = new NPC("Sally", 100, 110, "You shouldn’t sit on this couch. It’s disgusting.", null, 11, 13);
-let Benny = new NPC("Benny", 140, 100, "I don’t care what she thinks. This couch is comfy", null, null, 121);
+function createNPCS() {
+    // with rotation
+    Ella = new NPC("Ella", 210, 190, "All my friends are out on the balcony but this bassist can really hold it down.", null, 44, 46);
+    Chester = new NPC("Chester", 270, 200, "It’s not that crowded tonight. I’m gonna graffiti the bathroom while I have the chance.", null, 33, 35);
+    Tyler = new NPC("Tyler", 350, 200, "Did you see Future Islands on Letterman? Crazy. I saw them play here back in 2010.", null, 77, 79);
+    Bela = new NPC("Bela", 310, 110, "Did you know that Titus Andronicus practices here? The lead singer took my ticket at the door.", null, 55, 56);
+    Nick = new NPC("Nick", 300, 150, "Shhh... I hear they record the shows here. Don’t want to mess it up.", null, 88, 90);
+    Jon = new NPC("Jon", 330, 180, "I threw up last time I saw these guys.", "Don’t worry, it probably won’t happen this time", 0, 2);
 
-// without rotation , with sequential interaction
-let Anna = new NPC("Anna", 240, 160, "", "", null, 68);
-Anna.sequence = {
-    name1: "Anna",
-    name2: "Dillon",
-    msg1_1: "Have you noticed companies are hiring people to graffiti their warehouses? Just be a fucking warehouse, man!",
-    msg2_1: "Huh. I guess I haven’t really noticed.",
-    msg1_2: "Corporate jocks desperately trying to appeal to the youth. It’s pathetic",
-    msg2_2: "ok...",
-    message: 0,
-    sequentialName: "Anna and Dillon"
+    // without rotation
+    Sally = new NPC("Sally", 100, 110, "You shouldn’t sit on this couch. It’s disgusting.", null, 11, 13);
+    Benny = new NPC("Benny", 140, 100, "I don’t care what she thinks. This couch is comfy", null, null, 121);
+
+    // without rotation , with sequential interaction
+    Anna = new NPC("Anna", 240, 160, "", "", null, 68);
+    Anna.sequence = {
+        name1: "Anna",
+        name2: "Dillon",
+        msg1_1: "Have you noticed companies are hiring people to graffiti their warehouses? Just be a fucking warehouse, man!",
+        msg2_1: "Huh. I guess I haven’t really noticed.",
+        msg1_2: "Corporate jocks desperately trying to appeal to the youth. It’s pathetic",
+        msg2_2: "ok...",
+        message: 0,
+        sequentialName: "Anna and Dillon"
+    }
+    Dillon = new NPC("Dillon", 255, 150, "Huh. I guess I haven’t really noticed.", null, null, 24);
+    Dillon.sequence = Anna.sequence;
+
+    Sam = new NPC("Sam", 50, 200, "*why is this guy creeping?*", "Piss off, creep", null, 110);
+    Sam.sequence = {
+        name1: "Sam",
+        name2: "Aaron",
+        msg1_1: "*why is this guy creeping?*",
+        msg2_1: "...and so with the coupon it only ended up being--hey, can I help you asshole?",
+        msg1_2: " *he’s still here…*",
+        msg2_2: "Piss off, creep",
+        message: 0,
+        sequentialName: "Sam and Aaron"
+    }
+    Aaron = new NPC("Aaron", 65, 190, "", '', null, 100);
+    Aaron.sequence = Sam.sequence;
+
+
+    Alex = new NPC("Alex", 235, 87, "You wanna buy a shirt? Sure thing.", "You already have a shirt.", null, 132);
+    Door1 = new NPC("Guy Blue", 180, 55, "It's locked", "I don’t want to leave yet, we gotta do something!", null, null);
+    Door2 = new NPC("Guy Blue", 350, 105, "It's locked", "I don’t want to leave yet, we gotta do something!", null, null);
+    Exit = new NPC("Guy Blue", 80, 115, " I don’t want to leave yet, the concert just started.", "I don’t want to leave yet, we gotta do something!", null, null);
+
+
+    // without interaction
+    drummer = new NPC("Drummer", 380, 150, "", "", null, 165)
+    bassist = new NPC("Bassist", 400, 185, "slap* slap", null, null, 143)
+    guitarist = new NPC("Guitarist", 330, 140, "can’t you see I’m shredding?", null, null, 154)
+    NPCS.push(Ella, Chester, Tyler, Bela, Nick, Jon, Sally, Benny, Anna, Dillon, Sam, Aaron, Alex, guitarist, bassist, drummer, Door1, Door2, Exit);
+
 }
-let Dillon = new NPC("Dillon", 255, 150, "Huh. I guess I haven’t really noticed.", null, null, 24);
-Dillon.sequence = Anna.sequence;
 
-let Sam = new NPC("Sam", 50, 200, "*why is this guy creeping?*", "Piss off, creep", null, 110);
-Sam.sequence = {
-    name1: "Sam",
-    name2: "Aaron",
-    msg1_1: "*why is this guy creeping?*",
-    msg2_1: "...and so with the coupon it only ended up being--hey, can I help you asshole?",
-    msg1_2: " *he’s still here…*",
-    msg2_2: "Piss off, creep",
-    message: 0,
-    sequentialName: "Sam and Aaron"
-}
-let Aaron = new NPC("Aaron", 65, 190, "", '', null, 100);
-Aaron.sequence = Sam.sequence;
-
-
-let Alex = new NPC("Alex", 235, 87, "You wanna buy a shirt? Sure thing.", "You already have a shirt.", null, 132);
-let Door1 = new NPC("Guy Blue", 180, 55, "It's locked", "I don’t want to leave yet, we gotta do something!", null, null);
-let Door2 = new NPC("Guy Blue", 350, 105, "It's locked", "I don’t want to leave yet, we gotta do something!", null, null);
-let Exit = new NPC("Guy Blue", 80, 115, " I don’t want to leave yet, the concert just started.", "I don’t want to leave yet, we gotta do something!", null, null);
-
-
-// without interaction
-let drummer = new NPC("Drummer", 380, 150, "", "", null, 165)
-let bassist = new NPC("Bassist", 400, 185, "slap* slap", null, null, 143)
-let guitarist = new NPC("Guitarist", 330, 140, "can’t you see I’m shredding?", null, null, 154)
-
-
+createNPCS();
 
 // --------------------------------- M E T H O D S ----------------------------------
 
-NPCS.push(Ella, Chester, Tyler, Bela, Nick, Jon, Sally, Benny, Anna, Dillon, Sam, Aaron, Alex, guitarist, bassist, drummer, Door1, Door2, Exit);
+function resetGame() {
+    controls.joystickLocked=true;
+    controls.buttonsLocked=false;
+    NPCS = [];
+    createNPCS();
+    Object.assign(player,{
+        x: 98,
+        y: 141,
+        shirt: "Blue",
+        moving: false,
+        direction: null,
+        avatar: null,
+    })
+}
 
 function minDistance() {
     return NPCS.reduce((acc, val) => {

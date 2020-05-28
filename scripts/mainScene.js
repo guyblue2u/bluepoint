@@ -11,22 +11,28 @@ var mainScene = new Phaser.Class({
 
     Extends: Phaser.Scene,
 
-    initialize:
-        function mainScene() {
-            Phaser.Scene.call(this, {
-                key: 'mainScene',
-                active: false
-            });
-        },
+    initialize: function mainScene() {
+        Phaser.Scene.call(this, {
+            key: 'mainScene',
+            active: false
+        });
+    },
 
-    preload: function () {},
+    preload: function () {
+        
+    },
 
     create: function () {
         background = this.add.image(0, 0, "background_1").setOrigin(0, 0);
         this.bloom = this.add.image(0, 0, "bloom").setOrigin(0, 0);
         this.bloom.visible = false;
-        player["avatar"] = this.add.sprite(player.x, player.y, "blueGuy", 0);
 
+        player.avatar = this.add.sprite(player.x, player.y, "blueGuy", 0);
+        player.avatar.depth=player.avatar.y;
+
+        this.black = this.add.image(0, 0, "black").setOrigin(0, 0).setVisible(false);
+        this.black.alpha = 0;
+        this.dust = this.add.image(player.avatar.x, player.avatar.y, "dust").setOrigin(0.5, 0.5).setVisible(false).setAlpha(0);
 
         //----------------------------------------     Player Blue shirt
         this.anims.create({
@@ -178,6 +184,27 @@ var mainScene = new Phaser.Class({
                 frames: [0, 1, 2, 3]
             })
         })
+
+        //---- stand up from collapse position
+        this.anims.create({
+            key: "standUpBlue",
+            repeat: 0,
+            frameRate: 2,
+            frames: this.anims.generateFrameNumbers('collapsingBlue', {
+                frames: [3, 2, 1, 0]
+            })
+        })
+
+        this.anims.create({
+            key: "standUpRed",
+            repeat: 0,
+            frameRate: 2,
+            frames: this.anims.generateFrameNumbers('collapsingRed', {
+                frames: [3, 2, 1, 0]
+            })
+        })
+
+
 
         //--------------------------------------------------     NPC's
 
@@ -622,6 +649,9 @@ var mainScene = new Phaser.Class({
         this.DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.WKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
+
+        this.input.keyboard.clearCaptures();
+
         // polygon for the floor boundaries
         poly = new Phaser.Geom.Polygon([new Phaser.Geom.Point(0, 257.33), new Phaser.Geom.Point(0, 210.39), new Phaser.Geom.Point(5.22, 204.13), new Phaser.Geom.Point(14.95, 204.13), new Phaser.Geom.Point(39.3, 180.13), new Phaser.Geom.Point(43.82, 180.13), new Phaser.Geom.Point(63.64, 160.66), new Phaser.Geom.Point(52.86, 157.88), new Phaser.Geom.Point(95.98, 114.76), new Phaser.Geom.Point(119.28, 128.67), new Phaser.Geom.Point(146.4, 114.76), new Phaser.Geom.Point(148.14, 97.02), new Phaser.Geom.Point(199.95, 98.06), new Phaser.Geom.Point(199.95, 113.36), new Phaser.Geom.Point(269.16, 112.32), new Phaser.Geom.Point(269.5, 98.06), new Phaser.Geom.Point(316.45, 98.06), new Phaser.Geom.Point(353.66, 132.84), new Phaser.Geom.Point(296.28, 132.84), new Phaser.Geom.Point(295.58, 143.27), new Phaser.Geom.Point(374.52, 222.56), new Phaser.Geom.Point(440.59, 220.82), new Phaser.Geom.Point(443.03, 223.25), new Phaser.Geom.Point(443.03, 258.03), new Phaser.Geom.Point(0, 257.33)]);
 
@@ -693,7 +723,7 @@ var mainScene = new Phaser.Class({
             this.bloom.visible = true;
         });
 
-        timedEvent = this.time.delayedCall(141000 + initialTime, () => {
+        timedEvent = this.time.delayedCall(140500 + initialTime, () => {
             background.setTexture("background_2");
             this.table.visible = false;
             this.drums.visible = false;
@@ -713,7 +743,7 @@ var mainScene = new Phaser.Class({
 
         })
 
-        timedEvent = this.time.delayedCall(148000 + initialTime, () => {
+        timedEvent = this.time.delayedCall(150000 + initialTime, () => {
             this.tweens.add({
                 targets: this.cameras.main,
                 zoom: {
@@ -727,13 +757,76 @@ var mainScene = new Phaser.Class({
         })
 
 
-        timedEvent = this.time.delayedCall(182000 + initialTime, () => {
-            this.cameras.main.fadeOut(8000);
+
+        timedEvent = this.time.delayedCall(154000 + initialTime, () => {
+
+            this.black.visible = true;              // fade to black
+            this.black.depth = player.avatar.depth - 2;
+            this.tweens.add({
+                targets: this.black,
+                alpha: {
+                    from: 0,
+                    to: 1
+                },
+                duration: 4000,
+                ease: 'Sine.easeInOut',
+                loop: 0,
+                yoyo: false,
+            });
 
         })
 
 
+        timedEvent = this.time.delayedCall(160000 + initialTime, () => {
+            this.tweens.add({                   // camera zoom in again
+                targets: this.cameras.main,
+                zoom: {
+                    from: 2,
+                    to: 4
+                },
+                duration: 4000,
+                ease: 'Linear',
+                loop: 0,
+            });
+        })
+
+        timedEvent = this.time.delayedCall(164000 + initialTime, () => {
+            player.avatar.play("standUp" + player.shirt);
+
+
+        });
+
+        timedEvent = this.time.delayedCall(168000 + initialTime, () => {
+            createDust();
+            this.particlesAlpha={};
+            this.particlesAlpha.alpha=0;     
+            dustParticles.forEach(el=>{
+                              
+                var rect = this.bloom = this.add.image(el.x, el.y, "whiteSquare").setDepth(player.avatar.y-1);
+                rect.speed=Math.random()*4+1;
+                particles.push(rect);
+            })
+            this.tweens.add({                   // camera zoom in again
+                targets: this.particlesAlpha,
+                alpha: {
+                    from: 0,
+                    to: 1
+                },
+                duration: 5000,
+                ease: 'Linear',
+                loop: 0,
+            });
+
+
+        });
+
+
+        
+        
+
+
         this.scene.launch("hud");
+        
         this.cameras.main.fadeIn(2000);
     },
 
@@ -756,5 +849,23 @@ var mainScene = new Phaser.Class({
 
 
         if (this.bloom.visible === true) this.bloom.alpha = (((Math.sin(time / 200) + 1) / 2))
+
+        if(particles!==undefined){
+            particles.forEach(el=>{
+                el.y+=el.speed;
+                el.alpha=((530-el.y)/530)*this.particlesAlpha.alpha
+                if(el.y>530) el.y=-5;
+            })
+        }
     }
 })
+
+let dustParticles=[]
+function createDust(){
+    for (let i=0; i<100;i++){
+        dustParticles.push({x:Math.random()*888, y:Math.random()*250,alpha:1})
+    }
+}
+
+
+
