@@ -312,10 +312,10 @@ var menu = new Phaser.Class({
 
 
         this.input.keyboard.on('keydown_SPACE', (event) => {
-            if (!this.rectangleDialog.visible)
+            if (!this.rectangleDialog.visible) {
                 if (this.flashingText.visible) this.startMessage();
-                else
-                    this.typingEffect();
+            } else
+                this.typingEffect();
         });
 
 
@@ -406,7 +406,7 @@ var menu = new Phaser.Class({
             br: 10
         }).setVisible(false).setInteractive();
 
-        this.rectangleDialog = this.add.rectangle(400,375, 700, 150).setVisible(false).setInteractive().setFillStyle(0x4063FF, 0.6);
+        this.rectangleDialog = this.add.rectangle(400, 375, 700, 150).setVisible(false).setInteractive().setFillStyle(0x4063FF, 0.6);
 
 
 

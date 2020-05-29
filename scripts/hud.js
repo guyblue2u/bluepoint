@@ -587,25 +587,25 @@ var hud = new Phaser.Class({
             this.buttonStartText.visible = false;
         }
 
-        // NPCS.forEach((el, index, object) => {
-        //     if (el.timeToDisappear < this.playTime + 5000 && el.sleeping && !el["tween"].isPlaying()) {
-        //         el["tween"].play();
-        //     }
+        NPCS.forEach((el, index, object) => {
+            if (el.timeToDisappear < this.playTime + 5000 && el.sleeping && !el["tween"].isPlaying()) {
+                el["tween"].play();
+            }
 
-        //     if (el.timeToDisappear < this.playTime && el.sleeping === 1) {
-        //         el.visible = false;
-        //         el.avatar.visible = false;
-        //         el["zzz"].visible = false;
-        //         el["tween"].stop();
-        //         object.splice(index, 1);
-        //     }
+            if (el.timeToDisappear < this.playTime && el.sleeping === 1) {
+                el.visible = false;
+                el.avatar.visible = false;
+                el["zzz"].visible = false;
+                el["tween"].stop();
+                object.splice(index, 1);
+            }
 
-        //     if (el.timeToSleep < this.playTime && el.sleeping !== 1) {
-        //         sleepNPC(el);
-        //         el.timeToDisappear = getTimeToDisappear(this.playTime) + this.playTime;
-        //     }
-        // })
-        // if (this.joyStick != null) this.dumpJoyStickState();
+            if (el.timeToSleep < this.playTime && el.sleeping !== 1) {
+                sleepNPC(el);
+                el.timeToDisappear = getTimeToDisappear(this.playTime) + this.playTime;
+            }
+        })
+        if (this.joyStick != null) this.dumpJoyStickState();
 
     },
 
