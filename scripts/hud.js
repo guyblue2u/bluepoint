@@ -6,7 +6,7 @@ let mobileAndTabletCheck = function () {
     return check;
 };
 
-let testFunctionReset;
+let test_function;
 
 var hud = new Phaser.Class({
 
@@ -32,6 +32,13 @@ var hud = new Phaser.Class({
     },
 
     create: function () {
+
+
+        //------------delete later
+        test_function=()=>{
+            this.scene.start("mainScene");
+        }
+
 
         this.playTime = 0;
         this.score = 0;
@@ -59,8 +66,8 @@ var hud = new Phaser.Class({
 
 
 
-        this.buttonSubmitRect = graphics.fillRect(240, 470, 200, 30).setVisible(false);
-        this.buttonSkipRect = graphics.fillRect(460, 470, 200, 30).setVisible(false);
+        this.buttonSubmitRect = this.add.rectangle(340, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setInteractive();
+        this.buttonSkipRect = this.add.rectangle(560, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setInteractive();
         //------------------form
         this.form = this.add.dom(450, 430).createFromCache('form').setVisible(false);
         graphics.fillStyle(0x334fcb, 0.9);
@@ -68,13 +75,31 @@ var hud = new Phaser.Class({
         this.buttonSubmit = this.add.text(290, 470, "Submit", {
             fontFamily: 'euroStyle',
             fontSize: 25
-        }).setInteractive().setVisible(false);
-        this.buttonSkip = this.add.text(490, 470, "Skip", {
+        }).setVisible(false);
+
+        this.buttonSkip = this.add.text(520, 470, "Skip", {
             fontFamily: 'euroStyle',
             fontSize: 25
-        }).setInteractive().setVisible(false);
+        }).setVisible(false);
 
-        this.buttonSubmit.on('pointerdown', () => {
+        //--------------Hover effect for the buttons
+        this.buttonSkip.on('pointerover', () => {
+            this.buttonSkip.setFillStyle(0x1f317d);
+        });
+        this.buttonSkip.on('pointerout', () => {
+            this.buttonSkip.setFillStyle(0x334fcb);
+        });
+
+        
+        this.buttonSubmit.on('pointerover', () => {
+            this.buttonSubmit.setFillStyle(0x1f317d);
+        });
+        this.buttonSubmit.on('pointerout', () => {
+            this.buttonSubmit.setFillStyle(0x334fcb);
+        });
+
+
+        this.buttonSubmitRect.on('pointerdown', () => {
             var inputName = this.form.getChildByID('formName').value;
             var inputEmail = this.form.getChildByID('formEmail').value;
 
@@ -94,7 +119,7 @@ var hud = new Phaser.Class({
             })
         })
 
-        this.buttonSkip.on('pointerdown', () => {
+        this.buttonSkipRect.on('pointerdown', () => {
 
             this.form.visible = false;
             this.rectangleDialog.visible = false;
@@ -487,6 +512,11 @@ var hud = new Phaser.Class({
 
         })
 
+        this.timedEvent = this.time.delayedCall(144000 + initialTime, () => {
+            this.joyStick.thumb.setVisible(false);
+            this.joyStick.base.setVisible(false);
+
+        })
 
         this.timedEvent = this.time.delayedCall(170000 + initialTime, () => {
 
@@ -530,9 +560,9 @@ var hud = new Phaser.Class({
     update: function (t, delta) {
 
 
-        this.playTime += delta;
+         this.playTime += delta;
 
-        this.texto.text = Math.floor((Math.floor((this.playTime + initialTime) / 10) / 100 - Math.floor(music.seek * 100) / 100) * 10) / 10;
+        // this.texto.text = Math.floor((Math.floor((this.playTime + initialTime) / 10) / 100 - Math.floor(music.seek * 100) / 100) * 10) / 10;
 
         let nearest = minDistance();
         if (nearest[0] < radiusInteraction && nearest[1].sleeping !== 2) {
@@ -557,25 +587,25 @@ var hud = new Phaser.Class({
             this.buttonStartText.visible = false;
         }
 
-        NPCS.forEach((el, index, object) => {
-            if (el.timeToDisappear < this.playTime + 5000 && el.sleeping && !el["tween"].isPlaying()) {
-                el["tween"].play();
-            }
+        // NPCS.forEach((el, index, object) => {
+        //     if (el.timeToDisappear < this.playTime + 5000 && el.sleeping && !el["tween"].isPlaying()) {
+        //         el["tween"].play();
+        //     }
 
-            if (el.timeToDisappear < this.playTime && el.sleeping === 1) {
-                el.visible = false;
-                el.avatar.visible = false;
-                el["zzz"].visible = false;
-                el["tween"].stop();
-                object.splice(index, 1);
-            }
+        //     if (el.timeToDisappear < this.playTime && el.sleeping === 1) {
+        //         el.visible = false;
+        //         el.avatar.visible = false;
+        //         el["zzz"].visible = false;
+        //         el["tween"].stop();
+        //         object.splice(index, 1);
+        //     }
 
-            if (el.timeToSleep < this.playTime && el.sleeping !== 1) {
-                sleepNPC(el);
-                el.timeToDisappear = getTimeToDisappear(this.playTime) + this.playTime;
-            }
-        })
-        if (this.joyStick != null) this.dumpJoyStickState();
+        //     if (el.timeToSleep < this.playTime && el.sleeping !== 1) {
+        //         sleepNPC(el);
+        //         el.timeToDisappear = getTimeToDisappear(this.playTime) + this.playTime;
+        //     }
+        // })
+        // if (this.joyStick != null) this.dumpJoyStickState();
 
     },
 
