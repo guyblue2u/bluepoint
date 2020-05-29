@@ -115,7 +115,7 @@ var loading = new Phaser.Class({
     },
 
     update: function () {
-        //if (complete == 2) this.scene.start("mainScene")
-        if (complete == 2) this.scene.start("loserBoard" , {type:1,name:"david2",score:121})
+        if (complete == 2) this.scene.start("menu")
+        //if (complete == 2) this.scene.start("loserBoard" , {type:1,name:"david2",score:121})
     }
 })
