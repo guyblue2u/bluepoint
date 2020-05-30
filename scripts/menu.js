@@ -20,11 +20,11 @@ var menu = new Phaser.Class({
         this.cameras.main.setBackgroundColor('#FFFFFF')
 
 
-        this.guttedText = this.add.image(0, 0, "guttedText").setOrigin(0, 0).setVisible(false).setAlpha(0);
-        this.logo = this.add.image(0, 130, "bluepointLogo").setOrigin(0, 0).setVisible(false).setAlpha(0);
-        this.level1Text = this.add.image(0, 0, "lvl1Text").setOrigin(0, 0).setVisible(false).setAlpha(0);
+        this.guttedText = this.add.image(444, 260, "guttedText").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
+        this.logo = this.add.image(444,230, "bluepointLogo").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
+        this.level1Text = this.add.image(430, 260, "lvl1Text").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
 
-        this.flashingText = this.add.text(444, 450, 'TAP OR SPACE TO START ', {
+        this.flashingText = this.add.text(444, 430, 'TAP OR SPACE TO START ', {
             fontFamily: 'euroStyle',
             color: '#4063FF',
             fontSize: 30,
@@ -41,7 +41,7 @@ var menu = new Phaser.Class({
             yoyo: true,
         });
 
-        this.add.text(444, 500, '© 2020 GUY BLUE', {
+        this.add.text(444, 480, '© 2020 GUY BLUE ', {
             fontFamily: 'euroStyle',
             color: '#787878',
             fontSize: 25,
@@ -50,13 +50,13 @@ var menu = new Phaser.Class({
 
 
         //-------------hamburger icon
-        this.hamburguer = this.add.image(820, 50, "hambugerIcon").setScale(0.5).setInteractive();
+        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive().setAlpha(0.6);
 
         this.hamburguer.on('pointerover', () => {
-            this.hamburguer.setScale(0.6);
+            this.hamburguer.setScale(0.45);
         });
         this.hamburguer.on('pointerout', () => {
-            this.hamburguer.setScale(0.5);
+            this.hamburguer.setScale(0.4);
         });
 
         this.hamburguer.on('pointerdown', () => {
@@ -87,10 +87,10 @@ var menu = new Phaser.Class({
 
 
         // link to loserboard
-        this.loserBoardRect = this.add.rectangle(750, 140, 200, 30).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
+        this.loserBoardRect = this.add.rectangle(750, 140, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
         this.loserBoardtext = this.add.text(750, 140, "Loser Board", {
             fontFamily: 'euroStyle',
-            fontSize: 20
+            fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);
 
         this.loserBoardRect.on('pointerover', () => {
@@ -133,10 +133,10 @@ var menu = new Phaser.Class({
 
 
         // ----------link to Map
-        this.MapRect = this.add.rectangle(750, 200, 200, 30).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
+        this.MapRect = this.add.rectangle(750, 200, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
         this.Maptext = this.add.text(750, 200, "Map", {
             fontFamily: 'euroStyle',
-            fontSize: 20
+            fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);
 
         this.MapRect.on('pointerover', () => {
@@ -170,7 +170,7 @@ var menu = new Phaser.Class({
 
 
         //---------------Share button
-        this.share = this.add.image(40, 40, "shareIcon").setScale(0.09).setInteractive();
+        this.share = this.add.image(40, 40, "shareIcon").setScale(0.09).setInteractive().setAlpha(0.6);
         this.share.on('pointerover', () => {
             this.share.setScale(0.1);
         });
@@ -392,22 +392,11 @@ var menu = new Phaser.Class({
             'A virtual world where the past can be preserved and explored.',
             'Come with me and rediscover the past, intact and at your fingertips.',
             'Running program brkln2013.exe.',
-            'Upload sequence initiated. See you there.'
+            'Upload sequence initiated.',
+            'See you there.'
         ]
 
-
-
-        graphics = this.add.graphics();
-        graphics.fillStyle(0x4063FF, 0.6);
-        this.rectangleDialog = graphics.fillRoundedRect(100, 300, 700, 150, {
-            tl: 10,
-            tr: 10,
-            bl: 10,
-            br: 10
-        }).setVisible(false).setInteractive();
-
-        this.rectangleDialog = this.add.rectangle(400, 375, 700, 150).setVisible(false).setInteractive().setFillStyle(0x4063FF, 0.6);
-
+        this.rectangleDialog = this.add.rectangle(444, 375, 500, 150).setVisible(false).setInteractive().setFillStyle(0x4063FF, 0.6);
 
 
         this.rectangleDialog.on('pointerdown', () => {
@@ -415,16 +404,16 @@ var menu = new Phaser.Class({
         })
 
 
-        this.textDialog = this.add.text(120, 340, this.dialogMessages[this.currentMessageIndex], {
+        this.textDialog = this.add.text(220, 320, this.dialogMessages[this.currentMessageIndex], {
             fontFamily: 'euroStyle',
             wordWrap: {
-                width: 600,
+                width: 400,
                 useAdvancedWrap: true
             },
         }).setFontSize(25).setVisible(false);
 
 
-        this.textDialogInstructions = this.add.text(300, 420, 'Tap or press space to continue', {
+        this.textDialogInstructions = this.add.text(450, 420, 'Tap or press space to continue', {
             fontFamily: 'euroStyle'
         }).setFontSize(15).setVisible(false);
 
@@ -433,7 +422,7 @@ var menu = new Phaser.Class({
         this.typingEffect = () => {
             this.currentMessageIndex++;
 
-            if (this.currentMessageIndex > 4) {
+            if (this.currentMessageIndex > 5) {
                 this.scene.start("mainScene");
                 return;
             }

@@ -88,10 +88,20 @@ var loading = new Phaser.Class({
         this.load.audio("song", "./assets/audio/Gutted.mp3");
 
         // fonts
-        text = this.add.text(350, 300, "Loading...", {
-            fontFamily: 'ZCOOL QingKe HuangYou',
+        this.loadingText = this.add.text(444, 260, "Loading...", {
+            fontFamily: 'euroStyle',
             fontSize: 50
-        })
+        }).setOrigin(0.5)
+
+        this.tweens.add({
+            targets: this.loadingText,
+            alpha: 0,
+            duration: 1000,
+            ease: 'Sine.easeInOut',
+            loop: -1,
+            yoyo: true,
+        });
+
 
         this.load.on('complete', function () {
             complete++;
@@ -116,6 +126,6 @@ var loading = new Phaser.Class({
 
     update: function () {
         if (complete == 2) this.scene.start("menu")
-        //if (complete == 2) this.scene.start("loserBoard" , {type:1,name:"david2",score:121})
+        //if (complete == 2) this.scene.start("loserBoard" , {type:2,name:"",score:0})
     }
 })

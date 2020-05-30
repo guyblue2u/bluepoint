@@ -35,7 +35,7 @@ var hud = new Phaser.Class({
 
 
         //------------delete later
-        test_function=()=>{
+        test_function = () => {
             this.scene.start("mainScene");
         }
 
@@ -90,7 +90,7 @@ var hud = new Phaser.Class({
             this.buttonSkip.setFillStyle(0x334fcb);
         });
 
-        
+
         this.buttonSubmit.on('pointerover', () => {
             this.buttonSubmit.setFillStyle(0x1f317d);
         });
@@ -100,6 +100,7 @@ var hud = new Phaser.Class({
 
 
         this.buttonSubmitRect.on('pointerdown', () => {
+            player.avatar.setVisible(false);
             var inputName = this.form.getChildByID('formName').value;
             var inputEmail = this.form.getChildByID('formEmail').value;
 
@@ -121,6 +122,7 @@ var hud = new Phaser.Class({
 
         this.buttonSkipRect.on('pointerdown', () => {
 
+            player.avatar.setVisible(false);
             this.form.visible = false;
             this.rectangleDialog.visible = false;
 
@@ -132,7 +134,7 @@ var hud = new Phaser.Class({
             this.scene.launch("loserBoard", {
                 type: 2,
                 score: this.score,
-                name:undefined
+                name: undefined
             })
         })
 
@@ -513,21 +515,23 @@ var hud = new Phaser.Class({
         })
 
         this.timedEvent = this.time.delayedCall(144000 + initialTime, () => {
-            this.joyStick.thumb.setVisible(false);
-            this.joyStick.base.setVisible(false);
+            if (joyStick !== undefined) {
+                this.joyStick.thumb.setVisible(false);
+                this.joyStick.base.setVisible(false);
+            }
 
         })
 
         this.timedEvent = this.time.delayedCall(170000 + initialTime, () => {
 
-            this.scoreText.visible=false;
-            this.scoreTitleText.visible=false;
-            this.iconZZZ.visible=false;
+            this.scoreText.visible = false;
+            this.scoreTitleText.visible = false;
+            this.iconZZZ.visible = false;
 
             this.rectangleDialog.visible = true;
             this.textDialogue.visible = true;
             this.textDialogue.y = 430;
-            this.textDialogue.x=240;
+            this.textDialogue.x = 240;
             this.typingEffect("Oh, you’re still here?  We should stick together.")
         })
         this.timedEvent = this.time.delayedCall(175000 + initialTime, () => {
@@ -560,7 +564,7 @@ var hud = new Phaser.Class({
     update: function (t, delta) {
 
 
-         this.playTime += delta;
+        this.playTime += delta;
 
         // this.texto.text = Math.floor((Math.floor((this.playTime + initialTime) / 10) / 100 - Math.floor(music.seek * 100) / 100) * 10) / 10;
 

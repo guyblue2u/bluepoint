@@ -36,10 +36,8 @@ var loserBoard = new Phaser.Class({
 
         this.scrolling = false;
 
-
-
         this.input.on('pointerup', (pointer) => {
-            
+
             if (this.scrolling) {
                 this.scrolling = false;
             }
@@ -48,26 +46,34 @@ var loserBoard = new Phaser.Class({
 
         graphics = this.add.graphics();
         graphics.fillStyle(0x4063FF, 0.6);
+        graphics.lineStyle(2, 0x616161f, 1.0);
         buttonGraphics = this.add.graphics();
         buttonGraphics.fillStyle(0x334fcb);
+
         //elements of the window
         this.rectangleDialog = graphics.fillRect(100, 60, 720, 420);
+        graphics.strokeRect(100, 60, 720, 420);
 
-        this.textTile = this.add.text(400, 70, "Loser board ", {
+        
+
+        this.textTile = this.add.text(120, 70, "Loser Board ", {
             fontFamily: 'euroStyle',
             fontSize: 25
-        });
+
+        }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
 
         if (this.sceneType !== 3) { // if the scene is not type 3, show the score
-            this.add.text(650, 130, "your score", {
+            this.add.text(650, 130, "Your Score", {
                 fontFamily: 'euroStyle',
                 fontSize: 18
-            })
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5)
+
             this.scoretext = this.add.text(670, 160, this.score + " ", {
                 fontFamily: 'euroStyle',
                 fontSize: 40
-            }) // score
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5)
+            // score
 
         }
 
@@ -77,12 +83,12 @@ var loserBoard = new Phaser.Class({
 
             this.form = this.add.dom(320, 400).createFromCache('form').setScale(0.9);
 
-            this.buttonSubmitRect = this.add.rectangle(330, 450, 200, 40).setFillStyle(0x334fcb).setInteractive();
+            this.buttonSubmitRect = this.add.rectangle(330, 450, 200, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
 
-            this.buttonSubmit = this.add.text(280, 435, "submit", {
+            this.buttonSubmit = this.add.text(290, 435, "Submit ", {
                 fontFamily: 'euroStyle',
                 fontSize: 25
-            });
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
             this.buttonSubmitRect.on('pointerover', () => {
                 this.buttonSubmitRect.setFillStyle(0x1f317d);
@@ -111,6 +117,10 @@ var loserBoard = new Phaser.Class({
             })
         }
 
+
+        this.add.line(0,this.yt1+this.yt2/2,205,0,205,this.yt2, '#9c9c9c'); //line between rank and name
+
+
         backgroundTableGraphics = this.add.graphics();
         backgroundTableGraphics.fillStyle(0xffffff, 0.5);
         this.backgroundTable = backgroundTableGraphics.fillRect(this.xt1, this.yt1, this.xt2, this.yt2);
@@ -123,11 +133,12 @@ var loserBoard = new Phaser.Class({
 
 
         // share score
-        this.buttonShare = this.add.rectangle(700, 260, 200, 40).setFillStyle(0x334fcb).setInteractive();
-        this.add.text(650, 250, "Share score", {
+        this.buttonShare = this.add.rectangle(700, 260, 200, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+        this.add.text(650, 250, "Share Score", {
             fontFamily: 'euroStyle',
             fontSize: 20
-        })
+        }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5)
+
         this.buttonShare.on('pointerover', () => {
             this.buttonShare.setFillStyle(0x1f317d);
         });
@@ -140,11 +151,12 @@ var loserBoard = new Phaser.Class({
 
 
         // Restart the game
-        this.buttonPlayAgain = this.add.rectangle(700, 330, 200, 40).setFillStyle(0x334fcb).setInteractive();
-        this.add.text(650, 320, "Play again", {
+        this.buttonPlayAgain = this.add.rectangle(700, 330, 200, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+        this.add.text(650, 320, "Play Again", {
             fontFamily: 'euroStyle',
             fontSize: 20
-        })
+        }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5)
+
         this.buttonPlayAgain.on('pointerover', () => {
             this.buttonPlayAgain.setFillStyle(0x1f317d);
         });
@@ -156,30 +168,32 @@ var loserBoard = new Phaser.Class({
             this.scene.start("mainScene");
         })
 
-        //this.buttonNextLevel = buttonGraphics.fillRect(600, 380, 200, 40);
-        this.buttonNextLevel = this.add.rectangle(700, 400, 200, 40).setFillStyle(0x334fcb).setInteractive();
-        this.buttonNextLevelText = this.add.text(700, 390, "Next Level", {
+        // Next Level
+        this.buttonNextLevel = this.add.rectangle(700, 400, 200, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+        this.buttonNextLevelText = this.add.text(700, 390, "Next Level ", {
             fontFamily: 'euroStyle',
             fontSize: 20,
-        }).setOrigin(0.5, 0);
+        }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
         testo = this.buttonNextLevelText;
         this.buttonNextLevel.on('pointerover', () => {
-            this.buttonNextLevelText.text = "Coming 8/20"
+            this.buttonNextLevelText.text = "Coming 8/20 "
             this.buttonNextLevel.setFillStyle(0xa9afc9);
         });
         this.buttonNextLevel.on('pointerout', () => {
-            this.buttonNextLevelText.text = "Next Level"
+            this.buttonNextLevelText.text = "Next Level "
             this.buttonNextLevel.setFillStyle(0x334fcb);
         });
         this.buttonNextLevel.on('pointerdown', () => {
             // go to the next level
         })
 
+
         this.pointer = this.input.activePointer;
         this.scrollHeight = 0;
         this.scrollRatio = 1;
-        this.inertia=0;
-        this.endContainer=0;
+        this.inertia = 0;
+        this.endContainer = 0;
+
     },
 
     update: function () {
@@ -194,11 +208,11 @@ var loserBoard = new Phaser.Class({
         }
 
 
-        if(Math.abs( this.inertia)>10 ){ //move the container and the bar with the inertia from the scroll
-            this.inertia*=0.9
-            container.y += this.inertia/2;
+        if (Math.abs(this.inertia) > 10) { //move the container and the bar with the inertia from the scroll
+            this.inertia *= 0.9
+            container.y += this.inertia / 2;
             container.y = Phaser.Math.Clamp(container.y, this.endContainer, 0);
-            this.scroller.y=-container.y*this.scrollRatio+this.yt1+this.scrollHeight/2;
+            this.scroller.y = -container.y * this.scrollRatio + this.yt1 + this.scrollHeight / 2;
         }
 
     },
@@ -220,64 +234,72 @@ var loserBoard = new Phaser.Class({
 
             let heightLastItem = 0;
             let heightContainer = currentScene.yt2;
-            const heightCell = 25;
+            const heightCell = 40;
 
             //headers
             currentScene.add.rectangle(312, 120, 320, 25).setFillStyle(0x7187e9);
 
-            currentScene.add.text(currentScene.xt1 + 0, currentScene.yt1 - 25, 'Rank', {
+            currentScene.add.text(currentScene.xt1 + 5, currentScene.yt1 - 25, 'Rank', {
                 fontFamily: 'euroStyle',
                 fontSize: 18
-            });
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+
             currentScene.add.text(currentScene.xt1 + 70, currentScene.yt1 - 25, 'Name', {
                 fontFamily: 'euroStyle',
                 fontSize: 18
-            });
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+
             currentScene.add.text(currentScene.xt1 + 250, currentScene.yt1 - 25, 'Score', {
                 fontFamily: 'euroStyle',
                 fontSize: 18
-            });
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
-            let fontColor = 0x102030;
+
+            let fontColor = '#ffffff';
+            let fontSizeTable = 22;
             scoreData.forEach(element => {
 
-                // if he finds the same name and score in the table, highlight it
-                if (element[1] === currentScene.name && element[2] === currentScene.score && currentScene.heightSelectedItem===-1) {
-                    currentScene.heightSelectedItem = heightLastItem + heightCell;
-                    HighlightedRect= currentScene.add.rectangle(300,currentScene.yt1+heightLastItem+heightCell/2,500,heightCell ).setFillStyle(0xfcff21,0.5);
-                    container.add(HighlightedRect)
-                }
-
-
-                rank = currentScene.add.text(currentScene.xt1 + 0, currentScene.yt1 + heightLastItem, element[0], {
+                rank = currentScene.add.text(currentScene.xt1 + 25, currentScene.yt1 + heightLastItem, element[0] + " ", {
                     fontFamily: 'euroStyle',
-                    color: fontColor
-                });
+                    color: fontColor,
+                    fontSize: fontSizeTable
+                }).setShadow(0, 0, 'rgba(0,0,0,0.5)', 2).setOrigin(0.5,0);
 
                 // truncate the text
                 truncatedText = ""
                 if (element[1] !== null)
-                    truncatedText = element[1].length > 15 ? element[1].substring(0, 15) + "..." : element[1]
+                    truncatedText = element[1].length > 12 ? element[1].substring(0, 12) + "..." : element[1] + " "
 
                 names = currentScene.add.text(currentScene.xt1 + 60, currentScene.yt1 + heightLastItem, truncatedText, {
                     fontFamily: 'euroStyle',
-                    color: fontColor
-                });
-                score = currentScene.add.text(currentScene.xt1 + 250, currentScene.yt1 + heightLastItem, element[2], {
+                    color: fontColor,
+                    fontSize: fontSizeTable
+                }).setShadow(0, 0, 'rgba(0,0,0,0.5)', 2);
+                score = currentScene.add.text(currentScene.xt1 + 250, currentScene.yt1 + heightLastItem, element[2] + " ", {
                     fontFamily: 'euroStyle',
-                    color: fontColor
-                })
+                    color: fontColor,
+                    fontSize: fontSizeTable
+                }).setShadow(0, 0, 'rgba(0,0,0,0.5)', 2);
+
                 heightLastItem += heightCell;
                 container.add(rank);
                 container.add(score);
-                container.add(names);                
+                container.add(names);
+
+                // if he finds the same name and score in the table, highlight it
+                if (element[1] === currentScene.name && element[2] === currentScene.score && currentScene.heightSelectedItem === -1 && element[1]!=="") {
+                    currentScene.heightSelectedItem = heightLastItem + heightCell;
+                    HighlightedRect = currentScene.add.rectangle(300, currentScene.yt1 + heightLastItem - heightCell / 2 - heightCell / 4, 500, heightCell).setFillStyle(0x7187e9, 0.5);
+                    container.add(HighlightedRect)
+                }
+
             });
 
 
             //----scroll bar
-            
+
             let scrollHeight = (currentScene.yt2 * currentScene.yt2 / heightLastItem)
-            if (scrollHeight>currentScene.yt2) scrollHeight=yt2
+            if (scrollHeight > currentScene.yt2) scrollHeight = yt2
             currentScene.scrollRatio = currentScene.yt2 / heightLastItem;
             currentScene.scrollHeight = scrollHeight;
             currentScene.scroller = currentScene.add.rectangle(currentScene.xt1 + currentScene.xt2 + 10, currentScene.yt1 + scrollHeight / 2, 20, scrollHeight).setInteractive().setFillStyle(0x122266)
@@ -287,11 +309,18 @@ var loserBoard = new Phaser.Class({
                 currentScene.scrolling = true;
             })
 
+            currentScene.input.on('wheel', function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
+             
+                container.y -= deltaY * 5;
+                container.y = Phaser.Math.Clamp(container.y, currentScene.endContainer, 0);
+                currentScene.scroller.y = -container.y * currentScene.scrollRatio + currentScene.yt1 + currentScene.scrollHeight / 2;
+        
+            });
 
 
 
             if (currentScene.heightSelectedItem > heightContainer) {
-               
+
                 currentScene.tweens.add({
                     targets: container,
                     y: {
@@ -308,7 +337,7 @@ var loserBoard = new Phaser.Class({
                     targets: currentScene.scroller,
                     y: {
                         from: currentScene.yt1 + scrollHeight / 2,
-                        to: -(-currentScene.heightSelectedItem + heightContainer)*currentScene.scrollRatio+currentScene.yt1+currentScene.scrollHeight/2
+                        to: -(-currentScene.heightSelectedItem + heightContainer) * currentScene.scrollRatio + currentScene.yt1 + currentScene.scrollHeight / 2
                     },
                     duration: 1000,
                     ease: 'Sine.easeInOut',
@@ -317,13 +346,13 @@ var loserBoard = new Phaser.Class({
                 })
 
             }
-            
+
 
 
             var mask = new Phaser.Display.Masks.GeometryMask(currentScene, backgroundTableGraphics);
             container.setMask(mask);
 
-            currentScene.endContainer=heightContainer - heightLastItem;
+            currentScene.endContainer = heightContainer - heightLastItem;
 
             currentScene.zone.on('pointermove', function (pointer) {
 
@@ -341,13 +370,13 @@ var loserBoard = new Phaser.Class({
 
             currentScene.zone.on('pointerout', function (pointer) {
                 if (pointer.isDown) {
-                    currentScene.inertia=pointer.velocity.y
+                    currentScene.inertia = pointer.velocity.y
                 }
             })
 
             currentScene.zone.on('pointerup', function (pointer) {
 
-                currentScene.inertia=pointer.velocity.y
+                currentScene.inertia = pointer.velocity.y
             })
 
         });
