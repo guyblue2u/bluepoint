@@ -515,7 +515,7 @@ var hud = new Phaser.Class({
         })
 
         this.timedEvent = this.time.delayedCall(144000 + initialTime, () => {
-            if (joyStick !== undefined) {
+            if (this.joyStick !== undefined) {
                 this.joyStick.thumb.setVisible(false);
                 this.joyStick.base.setVisible(false);
             }
