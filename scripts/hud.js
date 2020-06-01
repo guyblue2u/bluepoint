@@ -64,38 +64,36 @@ var hud = new Phaser.Class({
         graphics.fillStyle(0x1f317d, 0.6);
         this.rectangleDialog = graphics.fillRect(200, 400, 500, 110).setVisible(false);
 
-
-
-        this.buttonSubmitRect = this.add.rectangle(340, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setInteractive();
-        this.buttonSkipRect = this.add.rectangle(560, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setInteractive();
+        this.buttonSubmitRect = this.add.rectangle(340, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+        this.buttonSkipRect = this.add.rectangle(560, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
         //------------------form
         this.form = this.add.dom(450, 430).createFromCache('form').setVisible(false);
         graphics.fillStyle(0x334fcb, 0.9);
 
-        this.buttonSubmit = this.add.text(290, 470, "Submit", {
+        this.buttonSubmit = this.add.text(this.buttonSubmitRect.x, this.buttonSubmitRect.y, "Submit", {
             fontFamily: 'euroStyle',
             fontSize: 25
-        }).setVisible(false);
+        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);;
 
-        this.buttonSkip = this.add.text(520, 470, "Skip", {
+        this.buttonSkip = this.add.text(this.buttonSkipRect.x, this.buttonSkipRect.y, "Skip", {
             fontFamily: 'euroStyle',
             fontSize: 25
-        }).setVisible(false);
+        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);;
 
         //--------------Hover effect for the buttons
-        this.buttonSkip.on('pointerover', () => {
-            this.buttonSkip.setFillStyle(0x1f317d);
+        this.buttonSubmitRect.on('pointerover', () => {
+            this.buttonSubmitRect.setFillStyle(0x334fcb);
         });
-        this.buttonSkip.on('pointerout', () => {
-            this.buttonSkip.setFillStyle(0x334fcb);
+        this.buttonSubmitRect.on('pointerout', () => {
+            this.buttonSubmitRect.setFillStyle(0x1f317d);
         });
 
 
-        this.buttonSubmit.on('pointerover', () => {
-            this.buttonSubmit.setFillStyle(0x1f317d);
+        this.buttonSkipRect.on('pointerover', () => {
+            this.buttonSkipRect.setFillStyle(0x334fcb);
         });
-        this.buttonSubmit.on('pointerout', () => {
-            this.buttonSubmit.setFillStyle(0x334fcb);
+        this.buttonSkipRect.on('pointerout', () => {
+            this.buttonSkipRect.setFillStyle(0x1f317d);
         });
 
 
@@ -532,7 +530,8 @@ var hud = new Phaser.Class({
             this.textDialogue.visible = true;
             this.textDialogue.y = 430;
             this.textDialogue.x = 240;
-            this.typingEffect("Oh, you’re still here?  We should stick together.")
+            this.textDialogue.setShadow(3, 3, 'rgba(0,0,0,0.9)', 4);
+            this.typingEffect("Oh, you’re still here?  We should stick together.");
         })
         this.timedEvent = this.time.delayedCall(175000 + initialTime, () => {
             this.textDialogue.visible = false;
@@ -619,6 +618,7 @@ var hud = new Phaser.Class({
     },
 
     hideDialogue() { // hide the current dialogue or goes to the next one in a sequential dialog
+        controls.joystickLocked = false;
         if (this.sequentialText) {
             //this.textDialogue.text=nextText.message;
             this.typingEffect(this.nextText.message);
@@ -651,6 +651,7 @@ var hud = new Phaser.Class({
     },
 
     showDialogue(message) { // shows the dialogue window with a specific message
+        controls.joystickLocked = true;
         if (message != null) {
             this.typingEffect(message);
             this.textTitle.text = "Guy Blue"

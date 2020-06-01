@@ -21,7 +21,7 @@ var menu = new Phaser.Class({
 
 
         this.guttedText = this.add.image(444, 260, "guttedText").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
-        this.logo = this.add.image(444,230, "bluepointLogo").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
+        this.logo = this.add.image(444, 230, "bluepointLogo").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
         this.level1Text = this.add.image(430, 260, "lvl1Text").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
 
         this.flashingText = this.add.text(444, 430, 'TAP OR SPACE TO START ', {
@@ -315,17 +315,31 @@ var menu = new Phaser.Class({
             if (!this.rectangleDialog.visible) {
                 if (this.flashingText.visible) this.startMessage();
             } else
-                this.typingEffect();
+
+            if (this.textDialog.text !== this.dialogMessages[this.currentMessageIndex]) {
+                if (this.eventTyping !== undefined) {
+                    this.eventTyping.remove();
+                    this.textDialog.text=this.dialogMessages[this.currentMessageIndex];
+                }
+            }
+            else this.typingEffect();
         });
 
 
 
 
         this.flashingText.on('pointerdown', () => {
-            if (!this.rectangleDialog.visible)
-                this.startMessage();
-            else
-                this.typingEffect();
+            if (!this.rectangleDialog.visible) {
+                if (this.flashingText.visible) this.startMessage();
+            } else
+
+            if (this.textDialog.text !== this.dialogMessages[this.currentMessageIndex]) {
+                if (this.eventTyping !== undefined) {
+                    this.eventTyping.remove();
+                    this.textDialog.text=this.dialogMessages[this.currentMessageIndex];
+                }
+            }
+            else this.typingEffect();
         });
 
         // -------------------------------- T I M E D       E V E N T S
@@ -399,8 +413,9 @@ var menu = new Phaser.Class({
         this.rectangleDialog = this.add.rectangle(444, 375, 500, 150).setVisible(false).setInteractive().setFillStyle(0x4063FF, 0.6);
 
 
-        this.rectangleDialog.on('pointerdown', () => {
-            this.typingEffect();
+        this.input.on('pointerdown', () => {
+            if (this.rectangleDialog.visible)
+                this.typingEffect();
         })
 
 
@@ -410,12 +425,12 @@ var menu = new Phaser.Class({
                 width: 400,
                 useAdvancedWrap: true
             },
-        }).setFontSize(25).setVisible(false);
+        }).setFontSize(25).setVisible(false).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
 
         this.textDialogInstructions = this.add.text(450, 420, 'Tap or press space to continue', {
             fontFamily: 'euroStyle'
-        }).setFontSize(15).setVisible(false);
+        }).setFontSize(15).setVisible(false).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);;
 
 
 
@@ -440,6 +455,7 @@ var menu = new Phaser.Class({
                 repeat: this.dialogMessages[this.currentMessageIndex].length - 1
             });
 
+            testVariable = this.eventTyping;
         }
 
     },
