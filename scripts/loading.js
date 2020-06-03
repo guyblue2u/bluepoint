@@ -85,6 +85,9 @@ var loading = new Phaser.Class({
         this.load.image("copyIcon", "./assets/images/copy.png");
 
         // audios
+        this.load.audio("start_Sound", "./assets/audio/Start Sound.mp3");
+        this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
+        this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
         this.load.audio("song", "./assets/audio/Gutted.mp3");
 
         // fonts
@@ -122,11 +125,15 @@ var loading = new Phaser.Class({
         music = this.sound.add('song', {
             delay: 0
         });
+
+
+
+
     },
 
     update: function () {
-        //if (complete == 2) this.scene.start("menu")
+        if (complete == 2) this.scene.start("menu")
         //if (complete == 2) this.scene.start("loserBoard" , {type:2,name:"",score:0})
-        if (complete == 2) this.scene.start("mainScene")
+        //if (complete == 2) this.scene.start("mainScene")
     }
 })

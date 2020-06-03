@@ -17,6 +17,22 @@ var menu = new Phaser.Class({
 
     create: function () {
 
+        rythm = this.sound.add('intro_Rythm', {
+            delay: 0
+        }).setVolume(0);;
+
+        synth = this.sound.add('intro_Synth', {
+            delay: 0
+        });
+
+        start_sound = this.sound.add('start_Sound', {
+            delay: 0
+        });
+
+        rythm.play()
+        synth.play();
+        
+
         this.cameras.main.setBackgroundColor('#FFFFFF')
 
 
@@ -313,6 +329,8 @@ var menu = new Phaser.Class({
 
         this.input.keyboard.on('keydown_SPACE', (event) => {
             if (!this.rectangleDialog.visible) {
+                start_sound.play();
+                rythm.setVolume(1);
                 if (this.flashingText.visible) this.startMessage();
             } else
 
@@ -438,6 +456,8 @@ var menu = new Phaser.Class({
             this.currentMessageIndex++;
 
             if (this.currentMessageIndex > 5) {
+                rythm.stop()
+                synth.stop();
                 this.scene.start("mainScene");
                 return;
             }
