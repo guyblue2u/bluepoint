@@ -534,13 +534,13 @@ var hud = new Phaser.Class({
 
         this.scoreText = this.add.text(450, 55, this.score, {
             fontFamily: 'ZCOOL QingKe HuangYou'
-        }).setFontSize(30);
+        }).setFontSize(30).setShadow(3, 3, 'rgba(0,0,0,0.5)', 4);
         this.scoreText.visible = false;
         this.iconZZZ = this.add.image(420, 80, "ZZZIcon", [1]);
         this.iconZZZ.visible = false;
         this.scoreTitleText = this.add.text(410, 10, "SCORE", {
             fontFamily: 'ZCOOL QingKe HuangYou'
-        }).setFontSize(35);
+        }).setFontSize(35).setShadow(3, 3, 'rgba(0,0,0,0.5)', 4);
         this.scoreTitleText.visible = false;
         this.iconZZZ.scaleX = 3;
         this.iconZZZ.scaleY = 3;
