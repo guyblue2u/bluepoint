@@ -451,8 +451,20 @@ var menu = new Phaser.Class({
                 this.mutedIcon.setVisible(false);
             }
 
-            if (this.rectangleDialog.visible)
-                this.typingEffect();
+            if (!this.rectangleDialog.visible) {
+                if (this.flashingText.visible) {
+                    this.startMessage();
+                    start_sound.play();
+                    rythm.setVolume(1);
+                }
+            } else
+
+            if (this.textDialog.text !== this.dialogMessages[this.currentMessageIndex]) {
+                if (this.eventTyping !== undefined) {
+                    this.eventTyping.remove();
+                    this.textDialog.text = this.dialogMessages[this.currentMessageIndex];
+                }
+            } else this.typingEffect();
         })
 
 

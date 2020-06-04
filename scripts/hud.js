@@ -660,6 +660,7 @@ var hud = new Phaser.Class({
 
         this.timedEvent = this.time.delayedCall(170000 + initialTime, () => {
 
+            player.direction=down;
             this.scoreText.visible = false;
             this.scoreTitleText.visible = false;
             this.iconZZZ.visible = false;
