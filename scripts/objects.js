@@ -85,11 +85,11 @@ let player = {
         // movement
         if (x > 30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x + speed, this.avatar.y + 16) &&
             !checkColisionNPCS(this.avatar.x + speed, this.avatar.y + 16)) {
-            this.avatar.x += speed;
+            this.avatar.x += speed*1.2;
         }
         if (x < -30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x - speed, this.avatar.y + 16) &&
             !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16)) {
-            this.avatar.x -= speed;
+            this.avatar.x -= speed*1.2;
         }
         if (y < -30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y + 16 - speed) &&
             !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 - speed)) {
@@ -322,7 +322,10 @@ function hideAllCharacters() {
 
 function shareTwitter(score) { //share score on twitter        
     var tweetbegin = 'https://twitter.com/intent/tweet?text=';
-    var tweettxt = 'I%20scored%20' + score + '%20at%20this%20game%20-&url=' + window.location.href;;
+    if(score!==null)
+        var tweettxt = 'I%20scored%20' + score + '%20at%20this%20game%20-&url=' + window.location.href;
+    else
+    var tweettx= 'check%20out%20this%20interactive%20music%20video%20by%20Guy%20Blue' + window.location.href;
     var finaltweet = tweetbegin + tweettxt;
     window.open(finaltweet, '_blank');
 }
@@ -343,4 +346,13 @@ function copyStringToClipboard() {
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+}
+
+function ValidateEmail(mail) 
+{
+ if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+  {
+    return (true)
+  }
+    return (false)
 }

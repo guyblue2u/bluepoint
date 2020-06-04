@@ -34,10 +34,7 @@ var hud = new Phaser.Class({
     create: function () {
 
 
-        //------------delete later
-        test_function = () => {
-            this.scene.start("mainScene");
-        }
+
 
 
         this.playTime = 0;
@@ -97,7 +94,26 @@ var hud = new Phaser.Class({
         });
 
 
+        this.validationForm = this.add.text(430, 510, '', {
+            fontFamily: 'euroStyle',
+            fontSize: 15,
+            color: '#f20a0a'
+        }).setOrigin(0.5, 0.5)
+
+
         this.buttonSubmitRect.on('pointerdown', () => {
+
+            // validate email and name:
+            if (this.form.getChildByID('formName').value.length < 2) {
+                this.validationForm.text = "enter a valid name"
+                return;
+            }
+            if (!ValidateEmail(this.form.getChildByID('formEmail').value)) {
+                this.validationForm.text = "enter a valid email"
+                return;
+            }
+
+            this.validationForm.text = ""
             player.avatar.setVisible(false);
             var inputName = this.form.getChildByID('formName').value;
             var inputEmail = this.form.getChildByID('formEmail').value;
@@ -389,18 +405,140 @@ var hud = new Phaser.Class({
             loop: 0,
         });
 
+        //-------------hamburger icon
+        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive().setAlpha(0.6);
+
+        this.hamburguer.on('pointerover', () => {
+            this.hamburguer.setScale(0.45);
+        });
+        this.hamburguer.on('pointerout', () => {
+            this.hamburguer.setScale(0.4);
+        });
+
+        this.hamburguer.on('pointerdown', () => {
+            if (!this.loserBoardRect.visible) { // show the icons
+                this.loserBoardRect.visible = true;
+                this.loserBoardRect.tweenIn.play();
+                this.returnRect.visible = true;
+                this.returnRect.tweenIn.play();
+                this.time.delayedCall(200, () => {
+                    this.loserBoardtext.setVisible(true);
+                    this.returnText.setVisible(true);
+
+                });
+
+            } else { //hide the icons
+                this.loserBoardtext.setVisible(false);
+                this.returnText.setVisible(false);
+                this.time.delayedCall(200, () => {
+                    this.loserBoardRect.visible = false;
+                    this.returnRect.visible = false;
+
+                });
+                this.loserBoardRect.tweenOut.play();
+                this.returnRect.tweenOut.play();
+
+            }
+        })
+
+
+        // restart the game 
+        this.loserBoardRect = this.add.rectangle(750, 140, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
+        this.loserBoardtext = this.add.text(750, 140, "Restart ", {
+            fontFamily: 'euroStyle',
+            fontSize: 30
+        }).setOrigin(0.5, 0.5).setVisible(false);
+
+        this.loserBoardRect.on('pointerover', () => {
+            this.loserBoardRect.setFillStyle(0x4063FF, 1);
+        });
+        this.loserBoardRect.on('pointerout', () => {
+            this.loserBoardRect.setFillStyle(0x4063FF, 0.6);
+        });
+
+        this.loserBoardRect.on('pointerdown', () => {
+            music.stop();
+            this.scene.stop("mainScene");
+            resetGame();
+            this.scene.start("mainScene", {})
+        });
+
+        this.loserBoardRect.tweenIn = this.tweens.add({
+            targets: this.loserBoardRect,
+            y: {
+                from: 40,
+                to: 140
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+        this.loserBoardRect.tweenOut = this.tweens.add({
+            targets: this.loserBoardRect,
+            y: {
+                from: 140,
+                to: 40
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+
+
+        // ---------- return tu menu
+        this.returnRect = this.add.rectangle(750, 200, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
+        this.returnText = this.add.text(750, 200, "Return", {
+            fontFamily: 'euroStyle',
+            fontSize: 30
+        }).setOrigin(0.5, 0.5).setVisible(false);
+
+        this.returnRect.on('pointerover', () => {
+            this.returnRect.setFillStyle(0x4063FF, 1);
+        });
+        this.returnRect.on('pointerout', () => {
+            this.returnRect.setFillStyle(0x4063FF, 0.6);
+        });
+        this.returnRect.on('pointerdown', () => {
+            music.stop();
+            this.scene.stop("mainScene");
+            this.scene.start("menu");
+        });
+
+        this.returnRect.tweenIn = this.tweens.add({
+            targets: this.returnRect,
+            y: {
+                from: 40,
+                to: 200
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+        this.returnRect.tweenOut = this.tweens.add({
+            targets: this.returnRect,
+            y: {
+                from: 200,
+                to: 40
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
 
 
 
         // ----------------- Score
 
-        this.scoreText = this.add.text(800, 55, this.score, {
+        this.scoreText = this.add.text(450, 55, this.score, {
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(30);
         this.scoreText.visible = false;
-        this.iconZZZ = this.add.image(770, 80, "ZZZIcon", [1]);
+        this.iconZZZ = this.add.image(420, 80, "ZZZIcon", [1]);
         this.iconZZZ.visible = false;
-        this.scoreTitleText = this.add.text(760, 10, "SCORE", {
+        this.scoreTitleText = this.add.text(410, 10, "SCORE", {
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(35);
         this.scoreTitleText.visible = false;
@@ -534,6 +672,7 @@ var hud = new Phaser.Class({
             this.typingEffect("Oh, you’re still here?  We should stick together.");
         })
         this.timedEvent = this.time.delayedCall(175000 + initialTime, () => {
+            controls.joystickLocked = true;
             this.textDialogue.visible = false;
             this.form.visible = true;
             this.buttonSkipRect.visible = true;
@@ -555,8 +694,6 @@ var hud = new Phaser.Class({
 
         this.texto = this.add.text(10, 10, "");
         music.play();
-
-
 
     },
 
@@ -681,7 +818,7 @@ var hud = new Phaser.Class({
                     if (nearest[1].message === 0) {
                         if (nearest[1].name === "Alex") {
                             player.shirt = "Red";
-                            player.move(up);
+                            player.avatar.play("idleUp" + player.shirt);
                         }
                         this.typingEffect(nearest[1]["message1"]);
                         //this.textDialogue.text=nearest[1]["message1"];

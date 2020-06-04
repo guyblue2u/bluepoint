@@ -80,6 +80,7 @@ var loserBoard = new Phaser.Class({
 
 
         if (this.sceneType !== 3) { // if the scene is not type 3, show the score
+            // score
             this.add.text(600, 105, "Your Score", {
                 fontFamily: 'euroStyle',
                 fontSize: 18
@@ -89,7 +90,163 @@ var loserBoard = new Phaser.Class({
                 fontFamily: 'euroStyle',
                 fontSize: 40
             }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5)
-            // score
+
+
+            //show the buttons
+            // share score
+            this.buttonShare = this.add.rectangle(600, 210, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.add.text(this.buttonShare.x, this.buttonShare.y, "Share Score", {
+                fontFamily: 'euroStyle',
+                fontSize: 20
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5)
+
+            this.buttonShare.on('pointerover', () => {
+                this.buttonShare.setFillStyle(0x1f317d);
+            });
+            this.buttonShare.on('pointerout', () => {
+                this.buttonShare.setFillStyle(0x334fcb);
+            });
+
+
+            //----------------------------------------S O C I A L     M E D I A
+            this.containerSocialMedia = this.add.rectangle(780, 260, 80, 300).setFillStyle(0x334fcb, 0.8).setStrokeStyle(1, 0x616161, 1.0).setVisible(false).setDepth(-10);
+
+            this.containerSocialMedia.tweenIn = this.tweens.add({
+                targets: this.containerSocialMedia,
+                scale: {
+                    from: 0,
+                    to: 1
+                },
+                duration: 400,
+                ease: 'Linear',
+                loop: 0,
+            });
+
+            this.containerSocialMedia.tweenOut = this.tweens.add({
+                targets: this.containerSocialMedia,
+                scale: {
+                    from: 1,
+                    to: 0
+                },
+                duration: 400,
+                ease: 'Linear',
+                loop: 0,
+            });
+
+
+            this.buttonShare.on('pointerdown', () => {
+                if (!this.facebook.visible) { // show the icons
+                    this.containerSocialMedia.setVisible(true);
+                    this.containerSocialMedia.tweenIn.play()
+                    this.time.delayedCall(400, () => {
+                        this.facebook.visible = true;
+                        this.twitter.visible = true;
+                        this.copyURL.visible = true;
+                    });
+                } else { //hide the icons
+                    this.facebook.visible = false;
+                    this.twitter.visible = false;
+                    this.copyURL.visible = false;
+                    this.containerSocialMedia.tweenOut.play()
+                    this.time.delayedCall(400, () => {
+                        this.containerSocialMedia.setVisible(false);
+
+
+                    });
+                }
+            })
+
+
+            //---------------Facebook
+            this.facebook = this.add.image(780, 150, "facebook").setScale(0.4).setVisible(false);
+            this.facebook.setInteractive();
+            this.facebook.on('pointerdown', () => {
+                shareFacebook();
+
+            });
+
+            this.facebook.on('pointerover', () => {
+                this.facebook.setScale(0.5);
+            });
+            this.facebook.on('pointerout', () => {
+                this.facebook.setScale(0.4);
+            });
+
+
+            //----------------Twitter
+            this.twitter = this.add.image(780, 260, "twitter").setScale(0.4).setVisible(false);
+            this.twitter.setInteractive();
+            this.twitter.on('pointerdown', () => {
+                if (this.sceneType !== 3) shareTwitter(this.score);
+                else shareTwitter();
+            });
+
+            this.twitter.on('pointerover', () => {
+                this.twitter.setScale(0.5);
+            });
+            this.twitter.on('pointerout', () => {
+                this.twitter.setScale(0.4);
+            });
+
+
+            //----------------Copy to clipboard
+            this.copyURL = this.add.image(780, 360, "copyIcon").setScale(1).setVisible(false);
+            this.copyURL.setInteractive();
+            this.copyURL.on('pointerdown', () => {
+                copyStringToClipboard();
+            });
+
+            this.copyURL.on('pointerover', () => {
+                this.copyURL.setScale(1.2);
+            });
+            this.copyURL.on('pointerout', () => {
+                this.copyURL.setScale(1);
+            });
+
+
+
+            // Restart the game
+            this.buttonPlayAgain = this.add.rectangle(600, 260, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.add.text(this.buttonPlayAgain.x, this.buttonPlayAgain.y, "Play Again", {
+                fontFamily: 'euroStyle',
+                fontSize: 20
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
+
+            this.buttonPlayAgain.on('pointerover', () => {
+                this.buttonPlayAgain.setFillStyle(0x1f317d);
+            });
+            this.buttonPlayAgain.on('pointerout', () => {
+                this.buttonPlayAgain.setFillStyle(0x334fcb);
+            });
+            this.buttonPlayAgain.on('pointerdown', () => {
+                resetGame();
+                this.scene.start("mainScene");
+            })
+
+            // Next Level
+            this.buttonNextLevel = this.add.rectangle(600, 310, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.buttonNextLevelText = this.add.text(this.buttonNextLevel.x, this.buttonNextLevel.y, "Next Level ", {
+                fontFamily: 'euroStyle',
+                fontSize: 20,
+            }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
+            this.buttonNextLevelText;
+            this.buttonNextLevel.on('pointerover', () => {
+                this.buttonNextLevelText.text = "Coming 8/20 "
+                this.buttonNextLevel.setFillStyle(0xa9afc9);
+            });
+            this.buttonNextLevel.on('pointerout', () => {
+                this.buttonNextLevelText.text = "Next Level "
+                this.buttonNextLevel.setFillStyle(0x334fcb);
+            });
+            this.buttonNextLevel.on('pointerdown', () => {
+                if (mobileAndTabletCheck) {
+                    this.buttonNextLevelText.text = "Coming 8/20 "
+                    this.buttonNextLevel.setFillStyle(0xa9afc9);
+                }
+                // go to the next level
+            })
+
+
 
         }
 
@@ -114,8 +271,24 @@ var loserBoard = new Phaser.Class({
             });
 
 
+            this.validationForm = this.add.text(430, 400, '', {
+                fontFamily: 'euroStyle',
+                fontSize: 15,
+                color: '#f20a0a'
+            }).setOrigin(0.5, 0.5)
             this.buttonSubmitRect.on('pointerdown', () => {
 
+                // validate email and name:
+                if (this.form.getChildByID('formName').value.length < 2) {
+                    this.validationForm.text = "enter a valid name"
+                    return;
+                }
+                if (!ValidateEmail(this.form.getChildByID('formEmail').value)) {
+                    this.validationForm.text = "enter a valid email"
+                    return;
+                }
+
+                this.validationForm.text = ""
                 this.yt2 = 300;
                 this.separatorLine.geom.y2 = this.yt2;
                 this.backgroundTable.commandBuffer[7] = this.yt2;
@@ -134,6 +307,49 @@ var loserBoard = new Phaser.Class({
             })
         }
 
+        if (this.sceneType === 3) { // show the particles
+
+
+            this.particlesAlpha = {};
+            this.particlesAlpha.alpha = 0;
+            this.particles = []
+            createDust().forEach(el => {
+
+                var rect = this.bloom = this.add.image(el.x, el.y, "whiteSquare").setDepth(-1);
+                rect.speed = Math.random() * 4 + 1;
+                this.particles.push(rect);
+            })
+            this.tweens.add({ // camera zoom in again
+                targets: this.particlesAlpha,
+                alpha: {
+                    from: 0,
+                    to: 1
+                },
+                duration: 5000,
+                ease: 'Linear',
+                loop: 0,
+            });
+
+
+            // Return to menu
+            this.buttonPlayAgain = this.add.rectangle(600, 260, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.add.text(this.buttonPlayAgain.x, this.buttonPlayAgain.y, "Return", {
+                fontFamily: 'euroStyle',
+                fontSize: 20
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
+
+            this.buttonPlayAgain.on('pointerover', () => {
+                this.buttonPlayAgain.setFillStyle(0x1f317d);
+            });
+            this.buttonPlayAgain.on('pointerout', () => {
+                this.buttonPlayAgain.setFillStyle(0x334fcb);
+            });
+            this.buttonPlayAgain.on('pointerdown', () => {
+                this.scene.start("menu");
+            })
+
+        }
+
 
         this.separatorLine = this.add.line(0, this.yt1 + this.yt2 / 2, 205, 0, 205, this.yt2, '#9c9c9c'); //line between rank and name
         testo = this.separatorLine;
@@ -149,65 +365,6 @@ var loserBoard = new Phaser.Class({
         this.zone = this.add.zone(this.xt1, this.yt1, this.xt2, this.yt2).setOrigin(0).setInteractive();
 
 
-        // share score
-        this.buttonShare = this.add.rectangle(600, 210, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
-        this.add.text(this.buttonShare.x, this.buttonShare.y, "Share Score", {
-            fontFamily: 'euroStyle',
-            fontSize: 20
-        }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5)
-
-        this.buttonShare.on('pointerover', () => {
-            this.buttonShare.setFillStyle(0x1f317d);
-        });
-        this.buttonShare.on('pointerout', () => {
-            this.buttonShare.setFillStyle(0x334fcb);
-        });
-        this.buttonShare.on('pointerdown', () => {
-            // share things
-        })
-
-
-        // Restart the game
-        this.buttonPlayAgain = this.add.rectangle(600, 260, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
-        this.add.text(this.buttonPlayAgain.x, this.buttonPlayAgain.y, "Play Again", {
-            fontFamily: 'euroStyle',
-            fontSize: 20
-        }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
-
-        this.buttonPlayAgain.on('pointerover', () => {
-            this.buttonPlayAgain.setFillStyle(0x1f317d);
-        });
-        this.buttonPlayAgain.on('pointerout', () => {
-            this.buttonPlayAgain.setFillStyle(0x334fcb);
-        });
-        this.buttonPlayAgain.on('pointerdown', () => {
-            resetGame();
-            this.scene.start("mainScene");
-        })
-
-        // Next Level
-        this.buttonNextLevel = this.add.rectangle(600, 310, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
-        this.buttonNextLevelText = this.add.text(this.buttonNextLevel.x, this.buttonNextLevel.y, "Next Level ", {
-            fontFamily: 'euroStyle',
-            fontSize: 20,
-        }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
-        this.buttonNextLevelText;
-        this.buttonNextLevel.on('pointerover', () => {
-            this.buttonNextLevelText.text = "Coming 8/20 "
-            this.buttonNextLevel.setFillStyle(0xa9afc9);
-        });
-        this.buttonNextLevel.on('pointerout', () => {
-            this.buttonNextLevelText.text = "Next Level "
-            this.buttonNextLevel.setFillStyle(0x334fcb);
-        });
-        this.buttonNextLevel.on('pointerdown', () => {
-            if (mobileAndTabletCheck) {
-                this.buttonNextLevelText.text = "Coming 8/20 "
-                this.buttonNextLevel.setFillStyle(0xa9afc9);
-            }
-            // go to the next level
-        })
-
 
         this.pointer = this.input.activePointer;
         this.scrollHeight = 0;
@@ -218,6 +375,14 @@ var loserBoard = new Phaser.Class({
     },
 
     update: function () {
+
+        if (this.particles !== undefined) {
+            this.particles.forEach(el => {
+                el.y += el.speed;
+                el.alpha = ((530 - el.y) / 530) * this.particlesAlpha.alpha
+                if (el.y > 530) el.y = -5;
+            })
+        }
 
         if (this.pointer.isDown) {
             if (this.scrolling) {

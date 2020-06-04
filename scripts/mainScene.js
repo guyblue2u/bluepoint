@@ -797,10 +797,10 @@ var mainScene = new Phaser.Class({
         });
 
         timedEvent = this.time.delayedCall(168000 + initialTime, () => {
-            createDust();
+            
             this.particlesAlpha={};
             this.particlesAlpha.alpha=0;     
-            dustParticles.forEach(el=>{
+            createDust().forEach(el=>{
                               
                 var rect = this.bloom = this.add.image(el.x, el.y, "whiteSquare").setDepth(player.avatar.y-1);
                 rect.speed=Math.random()*4+1;
@@ -860,11 +860,13 @@ var mainScene = new Phaser.Class({
     }
 })
 
-let dustParticles=[]
+
 function createDust(){
+    let dustParticles=[]
     for (let i=0; i<100;i++){
-        dustParticles.push({x:Math.random()*888, y:Math.random()*250,alpha:1})
+       dustParticles.push({x:Math.random()*888, y:Math.random()*250,alpha:1})
     }
+    return dustParticles;
 }
 
 

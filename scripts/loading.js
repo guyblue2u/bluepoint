@@ -19,16 +19,17 @@ var loading = new Phaser.Class({
     preload: function () { //loads all the assets from the complete game
 
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
-        
+
         this.load.html('form', './scripts/form.html');
 
-        this.load.image("black" , "./assets/images/black.png");
+        this.load.image("black", "./assets/images/black.png");
         this.load.image("background_1", "./assets/images/base1.png");
         this.load.image("background_2", "./assets/images/base2.png");
         this.load.image("bloom", "./assets/images/lights_bloom.png");
-        this.load.image("dust","./assets/images/dust.gif");
-        this.load.image("whiteSquare","./assets/images/white_square.png");
-        this.load.image("hambugerIcon","./assets/images/Hamburger_icon.png")
+        this.load.image("dust", "./assets/images/dust.gif");
+        this.load.image("whiteSquare", "./assets/images/white_square.png");
+        this.load.image("hambugerIcon", "./assets/images/Hamburger_icon.png");
+        this.load.image("mutedIcon", "./assets/images/mute_icon.png");
 
         this.load.spritesheet("discoBall", "./assets/images/disco ball.png", {
             frameWidth: 36,
@@ -113,7 +114,7 @@ var loading = new Phaser.Class({
 
     create: function () {
 
-     
+
         WebFont.load({
             google: {
                 families: ['ZCOOL QingKe HuangYou']

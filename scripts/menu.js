@@ -31,7 +31,7 @@ var menu = new Phaser.Class({
 
         rythm.play()
         synth.play();
-        
+
 
         this.cameras.main.setBackgroundColor('#FFFFFF')
 
@@ -117,6 +117,8 @@ var menu = new Phaser.Class({
         });
 
         this.loserBoardRect.on('pointerdown', () => {
+            rythm.stop();
+            synth.stop();
             this.scene.start("loserBoard", {
                 type: 3,
                 name: null,
@@ -257,7 +259,7 @@ var menu = new Phaser.Class({
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
         this.twitter.on('pointerdown', () => {
-            shareTwitter(this.score);
+            shareTwitter();
         });
 
         this.twitter.on('pointerover', () => {
@@ -325,39 +327,52 @@ var menu = new Phaser.Class({
             loop: 0,
         });
 
+        //--------------------Mute button
+        this.mutedIcon = this.add.image(10, 510, "mutedIcon").setScale(0.6).setOrigin(0, 1).setAlpha(0.6);
+
+
 
 
         this.input.keyboard.on('keydown_SPACE', (event) => {
             if (!this.rectangleDialog.visible) {
-                start_sound.play();
-                rythm.setVolume(1);
-                if (this.flashingText.visible) this.startMessage();
+                if (this.flashingText.visible) {
+                    this.startMessage();
+                    start_sound.play();
+                    rythm.setVolume(1);
+                }
             } else
 
             if (this.textDialog.text !== this.dialogMessages[this.currentMessageIndex]) {
                 if (this.eventTyping !== undefined) {
                     this.eventTyping.remove();
-                    this.textDialog.text=this.dialogMessages[this.currentMessageIndex];
+                    this.textDialog.text = this.dialogMessages[this.currentMessageIndex];
                 }
-            }
-            else this.typingEffect();
+            } else this.typingEffect();
         });
 
 
-
+        this.input.keyboard.on('keydown', () => {
+            if (this.mutedIcon.visible) {
+                this.mutedIcon.setVisible(false);
+            }
+        })
 
         this.flashingText.on('pointerdown', () => {
+
             if (!this.rectangleDialog.visible) {
-                if (this.flashingText.visible) this.startMessage();
+                if (this.flashingText.visible) {
+                    this.startMessage();
+                    start_sound.play();
+                    rythm.setVolume(1);
+                }
             } else
 
             if (this.textDialog.text !== this.dialogMessages[this.currentMessageIndex]) {
                 if (this.eventTyping !== undefined) {
                     this.eventTyping.remove();
-                    this.textDialog.text=this.dialogMessages[this.currentMessageIndex];
+                    this.textDialog.text = this.dialogMessages[this.currentMessageIndex];
                 }
-            }
-            else this.typingEffect();
+            } else this.typingEffect();
         });
 
         // -------------------------------- T I M E D       E V E N T S
@@ -432,6 +447,10 @@ var menu = new Phaser.Class({
 
 
         this.input.on('pointerdown', () => {
+            if (this.mutedIcon.visible) {
+                this.mutedIcon.setVisible(false);
+            }
+
             if (this.rectangleDialog.visible)
                 this.typingEffect();
         })
