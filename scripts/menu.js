@@ -25,6 +25,10 @@ var menu = new Phaser.Class({
             delay: 0
         });
 
+        loadingMusic = this.sound.add('loading', {
+            delay: 0
+        }).setVolume(0)
+
         start_sound = this.sound.add('start_Sound', {
             delay: 0
         });
@@ -36,9 +40,10 @@ var menu = new Phaser.Class({
         this.cameras.main.setBackgroundColor('#FFFFFF')
 
 
-        this.guttedText = this.add.image(444, 260, "guttedText").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
-        this.logo = this.add.image(444, 230, "bluepointLogo").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
-        this.level1Text = this.add.image(430, 260, "lvl1Text").setOrigin(0.5).setVisible(false).setAlpha(0).setScale(0.7);
+        this.guttedText = this.add.image(444, 260, "guttedText").setOrigin(0.5).setVisible(false).setAlpha(0);
+        this.logo = this.add.image(444, 230, "bluepointLogo").setOrigin(0.5).setVisible(false).setAlpha(0);
+
+        this.whiteRect = this.add.rectangle(0, 0, 888, 520).setFillStyle(0xffffff).setDepth(3).setOrigin(0, 0).setAlpha(0);
 
         this.flashingText = this.add.text(444, 430, 'TAP OR SPACE TO START ', {
             fontFamily: 'euroStyle',
@@ -63,7 +68,27 @@ var menu = new Phaser.Class({
             fontSize: 25,
         }).setOrigin(0.5, 0.5);
 
+        this.zone = this.add.zone(0, 0, 888, 520).setOrigin(0).setInteractive(); //zone for clicking
+        this.zone.on('pointerdown', () => {
+            if (this.mutedIcon.visible) {
+                this.mutedIcon.setVisible(false);
+            }
 
+            if (!this.rectangleDialog.visible) {
+                if (this.flashingText.visible) {
+                    this.startMessage();
+                    start_sound.play();
+                    rythm.setVolume(0.8);
+                }
+            } else
+
+            if (this.textDialog.text !== this.dialogMessages[this.currentMessageIndex]) {
+                if (this.eventTyping !== undefined) {
+                    this.eventTyping.remove();
+                    this.textDialog.text = this.dialogMessages[this.currentMessageIndex];
+                }
+            } else this.typingEffect();
+        })
 
         //-------------hamburger icon
         this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive().setAlpha(0.6);
@@ -259,7 +284,7 @@ var menu = new Phaser.Class({
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
         this.twitter.on('pointerdown', () => {
-            shareTwitter();
+            shareTwitter(null);
         });
 
         this.twitter.on('pointerover', () => {
@@ -347,7 +372,7 @@ var menu = new Phaser.Class({
                     this.eventTyping.remove();
                     this.textDialog.text = this.dialogMessages[this.currentMessageIndex];
                 }
-            } else this.typingEffect();
+            } else if (this.currentMessageIndex <= 3) this.typingEffect();
         });
 
 
@@ -398,10 +423,10 @@ var menu = new Phaser.Class({
 
 
         this.time.delayedCall(3000, () => { //     At 0:03
-            this.level1Text.visible = true;
+
             this.guttedText.visible = true;
             this.tweens.add({
-                targets: [this.level1Text, this.guttedText],
+                targets: [this.guttedText],
                 alpha: {
                     from: 0,
                     to: 1
@@ -425,7 +450,6 @@ var menu = new Phaser.Class({
         this.startMessage = () => {
             this.logo.visible = false;
             this.guttedText.visible = false;
-            this.level1Text.visible = false;
             this.flashingText.visible = false;
             this.rectangleDialog.visible = true;
             this.textDialog.visible = true;
@@ -443,29 +467,8 @@ var menu = new Phaser.Class({
             'See you there.'
         ]
 
-        this.rectangleDialog = this.add.rectangle(444, 375, 500, 150).setVisible(false).setInteractive().setFillStyle(0x4063FF, 0.6);
+        this.rectangleDialog = this.add.rectangle(444, 375, 500, 150).setVisible(false).setFillStyle(0x4063FF, 0.6);
 
-
-        this.input.on('pointerdown', () => {
-            if (this.mutedIcon.visible) {
-                this.mutedIcon.setVisible(false);
-            }
-
-            if (!this.rectangleDialog.visible) {
-                if (this.flashingText.visible) {
-                    this.startMessage();
-                    start_sound.play();
-                    rythm.setVolume(1);
-                }
-            } else
-
-            if (this.textDialog.text !== this.dialogMessages[this.currentMessageIndex]) {
-                if (this.eventTyping !== undefined) {
-                    this.eventTyping.remove();
-                    this.textDialog.text = this.dialogMessages[this.currentMessageIndex];
-                }
-            } else this.typingEffect();
-        })
 
 
         this.textDialog = this.add.text(220, 320, this.dialogMessages[this.currentMessageIndex], {
@@ -484,12 +487,79 @@ var menu = new Phaser.Class({
 
 
         this.typingEffect = () => {
-            this.currentMessageIndex++;
 
-            if (this.currentMessageIndex > 5) {
-                rythm.stop()
-                synth.stop();
-                this.scene.start("mainScene");
+            this.currentMessageIndex++;
+            if (this.currentMessageIndex === 3) {
+                this.zone.setInteractive(false);
+                this.zone.destroy('pointerdown');
+                this.textDialogInstructions.setVisible(false);
+
+                this.typingEffect()
+
+                this.time.delayedCall(2000, () => {
+                    this.typingEffect()
+                });
+
+                this.time.delayedCall(5000, () => {
+
+                    this.tweens.add({ // fade out rythm
+                        targets: rythm,
+                        volume: {
+                            from: 0.8,
+                            to: 0
+                        },
+                        duration: 5000,
+                        ease: 'Sine.easeInOut',
+                        loop: 0,
+                        yoyo: false,
+                    })
+                    this.tweens.add({ // fade out synth
+                        targets: synth,
+                        volume: {
+                            from: 1,
+                            to: 0
+                        },
+                        duration: 5000,
+                        ease: 'Sine.easeInOut',
+                        loop: 0,
+                        yoyo: false,
+                    })
+
+                    loadingMusic.play();
+
+                    this.tweens.add({
+                        targets: loadingMusic,
+                        volume: {
+                            from: 0,
+                            to: 1
+                        },
+                        duration: 5000,
+                        ease: 'Sine.easeInOut',
+                        loop: 0,
+                        yoyo: false,
+                    })
+
+                    this.tweens.add({
+                        targets: this.whiteRect,
+                        alpha: {
+                            from: 0,
+                            to: 1
+                        },
+                        duration: 5000,
+                        ease: 'Sine.easeInOut',
+                        loop: 0,
+                        yoyo: false,
+                    })
+
+                    this.time.delayedCall(10000, () => {
+                        rythm.stop()
+                        synth.stop();
+                        loadingMusic.stop();
+                        this.scene.start("mainScene");
+                    });
+
+                });
+
                 return;
             }
 

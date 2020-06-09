@@ -827,7 +827,7 @@ var mainScene = new Phaser.Class({
 
         this.scene.launch("hud");
         
-        this.cameras.main.fadeIn(2000);
+        this.cameras.main.fadeIn(2000,255,255,255);
     },
 
     update: function (time, delta) {

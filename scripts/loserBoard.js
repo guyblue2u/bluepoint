@@ -178,7 +178,7 @@ var loserBoard = new Phaser.Class({
             this.twitter.setInteractive();
             this.twitter.on('pointerdown', () => {
                 if (this.sceneType !== 3) shareTwitter(this.score);
-                else shareTwitter();
+                else shareTwitter(null);
             });
 
             this.twitter.on('pointerover', () => {

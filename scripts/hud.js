@@ -209,7 +209,7 @@ var hud = new Phaser.Class({
             this.dialogueWindow = this.add.image(400, 100, "messageBoard");
         this.dialogueWindow.scaleX = 3.5;
         this.dialogueWindow.scaleY = 1.7;
-        //this.textTitle=this.add.bitmapText(200,165,'Antenna',"testing",20);
+       
         this.textTitle = this.add.text(400, 40, 'Hello World', {
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(35);
@@ -489,7 +489,7 @@ var hud = new Phaser.Class({
 
         // ---------- return tu menu
         this.returnRect = this.add.rectangle(750, 200, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
-        this.returnText = this.add.text(750, 200, "Return", {
+        this.returnText = this.add.text(750, 200, "Menu", {
             fontFamily: 'euroStyle',
             fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);

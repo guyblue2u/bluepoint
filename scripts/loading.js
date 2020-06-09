@@ -75,9 +75,9 @@ var loading = new Phaser.Class({
         })
 
         // initial screen
-        this.load.image("guttedText", "./assets/images/gutted shea stadium solo smaller.png");
-        this.load.image("bluepointLogo", "./assets/images/bluepoint solo smaller.png");
-        this.load.image("lvl1Text", "./assets/images/lvl 1 solo smaller.png");
+        this.load.image("guttedText", "./assets/images/Lvl 1_and_name_updated.png");
+        this.load.image("bluepointLogo", "./assets/images/logo_updated.png");
+       
 
         // social media icons
         this.load.image("facebook", "./assets/images/facebook.png");
@@ -90,9 +90,10 @@ var loading = new Phaser.Class({
         this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
         this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
         this.load.audio("song", "./assets/audio/Gutted.mp3");
+        this.load.audio("loading" ,"./assets/audio/Bluepoint Loading Sound.m4a");
 
         // fonts
-        this.loadingText = this.add.text(444, 260, "Loading...", {
+        this.loadingText = this.add.text(444, 260, "Loading Bluepoint", {
             fontFamily: 'euroStyle',
             fontSize: 50
         }).setOrigin(0.5)
@@ -106,6 +107,12 @@ var loading = new Phaser.Class({
             yoyo: true,
         });
 
+        this.time.delayedCall(2000 + initialTime, () => {
+            this.loadingText.text="Rendering Environment"
+        });
+        this.time.delayedCall(3000 + initialTime, () => {
+            this.loadingText.text="Populating Lobby"
+        });
 
         this.load.on('complete', function () {
             complete++;
