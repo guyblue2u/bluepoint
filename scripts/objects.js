@@ -325,7 +325,8 @@ function shareTwitter(score) { //share score on twitter
     if(score!==null)
         var tweettxt = 'I%20scored%20' + score + '%20at%20this%20game%20-&url=' + window.location.href;
     else
-    var tweettx= 'check%20out%20this%20interactive%20music%20video%20by%20Guy%20Blue' + window.location.href;
+    var tweettxt = 'Shea%20Stadium%20still%20exists%20in%20#Bluepoint.'+ window.location.href;
+   
     var finaltweet = tweetbegin + tweettxt;
     window.open(finaltweet, '_blank');
 }
