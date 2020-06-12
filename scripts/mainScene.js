@@ -735,7 +735,7 @@ var mainScene = new Phaser.Class({
             player.avatar.play("idleDown" + player.shirt);
             this.bloom.visible = false;
             hideAllCharacters();
-            console.log("end gamepart in: " + music.seek);
+            //console.log("end gamepart in: " + music.seek);
         })
 
         timedEvent = this.time.delayedCall(144000 + initialTime, () => {

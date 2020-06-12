@@ -144,7 +144,7 @@ var loading = new Phaser.Class({
         this.time.delayedCall(2000 + initialTime, () => {
             this.loadingText.text="Rendering Environment"
         });
-        this.time.delayedCall(3000 + initialTime, () => {
+        this.time.delayedCall(4000 + initialTime, () => {
             this.loadingText.text="Populating Lobby"
         });
 

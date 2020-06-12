@@ -231,7 +231,7 @@ var loserBoard = new Phaser.Class({
                 fontSize: 20,
             }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
 
-            console.log("is mobile: " + mobileAndTabletCheck());
+
             if (!mobileAndTabletCheck()) { // for desktop, let the hover effect
                 this.buttonNextLevel.on('pointerover', () => {
                     this.buttonNextLevelText.text = "Coming 8/20 "
@@ -263,7 +263,7 @@ var loserBoard = new Phaser.Class({
                 this.buttonMenu.setFillStyle(0x334fcb);
             });
             this.buttonMenu.on('pointerdown', () => {
-                if(outroMusic.isPlaying()) outroMusic.stop();
+                if(outroMusic.isPlaying) outroMusic.stop();
                 this.scene.start("map");
             })
 
@@ -403,7 +403,7 @@ var loserBoard = new Phaser.Class({
                 fontSize: 20,
             }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
 
-            console.log("is mobile: " + mobileAndTabletCheck());
+
             if (!mobileAndTabletCheck()) { // for desktop, let the hover effect
                 this.buttonNextLevel.on('pointerover', () => {
                     this.buttonNextLevelText.text = "Coming 8/20 "

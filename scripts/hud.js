@@ -458,7 +458,7 @@ var hud = new Phaser.Class({
 
         this.loserBoardRect.on('pointerdown', () => {
             music.stop();
-            if (outroMusic.isPlaying()) outroMusic.stop();
+            if (outroMusic.isPlaying) outroMusic.stop();
             this.scene.stop("mainScene");
             resetGame();
             this.scene.start("mainScene", {})
@@ -504,7 +504,7 @@ var hud = new Phaser.Class({
         this.returnRect.on('pointerdown', () => {
 
             music.stop();
-            if(outroMusic.isPlaying()) outroMusic.stop();
+            if(outroMusic.isPlaying) outroMusic.stop();
             this.scene.stop("mainScene");
             this.scene.start("map");
         });
@@ -624,7 +624,7 @@ var hud = new Phaser.Class({
 
             if (this.showingDialogue) this.endAllDialogs();
             sleepEveryone();
-            console.log("people sleeping in: " + music.seek);
+            //console.log("people sleeping in: " + music.seek);
             //doors now show the secondary message
             NPCS[16].message = 1;
             NPCS[17].message = 1;
