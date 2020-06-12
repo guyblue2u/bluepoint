@@ -94,7 +94,7 @@ var loserBoard = new Phaser.Class({
 
             //show the buttons
             // share score
-            this.buttonShare = this.add.rectangle(600, 210, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.buttonShare = this.add.rectangle(600, 200, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
             this.add.text(this.buttonShare.x, this.buttonShare.y, "Share Score", {
                 fontFamily: 'euroStyle',
                 fontSize: 20
@@ -206,7 +206,7 @@ var loserBoard = new Phaser.Class({
 
 
             // Restart the game
-            this.buttonPlayAgain = this.add.rectangle(600, 260, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.buttonPlayAgain = this.add.rectangle(600, 250, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
             this.add.text(this.buttonPlayAgain.x, this.buttonPlayAgain.y, "Play Again", {
                 fontFamily: 'euroStyle',
                 fontSize: 20
@@ -221,30 +221,52 @@ var loserBoard = new Phaser.Class({
             this.buttonPlayAgain.on('pointerdown', () => {
                 resetGame();
                 this.scene.start("mainScene");
+                if(outroMusic.isPlaying()) outroMusic.stop();
             })
 
             // Next Level
-            this.buttonNextLevel = this.add.rectangle(600, 310, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.buttonNextLevel = this.add.rectangle(600, 300, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
             this.buttonNextLevelText = this.add.text(this.buttonNextLevel.x, this.buttonNextLevel.y, "Next Level ", {
                 fontFamily: 'euroStyle',
                 fontSize: 20,
             }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
-            this.buttonNextLevelText;
-            this.buttonNextLevel.on('pointerover', () => {
-                this.buttonNextLevelText.text = "Coming 8/20 "
-                this.buttonNextLevel.setFillStyle(0xa9afc9);
-            });
-            this.buttonNextLevel.on('pointerout', () => {
-                this.buttonNextLevelText.text = "Next Level "
-                this.buttonNextLevel.setFillStyle(0x334fcb);
-            });
+
+            console.log("is mobile: " + mobileAndTabletCheck());
+            if (!mobileAndTabletCheck()) { // for desktop, let the hover effect
+                this.buttonNextLevel.on('pointerover', () => {
+                    this.buttonNextLevelText.text = "Coming 8/20 "
+                    this.buttonNextLevel.setFillStyle(0xa9afc9);
+                });
+                this.buttonNextLevel.on('pointerout', () => {
+                    this.buttonNextLevelText.text = "Next Level "
+                    this.buttonNextLevel.setFillStyle(0x334fcb);
+                });
+            }
             this.buttonNextLevel.on('pointerdown', () => {
-                if (mobileAndTabletCheck) {
+                if (mobileAndTabletCheck()) {
                     this.buttonNextLevelText.text = "Coming 8/20 "
                     this.buttonNextLevel.setFillStyle(0xa9afc9);
                 }
                 // go to the next level
             })
+
+            // Menu
+            this.buttonMenu = this.add.rectangle(600, 350, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.buttonMenuText = this.add.text(this.buttonMenu.x, this.buttonMenu.y, "Menu ", {
+                fontFamily: 'euroStyle',
+                fontSize: 20,
+            }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
+            this.buttonMenu.on('pointerover', () => {
+                this.buttonMenu.setFillStyle(0x1f317d);
+            });
+            this.buttonMenu.on('pointerout', () => {
+                this.buttonMenu.setFillStyle(0x334fcb);
+            });
+            this.buttonMenu.on('pointerdown', () => {
+                if(outroMusic.isPlaying()) outroMusic.stop();
+                this.scene.start("map");
+            })
+
 
 
 
@@ -255,6 +277,11 @@ var loserBoard = new Phaser.Class({
             // submit form
 
             this.form = this.add.dom(430, 420).createFromCache('form');
+            this.textInstructions = this.add.text(215, 385, "Post score to loser board:", {
+                fontFamily: 'euroStyle',
+                fontSize: 15
+            }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+
 
             this.buttonSubmitRect = this.add.rectangle(430, 470, 200, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
 
@@ -295,6 +322,7 @@ var loserBoard = new Phaser.Class({
                 this.buttonSubmit.visible = false;
                 this.form.visible = false;
                 this.buttonSubmitRect.visible = false;
+                this.textInstructions.setVisible(false);
 
                 var inputName = this.form.getChildByID('formName').value;
                 var inputEmail = this.form.getChildByID('formEmail').value;
@@ -313,9 +341,9 @@ var loserBoard = new Phaser.Class({
             this.particlesAlpha = {};
             this.particlesAlpha.alpha = 0;
             this.particles = []
-            createDust().forEach(el => {
+            createDust(50).forEach(el => {
 
-                var rect = this.bloom = this.add.image(el.x, el.y, "whiteSquare").setDepth(-1);
+                var rect = this.add.image(el.x, el.y, "whiteSquare").setDepth(-1).setScale(4);
                 rect.speed = Math.random() * 4 + 1;
                 this.particles.push(rect);
             })
@@ -331,8 +359,8 @@ var loserBoard = new Phaser.Class({
             });
 
 
-            // Return to menu
-            this.buttonPlayAgain = this.add.rectangle(600, 260, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            // Return to intro
+            this.buttonPlayAgain = this.add.rectangle(600, 250, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
             this.add.text(this.buttonPlayAgain.x, this.buttonPlayAgain.y, "Return", {
                 fontFamily: 'euroStyle',
                 fontSize: 20
@@ -346,6 +374,52 @@ var loserBoard = new Phaser.Class({
             });
             this.buttonPlayAgain.on('pointerdown', () => {
                 this.scene.start("menu");
+            })
+
+
+
+
+            // Menu
+            this.buttonMenu = this.add.rectangle(600, 300, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.buttonMenuText = this.add.text(this.buttonMenu.x, this.buttonMenu.y, "Menu ", {
+                fontFamily: 'euroStyle',
+                fontSize: 20,
+            }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
+            this.buttonMenu.on('pointerover', () => {
+                this.buttonMenu.setFillStyle(0x1f317d);
+            });
+            this.buttonMenu.on('pointerout', () => {
+                this.buttonMenu.setFillStyle(0x334fcb);
+            });
+            this.buttonMenu.on('pointerdown', () => {
+
+                this.scene.start("map");
+            })
+
+            // Next Level
+            this.buttonNextLevel = this.add.rectangle(600, 350, 160, 40).setFillStyle(0x334fcb).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+            this.buttonNextLevelText = this.add.text(this.buttonNextLevel.x, this.buttonNextLevel.y, "Next Level ", {
+                fontFamily: 'euroStyle',
+                fontSize: 20,
+            }).setOrigin(0.5, 0).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5).setOrigin(0.5);
+
+            console.log("is mobile: " + mobileAndTabletCheck());
+            if (!mobileAndTabletCheck()) { // for desktop, let the hover effect
+                this.buttonNextLevel.on('pointerover', () => {
+                    this.buttonNextLevelText.text = "Coming 8/20 "
+                    this.buttonNextLevel.setFillStyle(0xa9afc9);
+                });
+                this.buttonNextLevel.on('pointerout', () => {
+                    this.buttonNextLevelText.text = "Next Level "
+                    this.buttonNextLevel.setFillStyle(0x334fcb);
+                });
+            }
+            this.buttonNextLevel.on('pointerdown', () => {
+                if (mobileAndTabletCheck()) {
+                    this.buttonNextLevelText.text = "Coming 8/20 "
+                    this.buttonNextLevel.setFillStyle(0xa9afc9);
+                }
+                // go to the next level
             })
 
         }

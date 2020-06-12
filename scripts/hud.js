@@ -209,7 +209,7 @@ var hud = new Phaser.Class({
             this.dialogueWindow = this.add.image(400, 100, "messageBoard");
         this.dialogueWindow.scaleX = 3.5;
         this.dialogueWindow.scaleY = 1.7;
-       
+
         this.textTitle = this.add.text(400, 40, 'Hello World', {
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(35);
@@ -406,7 +406,7 @@ var hud = new Phaser.Class({
         });
 
         //-------------hamburger icon
-        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive().setAlpha(0.6);
+        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
 
         this.hamburguer.on('pointerover', () => {
             this.hamburguer.setScale(0.45);
@@ -458,6 +458,7 @@ var hud = new Phaser.Class({
 
         this.loserBoardRect.on('pointerdown', () => {
             music.stop();
+            if (outroMusic.isPlaying()) outroMusic.stop();
             this.scene.stop("mainScene");
             resetGame();
             this.scene.start("mainScene", {})
@@ -501,9 +502,11 @@ var hud = new Phaser.Class({
             this.returnRect.setFillStyle(0x4063FF, 0.6);
         });
         this.returnRect.on('pointerdown', () => {
+
             music.stop();
+            if(outroMusic.isPlaying()) outroMusic.stop();
             this.scene.stop("mainScene");
-            this.scene.start("menu");
+            this.scene.start("map");
         });
 
         this.returnRect.tweenIn = this.tweens.add({
@@ -532,13 +535,13 @@ var hud = new Phaser.Class({
 
         // ----------------- Score
 
-        this.scoreText = this.add.text(450, 55, this.score, {
+        this.scoreText = this.add.text(750, 55, this.score, {
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(30).setShadow(3, 3, 'rgba(0,0,0,0.5)', 4);
         this.scoreText.visible = false;
-        this.iconZZZ = this.add.image(420, 80, "ZZZIcon", [1]);
+        this.iconZZZ = this.add.image(720, 80, "ZZZIcon", [1]);
         this.iconZZZ.visible = false;
-        this.scoreTitleText = this.add.text(410, 10, "SCORE", {
+        this.scoreTitleText = this.add.text(700, 10, "SCORE", {
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(35).setShadow(3, 3, 'rgba(0,0,0,0.5)', 4);
         this.scoreTitleText.visible = false;
@@ -601,6 +604,9 @@ var hud = new Phaser.Class({
         this.timedEvent = this.time.delayedCall(3000 + initialTime, () => {
             this.showDialogue("I wonder what’s happening tonight, let’s ask around.");
             this.textInstruction.visible = false;
+
+
+
         });
 
         this.timedEvent = this.time.delayedCall(6000 + initialTime, () => {
@@ -660,7 +666,7 @@ var hud = new Phaser.Class({
 
         this.timedEvent = this.time.delayedCall(170000 + initialTime, () => {
 
-            player.direction=down;
+            player.direction = down;
             this.scoreText.visible = false;
             this.scoreTitleText.visible = false;
             this.iconZZZ.visible = false;
@@ -680,6 +686,17 @@ var hud = new Phaser.Class({
             this.buttonSubmitRect.visible = true;
             this.buttonSubmit.visible = true;
             this.buttonSkip.visible = true;
+            outroMusic.play();
+            this.tweens.add({
+                targets: outroMusic,
+                volume: {
+                    from: 0,
+                    to: 0.8
+                },
+                duration: 10000,
+                ease: 'Sine.easeInOut',
+                loop: 0,
+            });
         })
 
 
@@ -695,6 +712,10 @@ var hud = new Phaser.Class({
 
         this.texto = this.add.text(10, 10, "");
         music.play();
+
+        outroMusic = this.sound.add('outro', {
+            delay: 0
+        }).setVolume(0);;
 
     },
 
@@ -756,7 +777,7 @@ var hud = new Phaser.Class({
     },
 
     hideDialogue() { // hide the current dialogue or goes to the next one in a sequential dialog
-        controls.joystickLocked = false;
+
         if (this.sequentialText) {
             //this.textDialogue.text=nextText.message;
             this.typingEffect(this.nextText.message);
@@ -773,6 +794,7 @@ var hud = new Phaser.Class({
                 if (NPCSpeaking.avatar.anims != undefined) NPCSpeaking.avatar.anims.play("idle" + NPCSpeaking.name);
             this.NPCDIalogueIndex = -1;
         }
+        controls.joystickLocked = false;
     },
 
     endAllDialogs() { // hide any dialog when NPCS go to sleep
@@ -789,7 +811,7 @@ var hud = new Phaser.Class({
     },
 
     showDialogue(message) { // shows the dialogue window with a specific message
-        controls.joystickLocked = true;
+
         if (message != null) {
             this.typingEffect(message);
             this.textTitle.text = "Guy Blue"
@@ -799,6 +821,10 @@ var hud = new Phaser.Class({
         this.textDialogue.visible = true;
         this.textInstruction.visible = true;
         this.dialogueWindow.visible = true;
+        player.returnToIdle();
+        player.direction = null;
+        player.moving = false;
+        controls.joystickLocked = true;
     },
 
     showScore() {

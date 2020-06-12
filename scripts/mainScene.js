@@ -798,13 +798,14 @@ var mainScene = new Phaser.Class({
 
         timedEvent = this.time.delayedCall(168000 + initialTime, () => {
             
+            this.particles = []
             this.particlesAlpha={};
             this.particlesAlpha.alpha=0;     
-            createDust().forEach(el=>{
+            createDust(100).forEach(el=>{
                               
                 var rect = this.bloom = this.add.image(el.x, el.y, "whiteSquare").setDepth(player.avatar.y-1);
                 rect.speed=Math.random()*4+1;
-                particles.push(rect);
+                this.particles.push(rect);
             })
             this.tweens.add({                   // camera zoom in again
                 targets: this.particlesAlpha,
@@ -850,8 +851,8 @@ var mainScene = new Phaser.Class({
 
         if (this.bloom.visible === true) this.bloom.alpha = (((Math.sin(time / 200) + 1) / 2))
 
-        if(particles!==undefined){
-            particles.forEach(el=>{
+        if(this.particles!==undefined){
+            this.particles.forEach(el=>{
                 el.y+=el.speed;
                 el.alpha=((530-el.y)/530)*this.particlesAlpha.alpha
                 if(el.y>530) el.y=-5;
@@ -861,9 +862,9 @@ var mainScene = new Phaser.Class({
 })
 
 
-function createDust(){
+function createDust(numberParticles){
     let dustParticles=[]
-    for (let i=0; i<100;i++){
+    for (let i=0; i<numberParticles;i++){
        dustParticles.push({x:Math.random()*888, y:Math.random()*250,alpha:1})
     }
     return dustParticles;

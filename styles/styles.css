@@ -23,3 +23,10 @@ html,body{
     font-weight:400;
     font-weight:normal;
   }
+
+  @font-face {
+    font-family: euroStyle_condensed;
+    src: url('../assets/fonts/EurostileLT-Condensed.ttf');
+    font-weight:400;
+    font-weight:normal;
+  }

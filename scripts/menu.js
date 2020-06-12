@@ -177,7 +177,7 @@ var menu = new Phaser.Class({
 
         // ----------link to Map
         this.MapRect = this.add.rectangle(750, 200, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
-        this.Maptext = this.add.text(750, 200, "Map", {
+        this.Maptext = this.add.text(750, 200, "Menu", {
             fontFamily: 'euroStyle',
             fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);
@@ -187,6 +187,10 @@ var menu = new Phaser.Class({
         });
         this.MapRect.on('pointerout', () => {
             this.MapRect.setFillStyle(0x4063FF, 0.6);
+        });
+
+        this.MapRect.on('pointerdown', () => {
+            this.scene.start("map");
         });
 
         this.MapRect.tweenIn = this.tweens.add({
@@ -498,9 +502,7 @@ var menu = new Phaser.Class({
 
                 this.time.delayedCall(2000, () => {
                     this.typingEffect()
-                });
-
-                this.time.delayedCall(5000, () => {
+               
 
                     this.tweens.add({ // fade out rythm
                         targets: rythm,

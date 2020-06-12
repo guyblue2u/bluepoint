@@ -91,6 +91,40 @@ var loading = new Phaser.Class({
         this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
         this.load.audio("song", "./assets/audio/Gutted.mp3");
         this.load.audio("loading" ,"./assets/audio/Bluepoint Loading Sound.m4a");
+        this.load.audio("outro" ,"./assets/audio/Bluepoint Outro Music.m4a");
+
+
+        // map
+        this.load.image("map_trees", "./assets/images/map/trees.png");
+        this.load.image("map_logo", "./assets/images/map/map_logo.png");
+
+        this.load.image("map_golden_road", "./assets/images/map/golden_20road_20.png");
+        this.load.image("map_golden_road_grey", "./assets/images/map/golden road  grey.png");
+        this.load.image("map_golden_road_glow", "./assets/images/map/golden road  grey_glow.png");
+
+        this.load.image("map_204_grey", "./assets/images/map/building_204_20grey.png");
+        this.load.image("map_204_glow", "./assets/images/map/building_204_20grey_glow.png");
+        this.load.image("map_204_color", "./assets/images/map/building_204_20color.png");
+
+        this.load.image("map_203_grey", "./assets/images/map/building_203_20grey.png");
+        this.load.image("map_203_glow", "./assets/images/map/building_203_20grey_glow.png");
+        this.load.image("map_203_color", "./assets/images/map/building_203_20color.png");
+
+        this.load.image("map_202_grey", "./assets/images/map/building_202_20grey.png");
+        this.load.image("map_202_glow", "./assets/images/map/building_202_20grey_glow.png");
+        this.load.image("map_202_color", "./assets/images/map/building_202_20color.png");
+
+        this.load.image("map_201_grey", "./assets/images/map/building_201_20grey.png");
+        this.load.image("map_201_glow", "./assets/images/map/building_201_20grey_glow.png");
+        this.load.image("map_201_color", "./assets/images/map/building_201_20color.png");
+
+        this.load.image("map_bridge_grey", "./assets/images/map/bridge_20grey.png");
+        this.load.image("map_bridge_glow", "./assets/images/map/bridge_20grey_glow.png");
+        this.load.image("map_bridge_color", "./assets/images/map/bridge_20color.png");
+
+        this.load.image("map_base", "./assets/images/map/base.png");
+
+
 
         // fonts
         this.loadingText = this.add.text(444, 260, "Loading Bluepoint", {
@@ -101,7 +135,7 @@ var loading = new Phaser.Class({
         this.tweens.add({
             targets: this.loadingText,
             alpha: 0,
-            duration: 1000,
+            duration: 2000,
             ease: 'Sine.easeInOut',
             loop: -1,
             yoyo: true,
@@ -140,8 +174,9 @@ var loading = new Phaser.Class({
     },
 
     update: function () {
-        if (complete == 2) this.scene.start("menu")
-        //if (complete == 2) this.scene.start("loserBoard" , {type:2,name:"",score:0})
-        //if (complete == 2) this.scene.start("mainScene")
+        //if (complete == 2) this.scene.start("menu");
+        //if (complete == 2) this.scene.start("loserBoard" , {type:3,name:"",score:10});
+        //if (complete == 2) this.scene.start("mainScene");
+        if (complete == 2) this.scene.start("map");
     }
 })

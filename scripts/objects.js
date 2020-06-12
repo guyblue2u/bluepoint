@@ -323,7 +323,7 @@ function hideAllCharacters() {
 function shareTwitter(score) { //share score on twitter        
     var tweetbegin = 'https://twitter.com/intent/tweet?text=';
     if(score!==null && score!== undefined)
-        var tweettxt = 'I%20scored%20' + score + '%20at%20this%20game%20-&url=' + window.location.href;
+        var tweettxt = 'I%20woke%20up%20' + score + '%20people%20in%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=' + window.location.href;
     else
     var tweettxt = 'Shea%20Stadium%20still%20exists%20in%20#Bluepoint.'+ window.location.href;
    
