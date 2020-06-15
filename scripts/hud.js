@@ -43,6 +43,7 @@ var hud = new Phaser.Class({
         this.sequentialText = false;
         this.nextText = '';
         this.eventTyping = undefined;
+        this.messageToShow = "";
 
 
         this.textDialogue = this.add.text(190, 70, "", { //text showing the message of the NPC or Guy Blue
@@ -70,12 +71,12 @@ var hud = new Phaser.Class({
         this.buttonSubmit = this.add.text(this.buttonSubmitRect.x, this.buttonSubmitRect.y, "Submit", {
             fontFamily: 'euroStyle',
             fontSize: 25
-        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);;
+        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
         this.buttonSkip = this.add.text(this.buttonSkipRect.x, this.buttonSkipRect.y, "Skip", {
             fontFamily: 'euroStyle',
             fontSize: 25
-        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);;
+        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
         //--------------Hover effect for the buttons
         this.buttonSubmitRect.on('pointerover', () => {
@@ -179,6 +180,7 @@ var hud = new Phaser.Class({
 
         this.typingEffect = (text) => {
 
+                this.messageToShow = text;
                 let i = 0;
                 this.textToShow = "";
                 this.textDialogue.text = this.textToShow;
@@ -457,8 +459,7 @@ var hud = new Phaser.Class({
         });
 
         this.loserBoardRect.on('pointerdown', () => {
-            music.stop();
-            if (outroMusic.isPlaying) outroMusic.stop();
+            this.game.sound.stopAll();
             this.scene.stop("mainScene");
             resetGame();
             this.scene.start("mainScene", {})
@@ -503,8 +504,7 @@ var hud = new Phaser.Class({
         });
         this.returnRect.on('pointerdown', () => {
 
-            music.stop();
-            if(outroMusic.isPlaying) outroMusic.stop();
+            this.game.sound.stopAll();
             this.scene.stop("mainScene");
             this.scene.start("map");
         });
@@ -551,18 +551,33 @@ var hud = new Phaser.Class({
 
         this.input.keyboard.on('keydown_ENTER', (event) => {
             if (!this.showingDialogue) this.interact();
-            else if (!controls.buttonsLocked) this.hideDialogue();
+            else if (!controls.buttonsLocked) {
+                if (this.textDialogue.text !== this.messageToShow) {
+                    this.textDialogue.text = this.messageToShow;
+                    if (this.eventTyping !== undefined) this.eventTyping.remove(false);
+                } else this.hideDialogue();
+            }
         });
 
         this.input.keyboard.on('keydown_SPACE', (event) => {
             if (!this.showingDialogue) this.interact();
-            else if (!controls.buttonsLocked) this.hideDialogue();
+            else if (!controls.buttonsLocked) {
+                if (this.textDialogue.text !== this.messageToShow) {
+                    this.textDialogue.text = this.messageToShow;
+                    if (this.eventTyping !== undefined) this.eventTyping.remove(false);
+                } else this.hideDialogue();
+            }
         });
 
 
         this.buttonInteract.on('pointerdown', () => {
             if (!this.showingDialogue) this.interact();
-            else if (!controls.buttonsLocked) this.hideDialogue();
+            else if (!controls.buttonsLocked) {
+                if (this.textDialogue.text !== this.messageToShow) {
+                    this.textDialogue.text = this.messageToShow;
+                    if (this.eventTyping !== undefined) this.eventTyping.remove(false);
+                } else this.hideDialogue();
+            }
         });
 
 
@@ -715,7 +730,7 @@ var hud = new Phaser.Class({
 
         outroMusic = this.sound.add('outro', {
             delay: 0
-        }).setVolume(0);;
+        }).setVolume(0);
 
     },
 
@@ -723,8 +738,6 @@ var hud = new Phaser.Class({
 
 
         this.playTime += delta;
-
-        // this.texto.text = Math.floor((Math.floor((this.playTime + initialTime) / 10) / 100 - Math.floor(music.seek * 100) / 100) * 10) / 10;
 
         let nearest = minDistance();
         if (nearest[0] < radiusInteraction && nearest[1].sleeping !== 2) {

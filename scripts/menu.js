@@ -70,9 +70,6 @@ var menu = new Phaser.Class({
 
         this.zone = this.add.zone(0, 0, 888, 520).setOrigin(0).setInteractive(); //zone for clicking
         this.zone.on('pointerdown', () => {
-            if (this.mutedIcon.visible) {
-                this.mutedIcon.setVisible(false);
-            }
 
             if (!this.rectangleDialog.visible) {
                 if (this.flashingText.visible) {
@@ -144,6 +141,7 @@ var menu = new Phaser.Class({
         this.loserBoardRect.on('pointerdown', () => {
             rythm.stop();
             synth.stop();
+            this.scene.stop("menu");
             this.scene.start("loserBoard", {
                 type: 3,
                 name: null,
@@ -190,6 +188,7 @@ var menu = new Phaser.Class({
         });
 
         this.MapRect.on('pointerdown', () => {
+            this.game.sound.stopAll();
             this.scene.start("map");
         });
 
@@ -357,7 +356,7 @@ var menu = new Phaser.Class({
         });
 
         //--------------------Mute button
-        this.mutedIcon = this.add.image(10, 510, "mutedIcon").setScale(0.6).setOrigin(0, 1).setAlpha(0.6);
+        //this.mutedIcon = this.add.image(10, 510, "mutedIcon").setScale(0.6).setOrigin(0, 1).setAlpha(0.6);
 
 
 
@@ -380,11 +379,11 @@ var menu = new Phaser.Class({
         });
 
 
-        this.input.keyboard.on('keydown', () => {
-            if (this.mutedIcon.visible) {
-                this.mutedIcon.setVisible(false);
-            }
-        })
+        // this.input.keyboard.on('keydown', () => {
+        //     if (this.mutedIcon.visible) {
+        //         this.mutedIcon.setVisible(false);
+        //     }
+        // })
 
         this.flashingText.on('pointerdown', () => {
 
@@ -554,9 +553,7 @@ var menu = new Phaser.Class({
                     })
 
                     this.time.delayedCall(10000, () => {
-                        rythm.stop()
-                        synth.stop();
-                        loadingMusic.stop();
+                        this.game.sound.stopAll();
                         this.scene.start("mainScene");
                     });
 

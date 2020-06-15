@@ -264,6 +264,7 @@ var loserBoard = new Phaser.Class({
             });
             this.buttonMenu.on('pointerdown', () => {
                 if(outroMusic.isPlaying) outroMusic.stop();
+                this.scene.stop("mainScene");
                 this.scene.start("map");
             })
 
@@ -373,6 +374,7 @@ var loserBoard = new Phaser.Class({
                 this.buttonPlayAgain.setFillStyle(0x334fcb);
             });
             this.buttonPlayAgain.on('pointerdown', () => {
+                this.scene.stop("mainScene");
                 this.scene.start("menu");
             })
 
