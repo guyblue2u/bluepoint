@@ -320,14 +320,15 @@ function hideAllCharacters() {
 
 // -------------------------------------- Social Media
 
-function shareTwitter(score) { //share score on twitter        
+function shareTwitter(tweettxt) { //share score on twitter        
     var tweetbegin = 'https://twitter.com/intent/tweet?text=';
-    if(score!==null && score!== undefined)
-        var tweettxt = 'I%20woke%20up%20' + score + '%20people%20in%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=' + window.location.href;
-    else
-    var tweettxt = 'Shea%20Stadium%20still%20exists%20in%20#Bluepoint.'+ window.location.href;
+    // if(score!==null && score!== undefined)
+    //     var tweettxt = 'I%20woke%20up%20' + score + '%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=';
+
+    // else
+    // var tweettxt = 'Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.';
    
-    var finaltweet = tweetbegin + tweettxt;
+    var finaltweet = tweetbegin + tweettxt + window.location.href;
     window.open(finaltweet, '_blank');
 }
 

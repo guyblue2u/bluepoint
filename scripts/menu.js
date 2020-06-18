@@ -17,6 +17,10 @@ var menu = new Phaser.Class({
 
     create: function () {
 
+        background_video=this.add.video(444,260,'background_intro_1');
+        background_video.play(true);
+
+
         rythm = this.sound.add('intro_Rythm', {
             delay: 0
         }).setVolume(0);;
@@ -287,7 +291,7 @@ var menu = new Phaser.Class({
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
         this.twitter.on('pointerdown', () => {
-            shareTwitter(null);
+            shareTwitter('Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.');
         });
 
         this.twitter.on('pointerover', () => {
@@ -356,7 +360,7 @@ var menu = new Phaser.Class({
         });
 
         //--------------------Mute button
-        //this.mutedIcon = this.add.image(10, 510, "mutedIcon").setScale(0.6).setOrigin(0, 1).setAlpha(0.6);
+        this.mutedIcon = this.add.image(0, 520, "mutedIcon").setScale(0.3).setOrigin(0, 1).setAlpha(0.6);
 
 
 
@@ -465,8 +469,7 @@ var menu = new Phaser.Class({
         this.dialogMessages = ['Welcome to Bluepoint,',
             'A virtual world where the past can be preserved and explored.',
             'Come with me and rediscover the past, intact and at your fingertips.',
-            'Running program brkln2013.exe.',
-            'Upload sequence initiated.',
+            'Upload sequence initiated. Running program brkln2013.exe.',
             'See you there.'
         ]
 
@@ -492,14 +495,14 @@ var menu = new Phaser.Class({
         this.typingEffect = () => {
 
             this.currentMessageIndex++;
-            if (this.currentMessageIndex === 3) {
+            if (this.currentMessageIndex === 2) {
                 this.zone.setInteractive(false);
                 this.zone.destroy('pointerdown');
                 this.textDialogInstructions.setVisible(false);
 
                 this.typingEffect()
 
-                this.time.delayedCall(2000, () => {
+                this.time.delayedCall(4000, () => {
                     this.typingEffect()
                
 
@@ -552,7 +555,7 @@ var menu = new Phaser.Class({
                         yoyo: false,
                     })
 
-                    this.time.delayedCall(10000, () => {
+                    this.time.delayedCall(13000, () => {
                         this.game.sound.stopAll();
                         this.scene.start("mainScene");
                     });

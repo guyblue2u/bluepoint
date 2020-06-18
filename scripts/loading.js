@@ -29,7 +29,7 @@ var loading = new Phaser.Class({
         this.load.image("dust", "./assets/images/dust.gif");
         this.load.image("whiteSquare", "./assets/images/white_square.png");
         this.load.image("hambugerIcon", "./assets/images/Hamburger_icon.png");
-        this.load.image("mutedIcon", "./assets/images/mute_icon.png");
+        this.load.image("mutedIcon", "./assets/images/unmute-icon-12.png");
 
         this.load.spritesheet("discoBall", "./assets/images/disco ball.png", {
             frameWidth: 36,
@@ -77,7 +77,7 @@ var loading = new Phaser.Class({
         // initial screen
         this.load.image("guttedText", "./assets/images/Lvl 1_and_name_updated.png");
         this.load.image("bluepointLogo", "./assets/images/logo_updated.png");
-       
+
 
         // social media icons
         this.load.image("facebook", "./assets/images/facebook.png");
@@ -90,8 +90,8 @@ var loading = new Phaser.Class({
         this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
         this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
         this.load.audio("song", "./assets/audio/Gutted.mp3");
-        this.load.audio("loading" ,"./assets/audio/Bluepoint Loading Sound.m4a");
-        this.load.audio("outro" ,"./assets/audio/Bluepoint Outro Music.m4a");
+        this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
+        this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.m4a");
 
 
         // map
@@ -125,9 +125,11 @@ var loading = new Phaser.Class({
         this.load.image("map_base", "./assets/images/map/base.png");
 
 
+        this.load.video('background_intro_1', './assets/videos/start screen background.mp4');
+
 
         // fonts
-        this.loadingText = this.add.text(444, 260, "Loading Bluepoint", {
+        this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
             fontFamily: 'euroStyle',
             fontSize: 50
         }).setOrigin(0.5)
@@ -142,10 +144,10 @@ var loading = new Phaser.Class({
         });
 
         this.time.delayedCall(2000 + initialTime, () => {
-            this.loadingText.text="Rendering Environment"
+            this.loadingText.text = "Rendering Environment "
         });
         this.time.delayedCall(6000 + initialTime, () => {
-            this.loadingText.text="Populating Lobby"
+            this.loadingText.text = "Populating Lobby "
         });
 
         this.load.on('complete', function () {
@@ -168,15 +170,28 @@ var loading = new Phaser.Class({
             delay: 0
         });
 
-
-
-
     },
 
     update: function () {
         //if (complete == 2) this.scene.start("menu");
-        //if (complete == 2) this.scene.start("loserBoard" , {type:3,name:"",score:10});
+        //if (complete == 2) this.scene.start("loserBoard", {     type: 1,            name: "Davido",            score: 10        });
         //if (complete == 2) this.scene.start("mainScene");
-        if (complete == 2) this.scene.start("map");
+        //if (complete == 2) this.scene.start("map");
+
+
+        if (complete == 2) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            if (urlParams.get('lvl') == 1) {
+                this.scene.start("menu");
+            }
+            if (urlParams.get('lvl') === null) {
+                this.scene.start("map");
+            }
+
+
+        }
+
+
     }
 })

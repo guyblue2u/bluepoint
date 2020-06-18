@@ -337,7 +337,7 @@ var hud = new Phaser.Class({
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
         this.twitter.on('pointerdown', () => {
-            shareTwitter(this.score);
+            shareTwitter(`I%20woke%20up%20${this.score}%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=`);
         });
 
         this.twitter.on('pointerover', () => {
@@ -702,6 +702,7 @@ var hud = new Phaser.Class({
             this.buttonSubmit.visible = true;
             this.buttonSkip.visible = true;
             outroMusic.play();
+            outroMusic.setLoop(true);
             this.tweens.add({
                 targets: outroMusic,
                 volume: {

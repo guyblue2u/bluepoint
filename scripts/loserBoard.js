@@ -177,8 +177,8 @@ var loserBoard = new Phaser.Class({
             this.twitter = this.add.image(780, 260, "twitter").setScale(0.4).setVisible(false);
             this.twitter.setInteractive();
             this.twitter.on('pointerdown', () => {
-                if (this.sceneType !== 3) shareTwitter(this.score);
-                else shareTwitter(null);
+                if (this.sceneType !== 3) shareTwitter(`I%20woke%20up%20${this.score}%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=`);
+                else shareTwitter('Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.');
             });
 
             this.twitter.on('pointerover', () => {
@@ -269,7 +269,13 @@ var loserBoard = new Phaser.Class({
             })
 
 
-
+            if(this.sceneType===1){      // show the upper message
+ 
+                this.add.text(444,30 , `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
+                    fontFamily: 'euroStyle',
+                    fontSize: 20
+                } ).setOrigin(0.5);
+            }
 
         }
 
@@ -332,6 +338,12 @@ var loserBoard = new Phaser.Class({
 
                     testDB(inputName, this.score, inputEmail)
                     this.populateTable()
+
+                    this.add.text(444,30 , `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
+                        fontFamily: 'euroStyle',
+                        fontSize: 20
+                    } ).setOrigin(0.5);
+
                 }
             })
         }
