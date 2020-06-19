@@ -299,7 +299,7 @@ var hud = new Phaser.Class({
         //---------------Facebook
         this.facebook = this.add.image(40, 100, "facebook").setScale(0.4).setVisible(false);
         this.facebook.setInteractive();
-        this.facebook.on('pointerdown', () => {
+        this.facebook.on('pointerup', () => {
             shareFacebook();
 
         });
@@ -336,7 +336,7 @@ var hud = new Phaser.Class({
         //----------------Twitter
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
-        this.twitter.on('pointerdown', () => {
+        this.twitter.on('pointerup', () => {
             shareTwitter(`I%20woke%20up%20${this.score}%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=`);
         });
 

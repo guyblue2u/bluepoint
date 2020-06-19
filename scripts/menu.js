@@ -253,7 +253,7 @@ var menu = new Phaser.Class({
         //---------------Facebook
         this.facebook = this.add.image(40, 100, "facebook").setScale(0.4).setVisible(false);
         this.facebook.setInteractive();
-        this.facebook.on('pointerdown', () => {
+        this.facebook.on('pointerup', () => {
             shareFacebook();
 
         });
@@ -290,7 +290,7 @@ var menu = new Phaser.Class({
         //----------------Twitter
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
-        this.twitter.on('pointerdown', () => {
+        this.twitter.on('pointerup', () => {
             shareTwitter('Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.');
         });
 

@@ -17,6 +17,12 @@ var map = new Phaser.Class({
         this.selectedGlow = null;
         this.selectedLevel = -1;
 
+        mapMusic = this.sound.add('map_music', {
+            delay: 0
+        }).setVolume(1).setLoop(true);
+
+        mapMusic.play();
+
         // ------------------------------------------------------------------------texts
         this.levelTitle = this.add.text(650, 475, "Tap or click an icon to explore", {
             fontFamily: 'euroStyle_condensed',
@@ -92,9 +98,10 @@ var map = new Phaser.Class({
 
         this.map_201_color.on('pointerdown', () => {
 
-            if (this.selectedLevel === 1)
+            if (this.selectedLevel === 1) {
+                this.game.sound.stopAll();
                 this.scene.start("menu");
-            else
+            } else
                 this.selectIcon("Gutted | Shea Stadium ", 1, true, this.map_201_glow);
         })
 
@@ -106,7 +113,7 @@ var map = new Phaser.Class({
 
         this.map_bridge_color.on('pointerdown', () => {
 
-            this.selectIcon("Idle | Old Kosciuszko Bridge ",5,false , this.map_bridge_glow);
+            this.selectIcon("Idle | Old Kosciuszko Bridge ", 5, false, this.map_bridge_glow);
         })
 
 
@@ -126,7 +133,7 @@ var map = new Phaser.Class({
 
         map_logo = this.add.image(20, 450, "map_logo").setOrigin(0).setScale(0.8);
 
-        
+
         //---------------Share button
         this.share = this.add.image(40, 40, "shareIcon").setScale(0.09).setInteractive().setAlpha(0.6);
         this.share.on('pointerover', () => {
@@ -161,7 +168,7 @@ var map = new Phaser.Class({
         //---------------Facebook
         this.facebook = this.add.image(40, 100, "facebook").setScale(0.4).setVisible(false);
         this.facebook.setInteractive();
-        this.facebook.on('pointerdown', () => {
+        this.facebook.on('pointerup', () => {
             shareFacebook();
 
         });
@@ -198,7 +205,7 @@ var map = new Phaser.Class({
         //----------------Twitter
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
-        this.twitter.on('pointerdown', () => {
+        this.twitter.on('pointerup', () => {
             shareTwitter("Explore%20closed%20Brooklyn%20Venues%20in%20%23Bluepoint.%20");
         });
 
@@ -268,10 +275,80 @@ var map = new Phaser.Class({
         });
 
 
+        //-------------hamburger icon
+        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive().setAlpha(0.6);
+
+        this.hamburguer.on('pointerover', () => {
+            this.hamburguer.setScale(0.45);
+        });
+        this.hamburguer.on('pointerout', () => {
+            this.hamburguer.setScale(0.4);
+        });
+
+        this.hamburguer.on('pointerdown', () => {
+            if (!this.buttonLvl1[0].visible) { // show the icons
+
+
+                this.buttonLvl1[0].visible = true;
+                this.buttonLvl1[0].tweenIn.play();
+                this.buttonLvl2[0].visible = true;
+                this.buttonLvl2[0].tweenIn.play();
+                this.buttonLvl3[0].visible = true;
+                this.buttonLvl3[0].tweenIn.play();
+                this.buttonLvl4[0].visible = true;
+                this.buttonLvl4[0].tweenIn.play();
+                this.buttonLvl5[0].visible = true;
+                this.buttonLvl5[0].tweenIn.play();
+                this.buttonLvl6[0].visible = true;
+                this.buttonLvl6[0].tweenIn.play();
+                this.time.delayedCall(200, () => {
+                    this.buttonLvl1[1].setVisible(true);
+                    this.buttonLvl2[1].setVisible(true);
+                    this.buttonLvl3[1].setVisible(true);
+                    this.buttonLvl4[1].setVisible(true);
+                    this.buttonLvl5[1].setVisible(true);
+                    this.buttonLvl6[1].setVisible(true);
+
+                });
+
+            } else { //hide the icons
+                this.buttonLvl1[1].visible = false;
+                this.buttonLvl2[1].visible = false;
+                this.buttonLvl3[1].visible = false;
+                this.buttonLvl4[1].visible = false;
+                this.buttonLvl5[1].visible = false;
+                this.buttonLvl6[1].visible = false;
+
+
+                this.time.delayedCall(200, () => {
+                    this.buttonLvl1[0].setVisible(false);
+                    this.buttonLvl2[0].setVisible(false);
+                    this.buttonLvl3[0].setVisible(false);
+                    this.buttonLvl4[0].setVisible(false);
+                    this.buttonLvl5[0].setVisible(false);
+                    this.buttonLvl6[0].setVisible(false);
+
+
+                });
+                this.buttonLvl1[0].tweenOut.play();
+                this.buttonLvl2[0].tweenOut.play();
+                this.buttonLvl3[0].tweenOut.play();
+                this.buttonLvl4[0].tweenOut.play();
+                this.buttonLvl5[0].tweenOut.play();
+                this.buttonLvl6[0].tweenOut.play();
+
+            }
+        })
 
 
 
 
+        this.buttonLvl1=this.createButtonMenu(750,80,"Shea Stadium" ,0x4063FF , ()=>{this.scene.start("menu")});
+        this.buttonLvl2=this.createButtonMenu(750,120,"Matchless" ,0xa9afc9 , ()=>{});
+        this.buttonLvl3=this.createButtonMenu(750,160,"Manhattan Ave" ,0xa9afc9 , ()=>{});
+        this.buttonLvl4=this.createButtonMenu(750,200,"Silent Barn" ,0xa9afc9 , ()=>{});
+        this.buttonLvl5=this.createButtonMenu(750,240,"Old Kosciuszko Bridge" ,0xa9afc9 , ()=>{});
+        this.buttonLvl6=this.createButtonMenu(750,280,"Death By Audio" ,0xa9afc9 , ()=>{});
 
 
     },
@@ -297,6 +374,53 @@ var map = new Phaser.Class({
         this.selectedLevel = levelNumber;
 
 
+    },
+
+
+    createButtonMenu: function(x,y,title, color , callback){
+        let rectangle = this.add.rectangle(x, y, 250, 30).setFillStyle(color, 0.7).setInteractive().setVisible(false);
+        let text = this.add.text(x, y, title, {
+            fontFamily: 'euroStyle',
+            fontSize: 20
+        }).setOrigin(0.5, 0.5).setVisible(false);
+
+        rectangle.on('pointerover', () => {
+            rectangle.setFillStyle(color, 1);
+        });
+        rectangle.on('pointerout', () => {
+            rectangle.setFillStyle(color, 0.7);
+        });
+
+        rectangle.on('pointerdown', () => {
+            callback();
+        });
+
+        rectangle.tweenIn = this.tweens.add({
+            targets: [rectangle,text],
+            y: {
+                from: 40,
+                to: y
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+        rectangle.tweenOut = this.tweens.add({
+            targets: [rectangle,text],
+            y: {
+                from: y,
+                to: 40
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+
+
+
+        return [rectangle,text];
     }
 
 })
