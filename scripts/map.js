@@ -343,12 +343,15 @@ var map = new Phaser.Class({
 
 
 
-        this.buttonLvl1=this.createButtonMenu(750,80,"Shea Stadium" ,0x4063FF , ()=>{this.scene.start("menu")});
-        this.buttonLvl2=this.createButtonMenu(750,120,"Matchless" ,0xa9afc9 , ()=>{});
-        this.buttonLvl3=this.createButtonMenu(750,160,"Manhattan Ave" ,0xa9afc9 , ()=>{});
-        this.buttonLvl4=this.createButtonMenu(750,200,"Silent Barn" ,0xa9afc9 , ()=>{});
-        this.buttonLvl5=this.createButtonMenu(750,240,"Old Kosciuszko Bridge" ,0xa9afc9 , ()=>{});
-        this.buttonLvl6=this.createButtonMenu(750,280,"Death By Audio" ,0xa9afc9 , ()=>{});
+        this.buttonLvl1 = this.createButtonMenu(750, 80, "Shea Stadium", 0x4063FF, () => {
+            this.game.sound.stopAll();
+            this.scene.start("menu")
+        });
+        this.buttonLvl2 = this.createButtonMenu(750, 120, "Matchless", 0xa9afc9, () => {});
+        this.buttonLvl3 = this.createButtonMenu(750, 160, "Manhattan Ave", 0xa9afc9, () => {});
+        this.buttonLvl4 = this.createButtonMenu(750, 200, "Silent Barn", 0xa9afc9, () => {});
+        this.buttonLvl5 = this.createButtonMenu(750, 240, "Old Kosciuszko Bridge", 0xa9afc9, () => {});
+        this.buttonLvl6 = this.createButtonMenu(750, 280, "Death By Audio", 0xa9afc9, () => {});
 
 
     },
@@ -377,7 +380,7 @@ var map = new Phaser.Class({
     },
 
 
-    createButtonMenu: function(x,y,title, color , callback){
+    createButtonMenu: function (x, y, title, color, callback) {
         let rectangle = this.add.rectangle(x, y, 250, 30).setFillStyle(color, 0.7).setInteractive().setVisible(false);
         let text = this.add.text(x, y, title, {
             fontFamily: 'euroStyle',
@@ -396,7 +399,7 @@ var map = new Phaser.Class({
         });
 
         rectangle.tweenIn = this.tweens.add({
-            targets: [rectangle,text],
+            targets: [rectangle, text],
             y: {
                 from: 40,
                 to: y
@@ -407,7 +410,7 @@ var map = new Phaser.Class({
         }).stop();
 
         rectangle.tweenOut = this.tweens.add({
-            targets: [rectangle,text],
+            targets: [rectangle, text],
             y: {
                 from: y,
                 to: 40
@@ -420,7 +423,7 @@ var map = new Phaser.Class({
 
 
 
-        return [rectangle,text];
+        return [rectangle, text];
     }
 
 })

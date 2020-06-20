@@ -17,8 +17,16 @@ var menu = new Phaser.Class({
 
     create: function () {
 
-        background_video=this.add.video(444,260,'background_intro_1');
-        background_video.play(true);
+
+        this.background_videoB = this.add.video(444, 260, 'background_intro_1b');
+        this.background_videoB.stop();
+
+        this.background_videoA = this.add.video(444, 260, 'background_intro_1a');
+        this.background_videoA.stop();
+
+
+        this.background_video = this.add.video(444, 260, 'background_intro_1');
+        this.background_video.play(true);
 
 
         rythm = this.sound.add('intro_Rythm', {
@@ -455,13 +463,27 @@ var menu = new Phaser.Class({
         // ---------------------------------  D I A L O G
 
         this.startMessage = () => {
+
+
             this.logo.visible = false;
             this.guttedText.visible = false;
             this.flashingText.visible = false;
-            this.rectangleDialog.visible = true;
-            this.textDialog.visible = true;
-            this.textDialogInstructions.visible = true;
-            this.typingEffect();
+            this.background_video.play(false);
+            this.background_video.destroy();
+
+            this.background_videoA.play(true);
+
+            this.time.delayedCall(6000, () => {
+                this.background_videoA.play(false);
+                this.background_videoA.destroy();
+                this.background_videoB.play(true);
+                
+                
+                this.rectangleDialog.visible = true;
+                this.textDialog.visible = true;
+                this.textDialogInstructions.visible = true;
+                this.typingEffect();
+            })
         }
 
 
@@ -504,7 +526,7 @@ var menu = new Phaser.Class({
 
                 this.time.delayedCall(4000, () => {
                     this.typingEffect()
-               
+
 
                     this.tweens.add({ // fade out rythm
                         targets: rythm,
