@@ -61,7 +61,7 @@ var menu = new Phaser.Class({
             fontFamily: 'euroStyle',
             color: '#4063FF',
             fontSize: 30,
-        }).setOrigin(0.5, 0.5).setVisible(false);
+        }).setOrigin(0.5, 0.5).setVisible(false).setShadow(3, 3, 'rgba(125,125,125,0.5)', 2);
 
         this.flashingText.setInteractive();
 
@@ -491,7 +491,7 @@ var menu = new Phaser.Class({
         this.dialogMessages = ['Welcome to Bluepoint,',
             'A virtual world where the past can be preserved and explored.',
             'Come with me and rediscover the past, intact and at your fingertips.',
-            'Upload sequence initiated. Running program brkln2013.exe.',
+            'Upload sequence initiated. Running program brkln2010s.exe.',
             'See you there.'
         ]
 

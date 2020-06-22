@@ -19,7 +19,7 @@ var map = new Phaser.Class({
 
         mapMusic = this.sound.add('map_music', {
             delay: 0
-        }).setVolume(1).setLoop(true);
+        }).setVolume(0.8).setLoop(true);
 
         mapMusic.play();
 
@@ -135,7 +135,7 @@ var map = new Phaser.Class({
 
 
         //---------------Share button
-        this.share = this.add.image(40, 40, "shareIcon").setScale(0.09).setInteractive().setAlpha(0.6);
+        this.share = this.add.image(40, 40, "shareIcon").setScale(0.09).setInteractive();
         this.share.on('pointerover', () => {
             this.share.setScale(0.1);
         });
@@ -276,7 +276,7 @@ var map = new Phaser.Class({
 
 
         //-------------hamburger icon
-        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive().setAlpha(0.6);
+        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
 
         this.hamburguer.on('pointerover', () => {
             this.hamburguer.setScale(0.45);
@@ -367,7 +367,7 @@ var map = new Phaser.Class({
 
         this.levelNumber.text = "Lvl " + levelNumber + " ";
         this.levelTitle.text = textLevel;
-        this.levelSubtitle.text = available ? "Tap or click to start " : "Comming Soon ";
+        this.levelSubtitle.text = available ? "Tap or click to start " : "Coming Soon ";
 
         this.levelNumber.setVisible(true);
         this.levelTitle.setVisible(true);
