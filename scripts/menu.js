@@ -119,11 +119,13 @@ var menu = new Phaser.Class({
                     this.loserBoardtext.setVisible(true);
                     this.Maptext.setVisible(true);
 
+
                 });
 
             } else { //hide the icons
                 this.loserBoardtext.setVisible(false);
                 this.Maptext.setVisible(false);
+
                 this.time.delayedCall(200, () => {
                     this.loserBoardRect.visible = false;
                     this.MapRect.visible = false;
@@ -244,12 +246,24 @@ var menu = new Phaser.Class({
                 this.twitter.tweenIn.play();
                 this.copyURL.visible = true;
                 this.copyURL.tweenIn.play();
+
+                this.time.delayedCall(200, () => {
+                    this.facebook.input.enabled=true;
+                    this.twitter.input.enabled=true;
+                    this.copyURL.input.enabled=true;
+                });
+
+
+
             } else { //hide the icons
                 this.time.delayedCall(200, () => {
                     this.facebook.visible = false;
                     this.twitter.visible = false;
                     this.copyURL.visible = false;
                 });
+                this.facebook.input.enabled=false;
+                this.twitter.input.enabled=false;
+                this.copyURL.input.enabled=false;
                 this.facebook.tweenOut.play();
                 this.twitter.tweenOut.play();
                 this.copyURL.tweenOut.play();
@@ -261,6 +275,8 @@ var menu = new Phaser.Class({
         //---------------Facebook
         this.facebook = this.add.image(40, 100, "facebook").setScale(0.4).setVisible(false);
         this.facebook.setInteractive();
+        this.facebook.input.enabled=false;
+        console.log(this.facebook)
         this.facebook.on('pointerup', () => {
             shareFacebook();
 
@@ -298,6 +314,7 @@ var menu = new Phaser.Class({
         //----------------Twitter
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
+        this.twitter.input.enabled=false;
         this.twitter.on('pointerup', () => {
             shareTwitter('Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.');
         });
@@ -335,6 +352,7 @@ var menu = new Phaser.Class({
         //----------------Copy to clipboard
         this.copyURL = this.add.image(40, 210, "copyIcon").setScale(1).setVisible(false);
         this.copyURL.setInteractive();
+        this.copyURL.input.enabled=false;
         this.copyURL.on('pointerdown', () => {
             copyStringToClipboard();
         });
@@ -368,7 +386,7 @@ var menu = new Phaser.Class({
         });
 
         //--------------------Mute button
-        this.mutedIcon = this.add.image(0, 520, "mutedIcon").setScale(0.3).setOrigin(0, 1).setAlpha(0.6);
+        this.mutedIcon = this.add.image(10, 520, "mutedIcon").setScale(0.5).setOrigin(0, 1).setAlpha(0.6);
 
 
 

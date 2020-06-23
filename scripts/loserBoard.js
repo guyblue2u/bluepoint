@@ -142,11 +142,17 @@ var loserBoard = new Phaser.Class({
                         this.facebook.visible = true;
                         this.twitter.visible = true;
                         this.copyURL.visible = true;
+                        this.facebook.input.enabled = true;
+                        this.twitter.input.enabled = true;
+                        this.copyURL.input.enabled = true;
                     });
                 } else { //hide the icons
                     this.facebook.visible = false;
                     this.twitter.visible = false;
                     this.copyURL.visible = false;
+                    this.facebook.input.enabled = false;
+                    this.twitter.input.enabled = false;
+                    this.copyURL.input.enabled = false;
                     this.containerSocialMedia.tweenOut.play()
                     this.time.delayedCall(400, () => {
                         this.containerSocialMedia.setVisible(false);
@@ -160,6 +166,7 @@ var loserBoard = new Phaser.Class({
             //---------------Facebook
             this.facebook = this.add.image(780, 150, "facebook").setScale(0.4).setVisible(false);
             this.facebook.setInteractive();
+            this.facebook.input.enabled=false;
             this.facebook.on('pointerup', () => {
                 shareFacebook();
 
@@ -176,6 +183,7 @@ var loserBoard = new Phaser.Class({
             //----------------Twitter
             this.twitter = this.add.image(780, 260, "twitter").setScale(0.4).setVisible(false);
             this.twitter.setInteractive();
+            this.twitter.input.enabled=false;
             this.twitter.on('pointerup', () => {
                 if (this.sceneType !== 3) shareTwitter(`I%20woke%20up%20${this.score}%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=`);
                 else shareTwitter('Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.');
@@ -192,6 +200,7 @@ var loserBoard = new Phaser.Class({
             //----------------Copy to clipboard
             this.copyURL = this.add.image(780, 360, "copyIcon").setScale(1).setVisible(false);
             this.copyURL.setInteractive();
+            this.copyURL.input.enabled=false;
             this.copyURL.on('pointerdown', () => {
                 copyStringToClipboard();
             });
@@ -221,7 +230,7 @@ var loserBoard = new Phaser.Class({
             this.buttonPlayAgain.on('pointerdown', () => {
                 resetGame();
                 this.scene.start("mainScene");
-                if(outroMusic.isPlaying()) outroMusic.stop();
+                if (outroMusic.isPlaying()) outroMusic.stop();
             })
 
             // Next Level
@@ -263,18 +272,18 @@ var loserBoard = new Phaser.Class({
                 this.buttonMenu.setFillStyle(0x334fcb);
             });
             this.buttonMenu.on('pointerdown', () => {
-                if(outroMusic.isPlaying) outroMusic.stop();
+                if (outroMusic.isPlaying) outroMusic.stop();
                 this.scene.stop("mainScene");
                 this.scene.start("map");
             })
 
 
-            if(this.sceneType===1){      // show the upper message
- 
-                this.add.text(444,30 , `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
+            if (this.sceneType === 1) { // show the upper message
+
+                this.add.text(444, 30, `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
                     fontFamily: 'euroStyle',
                     fontSize: 20
-                } ).setOrigin(0.5);
+                }).setOrigin(0.5);
             }
 
         }
@@ -339,10 +348,10 @@ var loserBoard = new Phaser.Class({
                     testDB(inputName, this.score, inputEmail)
                     this.populateTable()
 
-                    this.add.text(444,30 , `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
+                    this.add.text(444, 30, `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
                         fontFamily: 'euroStyle',
                         fontSize: 20
-                    } ).setOrigin(0.5);
+                    }).setOrigin(0.5);
 
                 }
             })

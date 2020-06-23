@@ -21,6 +21,10 @@ var map = new Phaser.Class({
             delay: 0
         }).setVolume(0.8).setLoop(true);
 
+        selectMusic = this.sound.add('map_select', {
+            delay: 0
+        });
+
         mapMusic.play();
 
         // ------------------------------------------------------------------------texts
@@ -151,12 +155,22 @@ var map = new Phaser.Class({
                 this.twitter.tweenIn.play();
                 this.copyURL.visible = true;
                 this.copyURL.tweenIn.play();
+
+                this.time.delayedCall(200, () => {
+                    this.facebook.input.enabled = true;
+                    this.twitter.input.enabled = true;
+                    this.copyURL.input.enabled = true;
+                });
+
             } else { //hide the icons
                 this.time.delayedCall(200, () => {
                     this.facebook.visible = false;
                     this.twitter.visible = false;
                     this.copyURL.visible = false;
                 });
+                this.facebook.input.enabled = false;
+                this.twitter.input.enabled = false;
+                this.copyURL.input.enabled = false;
                 this.facebook.tweenOut.play();
                 this.twitter.tweenOut.play();
                 this.copyURL.tweenOut.play();
@@ -168,6 +182,7 @@ var map = new Phaser.Class({
         //---------------Facebook
         this.facebook = this.add.image(40, 100, "facebook").setScale(0.4).setVisible(false);
         this.facebook.setInteractive();
+        this.facebook.input.enabled=false;
         this.facebook.on('pointerup', () => {
             shareFacebook();
 
@@ -205,6 +220,7 @@ var map = new Phaser.Class({
         //----------------Twitter
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
+        this.twitter.input.enabled=false;
         this.twitter.on('pointerup', () => {
             shareTwitter("Explore%20closed%20Brooklyn%20Venues%20in%20%23Bluepoint.%20");
         });
@@ -242,6 +258,7 @@ var map = new Phaser.Class({
         //----------------Copy to clipboard
         this.copyURL = this.add.image(40, 210, "copyIcon").setScale(1).setVisible(false);
         this.copyURL.setInteractive();
+        this.copyURL.input.enabled=false;
         this.copyURL.on('pointerdown', () => {
             copyStringToClipboard();
         });
@@ -360,6 +377,7 @@ var map = new Phaser.Class({
 
 
     selectIcon: function (textLevel, levelNumber, available, glow) {
+        selectMusic.play();
         if (this.selectedGlow !== null) this.selectedGlow.setVisible(false);
         this.levelTitle.y = 465;
         this.selectedGlow = glow;
