@@ -104,7 +104,7 @@ var map = new Phaser.Class({
 
             if (this.selectedLevel === 1) {
                 this.game.sound.stopAll();
-                this.scene.start("menu");
+                this.scene.start("intro_1");
             } else
                 this.selectIcon("Gutted | Shea Stadium ", 1, true, this.map_201_glow);
         })
@@ -129,7 +129,7 @@ var map = new Phaser.Class({
         this.banner = this.add.rectangle(444, 480, 888, 100).setFillStyle(0x000000).setInteractive();
         this.banner.on('pointerdown', () => {
             if (this.selectedLevel === 1) {
-                this.scene.start("menu");
+                this.scene.start("intro_1");
             }
 
         })
@@ -362,7 +362,7 @@ var map = new Phaser.Class({
 
         this.buttonLvl1 = this.createButtonMenu(750, 80, "Shea Stadium", 0x4063FF, () => {
             this.game.sound.stopAll();
-            this.scene.start("menu")
+            this.scene.start("intro_1")
         });
         this.buttonLvl2 = this.createButtonMenu(750, 120, "Matchless", 0xa9afc9, () => {});
         this.buttonLvl3 = this.createButtonMenu(750, 160, "Manhattan Ave", 0xa9afc9, () => {});

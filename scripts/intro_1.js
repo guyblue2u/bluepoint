@@ -1,14 +1,12 @@
-let testVariable;
 
-
-var menu = new Phaser.Class({
+var intro_1 = new Phaser.Class({
 
     Extends: Phaser.Scene,
 
-    initialize: function menu() {
+    initialize: function intro_1() {
 
         Phaser.Scene.call(this, {
-            key: 'menu',
+            key: 'intro_1',
             active: false
         });
     },
@@ -155,7 +153,7 @@ var menu = new Phaser.Class({
         this.loserBoardRect.on('pointerdown', () => {
             rythm.stop();
             synth.stop();
-            this.scene.stop("menu");
+            this.scene.stop("intro_1");
             this.scene.start("loserBoard", {
                 type: 3,
                 name: null,
@@ -597,7 +595,7 @@ var menu = new Phaser.Class({
 
                     this.time.delayedCall(13000, () => {
                         this.game.sound.stopAll();
-                        this.scene.start("mainScene");
+                        this.scene.start("level_1");
                     });
 
                 });
@@ -618,7 +616,6 @@ var menu = new Phaser.Class({
                 repeat: this.dialogMessages[this.currentMessageIndex].length - 1
             });
 
-            testVariable = this.eventTyping;
         }
 
     },

@@ -273,7 +273,7 @@ var loserBoard = new Phaser.Class({
             });
             this.buttonMenu.on('pointerdown', () => {
                 if (outroMusic.isPlaying) outroMusic.stop();
-                this.scene.stop("mainScene");
+                this.scene.stop("level_1");
                 this.scene.start("map");
             })
 
@@ -400,8 +400,8 @@ var loserBoard = new Phaser.Class({
             });
             this.buttonPlayAgain.on('pointerdown', () => {
                 this.game.sound.stopAll();
-                this.scene.stop("mainScene");
-                this.scene.start("menu");
+                this.scene.stop("level_1");
+                this.scene.start("intro_1");
             })
 
 

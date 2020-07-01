@@ -7,13 +7,13 @@ let controls = {
     buttonsLocked: false
 }
 
-var mainScene = new Phaser.Class({
+var level_1 = new Phaser.Class({
 
     Extends: Phaser.Scene,
 
-    initialize: function mainScene() {
+    initialize: function level_1() {
         Phaser.Scene.call(this, {
-            key: 'mainScene',
+            key: 'level_1',
             active: false
         });
     },
@@ -826,7 +826,7 @@ var mainScene = new Phaser.Class({
         
 
 
-        this.scene.launch("hud");
+        this.scene.launch("hud_1");
         
         this.cameras.main.fadeIn(2000,255,255,255);
     },

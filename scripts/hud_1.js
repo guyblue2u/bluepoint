@@ -6,17 +6,15 @@ let mobileAndTabletCheck = function () {
     return check;
 };
 
-let test_function;
-
-var hud = new Phaser.Class({
+var hud_1 = new Phaser.Class({
 
     Extends: Phaser.Scene,
 
     initialize:
 
-        function hud() {
+        function hud_1() {
             Phaser.Scene.call(this, {
-                key: 'hud',
+                key: 'hud_1',
                 active: false
             });
         },
@@ -440,9 +438,9 @@ var hud = new Phaser.Class({
 
         this.restartRect.on('pointerdown', () => {
             this.game.sound.stopAll();
-            this.scene.stop("mainScene");
+            this.scene.stop("level_1");
             resetGame();
-            this.scene.start("mainScene", {})
+            this.scene.start("level_1", {})
         });
 
         this.restartRect.tweenIn = this.tweens.add({
@@ -485,7 +483,7 @@ var hud = new Phaser.Class({
         this.returnRect.on('pointerdown', () => {
 
             this.game.sound.stopAll();
-            this.scene.stop("mainScene");
+            this.scene.stop("level_1");
             this.scene.start("map");
         });
 
@@ -527,7 +525,7 @@ var hud = new Phaser.Class({
 
         this.loserBoardRect.on('pointerdown', () => {
             this.game.sound.stopAll();
-            this.scene.stop("mainScene");
+            this.scene.stop("level_1");
             resetGame();
             this.scene.start("loserBoard", {
                 type: 3,
