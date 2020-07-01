@@ -61,7 +61,7 @@ var menu = new Phaser.Class({
             fontFamily: 'euroStyle',
             color: '#4063FF',
             fontSize: 30,
-        }).setOrigin(0.5, 0.5).setVisible(false).setShadow(3, 3, 'rgba(125,125,125,0.5)', 2);
+        }).setOrigin(0.5, 0.5).setVisible(false);
 
         this.flashingText.setInteractive();
 
@@ -140,7 +140,7 @@ var menu = new Phaser.Class({
 
         // link to loserboard
         this.loserBoardRect = this.add.rectangle(750, 140, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
-        this.loserBoardtext = this.add.text(750, 140, "Loser Board", {
+        this.loserBoardtext = this.add.text(750, 140, "Loser Board ", {
             fontFamily: 'euroStyle',
             fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);
@@ -189,7 +189,7 @@ var menu = new Phaser.Class({
 
         // ----------link to Map
         this.MapRect = this.add.rectangle(750, 200, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
-        this.Maptext = this.add.text(750, 200, "Menu", {
+        this.Maptext = this.add.text(750, 200, "Menu ", {
             fontFamily: 'euroStyle',
             fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);

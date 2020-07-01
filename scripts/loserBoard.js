@@ -229,8 +229,8 @@ var loserBoard = new Phaser.Class({
             });
             this.buttonPlayAgain.on('pointerdown', () => {
                 resetGame();
+                this.game.sound.stopAll();
                 this.scene.start("mainScene");
-                if (outroMusic.isPlaying()) outroMusic.stop();
             })
 
             // Next Level
@@ -360,6 +360,10 @@ var loserBoard = new Phaser.Class({
         if (this.sceneType === 3) { // show the particles
 
 
+            outroMusic = this.sound.add('outro', {
+                delay: 0
+            }).setVolume(0.5).play();
+
             this.particlesAlpha = {};
             this.particlesAlpha.alpha = 0;
             this.particles = []
@@ -395,6 +399,7 @@ var loserBoard = new Phaser.Class({
                 this.buttonPlayAgain.setFillStyle(0x334fcb);
             });
             this.buttonPlayAgain.on('pointerdown', () => {
+                this.game.sound.stopAll();
                 this.scene.stop("mainScene");
                 this.scene.start("menu");
             })
@@ -416,6 +421,7 @@ var loserBoard = new Phaser.Class({
             });
             this.buttonMenu.on('pointerdown', () => {
 
+                this.game.sound.stopAll();
                 this.scene.start("map");
             })
 

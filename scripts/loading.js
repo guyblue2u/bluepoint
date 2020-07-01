@@ -153,6 +153,11 @@ var loading = new Phaser.Class({
             this.loadingText.text = "Populating Lobby "
         });
 
+        this.time.delayedCall(10000 + initialTime, () => {
+            this.loadingText.text = "Awaiting Clearance "
+        });
+
+
         this.load.on('complete', function () {
             complete++;
         });

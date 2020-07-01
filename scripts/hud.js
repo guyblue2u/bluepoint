@@ -421,45 +421,7 @@ var hud = new Phaser.Class({
             loop: 0,
         });
 
-        //-------------hamburger icon
-        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
 
-        this.hamburguer.on('pointerover', () => {
-            this.hamburguer.setScale(0.45);
-        });
-        this.hamburguer.on('pointerout', () => {
-            this.hamburguer.setScale(0.4);
-        });
-
-        this.hamburguer.on('pointerdown', () => {
-            if (!this.loserBoardRect.visible) { // show the icons
-                this.loserBoardRect.visible = true;
-                this.loserBoardRect.tweenIn.play();
-                this.returnRect.visible = true;
-                this.returnRect.tweenIn.play();
-                this.restartRect.visible = true;
-                this.restartRect.tweenIn.play();
-                this.time.delayedCall(200, () => {
-                    this.loserBoardtext.setVisible(true);
-                    this.returnText.setVisible(true);
-                    this.restartText.setVisible(true);
-                });
-
-            } else { //hide the icons
-                this.loserBoardtext.setVisible(false);
-                this.returnText.setVisible(false);
-                this.restartText.setVisible(false);
-                this.time.delayedCall(200, () => {
-                    this.loserBoardRect.visible = false;
-                    this.returnRect.visible = false;
-                    this.restartText.visible = false;
-
-                });
-                this.loserBoardRect.tweenOut.play();
-                this.returnRect.tweenOut.play();
-                this.restartRect.tweenOut.play();
-            }
-        })
 
 
         // restart the game 
@@ -551,7 +513,7 @@ var hud = new Phaser.Class({
 
         // go to Loser board 
         this.loserBoardRect = this.add.rectangle(750, 260, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
-        this.loserBoardtext = this.add.text(750, 260, "Loserboard ", {
+        this.loserBoardtext = this.add.text(750, 260, "Loser Board ", {
             fontFamily: 'euroStyle',
             fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);
@@ -596,7 +558,45 @@ var hud = new Phaser.Class({
             loop: 0,
         }).stop();
 
+                //-------------hamburger icon
+                this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
 
+                this.hamburguer.on('pointerover', () => {
+                    this.hamburguer.setScale(0.45);
+                });
+                this.hamburguer.on('pointerout', () => {
+                    this.hamburguer.setScale(0.4);
+                });
+        
+                this.hamburguer.on('pointerdown', () => {
+                    if (!this.loserBoardRect.visible) { // show the icons
+                        this.loserBoardRect.visible = true;
+                        this.loserBoardRect.tweenIn.play();
+                        this.returnRect.visible = true;
+                        this.returnRect.tweenIn.play();
+                        this.restartRect.visible = true;
+                        this.restartRect.tweenIn.play();
+                        this.time.delayedCall(200, () => {
+                            this.loserBoardtext.setVisible(true);
+                            this.returnText.setVisible(true);
+                            this.restartText.setVisible(true);
+                        });
+        
+                    } else { //hide the icons
+                        this.loserBoardtext.setVisible(false);
+                        this.returnText.setVisible(false);
+                        this.restartText.setVisible(false);
+                        this.time.delayedCall(200, () => {
+                            this.loserBoardRect.visible = false;
+                            this.returnRect.visible = false;
+                            this.restartRect.visible = false;
+        
+                        });
+                        this.loserBoardRect.tweenOut.play();
+                        this.returnRect.tweenOut.play();
+                        this.restartRect.tweenOut.play();
+                    }
+                })
 
 
         // ----------------- Score
