@@ -126,6 +126,16 @@ var loading = new Phaser.Class({
         this.load.image("map_base", "./assets/images/map/base.png");
 
 
+        //---------- Level 2
+        this.load.image("level2_back1", "./assets/images/level_2/collisions layer.png");
+        this.load.image("level2_back2", "./assets/images/level_2/base walkable area.png");
+        this.load.image("level2_back3", "./assets/images/level_2/dust layer.png");
+        this.load.image("map_base", "./assets/images/map/base.png");
+        this.load.image("map_base", "./assets/images/map/base.png");
+        this.load.image("map_base", "./assets/images/map/base.png");
+
+
+
         this.load.video('background_intro_1', './assets/videos/start screen background.mp4');
         this.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
         this.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
@@ -182,22 +192,22 @@ var loading = new Phaser.Class({
     update: function () {
         //if (complete == 2) this.scene.start("intro_1");
         //if (complete == 2) this.scene.start("loserBoard", {     type: 1,            name: "Davido",            score: 10        });
-        if (complete == 2) this.scene.start("level_1");
+        //if (complete == 2) this.scene.start("level_2");
         //if (complete == 2) this.scene.start("map");
 
 
-        // if (complete == 2) {
-        //     const queryString = window.location.search;
-        //     const urlParams = new URLSearchParams(queryString);
-        //     if (urlParams.get('lvl') == 1) {
-        //         this.scene.start("intro_1");
-        //     }
-        //     if (urlParams.get('lvl') === null) {
-        //         this.scene.start("map");
-        //     }
+        if (complete == 2) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            if (urlParams.get('lvl') == 1) {
+                this.scene.start("intro_1");
+            }
+            if (urlParams.get('lvl') === null) {
+                this.scene.start("map");
+            }
 
 
-        // }
+        }
 
 
     }
