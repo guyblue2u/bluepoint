@@ -259,167 +259,7 @@ var hud_1 = new Phaser.Class({
             loop: -1,
         }).stop();
 
-
-        //----------------------------------------S O C I A L     M E D I A
-        //---------------Share button
-        this.share = this.add.image(40, 40, "shareIcon").setScale(0.09);
-        this.share.setInteractive();
-        this.share.on('pointerover', () => {
-            this.share.setScale(0.1);
-        });
-        this.share.on('pointerout', () => {
-            this.share.setScale(0.09);
-        });
-        this.share.on('pointerdown', () => {
-
-            if (!this.facebook.visible) { // show the icons
-                this.facebook.visible = true;
-                this.facebook.tweenIn.play();
-                this.twitter.visible = true;
-                this.twitter.tweenIn.play();
-                this.copyURL.visible = true;
-                this.copyURL.tweenIn.play();
-
-                this.time.delayedCall(200, () => {
-                    this.facebook.input.enabled = true;
-                    this.twitter.input.enabled = true;
-                    this.copyURL.input.enabled = true;
-                });
-
-
-
-            } else { //hide the icons
-                this.time.delayedCall(200, () => {
-                    this.facebook.visible = false;
-                    this.twitter.visible = false;
-                    this.copyURL.visible = false;
-                });
-                this.facebook.input.enabled = false;
-                this.twitter.input.enabled = false;
-                this.copyURL.input.enabled = false;
-                this.facebook.tweenOut.play();
-                this.twitter.tweenOut.play();
-                this.copyURL.tweenOut.play();
-
-            }
-        });
-
-
-        //---------------Facebook
-        this.facebook = this.add.image(40, 100, "facebook").setScale(0.4).setVisible(false);
-        this.facebook.setInteractive();
-        this.facebook.input.enabled = false;
-        this.facebook.on('pointerup', () => {
-            shareFacebook();
-
-        });
-
-        this.facebook.on('pointerover', () => {
-            this.facebook.setScale(0.5);
-        });
-        this.facebook.on('pointerout', () => {
-            this.facebook.setScale(0.4);
-        });
-
-        this.facebook.tweenIn = this.tweens.add({
-            targets: this.facebook,
-            y: {
-                from: 40,
-                to: 100
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-        this.facebook.tweenOut = this.tweens.add({
-            targets: this.facebook,
-            y: {
-                from: 100,
-                to: 40
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-        //----------------Twitter
-        this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
-        this.twitter.setInteractive();
-        this.twitter.input.enabled = false;
-        this.twitter.on('pointerup', () => {
-            shareTwitter(`I%20woke%20up%20${this.score}%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=`);
-        });
-
-        this.twitter.on('pointerover', () => {
-            this.twitter.setScale(0.5);
-        });
-        this.twitter.on('pointerout', () => {
-            this.twitter.setScale(0.4);
-        });
-
-        this.twitter.tweenIn = this.tweens.add({
-            targets: this.twitter,
-            y: {
-                from: 40,
-                to: 150
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-
-        this.twitter.tweenOut = this.tweens.add({
-            targets: this.twitter,
-            y: {
-                from: 150,
-                to: 40
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-        //----------------Copy to clipboard
-        this.copyURL = this.add.image(40, 210, "copyIcon").setScale(1).setVisible(false);
-        this.copyURL.setInteractive();
-        this.copyURL.input.enabled = false;
-        this.copyURL.on('pointerdown', () => {
-            copyStringToClipboard();
-        });
-
-        this.copyURL.on('pointerover', () => {
-            this.copyURL.setScale(1.2);
-        });
-        this.copyURL.on('pointerout', () => {
-            this.copyURL.setScale(1);
-        });
-
-        this.copyURL.tweenIn = this.tweens.add({
-            targets: this.copyURL,
-            y: {
-                from: 40,
-                to: 210
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-
-        this.copyURL.tweenOut = this.tweens.add({
-            targets: this.copyURL,
-            y: {
-                from: 210,
-                to: 40
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-
+        createSocialMediaMenu(this); // create the social media menu for facebook, twiter and copy link
 
 
         // restart the game 
@@ -556,45 +396,45 @@ var hud_1 = new Phaser.Class({
             loop: 0,
         }).stop();
 
-                //-------------hamburger icon
-                this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
+        //-------------hamburger icon
+        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
 
-                this.hamburguer.on('pointerover', () => {
-                    this.hamburguer.setScale(0.45);
+        this.hamburguer.on('pointerover', () => {
+            this.hamburguer.setScale(0.45);
+        });
+        this.hamburguer.on('pointerout', () => {
+            this.hamburguer.setScale(0.4);
+        });
+
+        this.hamburguer.on('pointerdown', () => {
+            if (!this.loserBoardRect.visible) { // show the icons
+                this.loserBoardRect.visible = true;
+                this.loserBoardRect.tweenIn.play();
+                this.returnRect.visible = true;
+                this.returnRect.tweenIn.play();
+                this.restartRect.visible = true;
+                this.restartRect.tweenIn.play();
+                this.time.delayedCall(200, () => {
+                    this.loserBoardtext.setVisible(true);
+                    this.returnText.setVisible(true);
+                    this.restartText.setVisible(true);
                 });
-                this.hamburguer.on('pointerout', () => {
-                    this.hamburguer.setScale(0.4);
+
+            } else { //hide the icons
+                this.loserBoardtext.setVisible(false);
+                this.returnText.setVisible(false);
+                this.restartText.setVisible(false);
+                this.time.delayedCall(200, () => {
+                    this.loserBoardRect.visible = false;
+                    this.returnRect.visible = false;
+                    this.restartRect.visible = false;
+
                 });
-        
-                this.hamburguer.on('pointerdown', () => {
-                    if (!this.loserBoardRect.visible) { // show the icons
-                        this.loserBoardRect.visible = true;
-                        this.loserBoardRect.tweenIn.play();
-                        this.returnRect.visible = true;
-                        this.returnRect.tweenIn.play();
-                        this.restartRect.visible = true;
-                        this.restartRect.tweenIn.play();
-                        this.time.delayedCall(200, () => {
-                            this.loserBoardtext.setVisible(true);
-                            this.returnText.setVisible(true);
-                            this.restartText.setVisible(true);
-                        });
-        
-                    } else { //hide the icons
-                        this.loserBoardtext.setVisible(false);
-                        this.returnText.setVisible(false);
-                        this.restartText.setVisible(false);
-                        this.time.delayedCall(200, () => {
-                            this.loserBoardRect.visible = false;
-                            this.returnRect.visible = false;
-                            this.restartRect.visible = false;
-        
-                        });
-                        this.loserBoardRect.tweenOut.play();
-                        this.returnRect.tweenOut.play();
-                        this.restartRect.tweenOut.play();
-                    }
-                })
+                this.loserBoardRect.tweenOut.play();
+                this.returnRect.tweenOut.play();
+                this.restartRect.tweenOut.play();
+            }
+        })
 
 
         // ----------------- Score
@@ -873,7 +713,7 @@ var hud_1 = new Phaser.Class({
             this.NPCDIalogueIndex = -1;
             controls.joystickLocked = false;
         }
-        
+
     },
 
     endAllDialogs() { // hide any dialog when NPCS go to sleep

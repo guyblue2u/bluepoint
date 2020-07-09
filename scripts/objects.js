@@ -32,16 +32,20 @@ let bassist;
 let guitarist;
 
 
-let player = {
-    x: 98,
-    y: 141,
-    shirt: "Blue",
-    moving: false,
-    direction: null,
-    avatar: null,
-    move(params) {
+class Player {
+    constructor(x, y, poly) {
+        this.x = x;
+        this.y = y;
+        this.shirt = "Blue";
+        this.moving = false;
+        this.direction = null;
+        this.avatar = null;
+        this.poly = poly
+    };
+
+    move = (params) => {
         if (params === left) {
-            if (Phaser.Geom.Polygon.Contains(poly, this.avatar.x - speed, this.avatar.y + 16) &&
+            if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
                 !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16))
                 this.avatar.x -= speed;
             if (!this.moving) {
@@ -79,17 +83,17 @@ let player = {
             this.moving = true;
             this.avatar.depth = this.avatar.y;
         }
-    },
+    }
 
-    moveJoystic(x, y) {
+    moveJoystic = (x, y) => {
         // movement
         if (x > 30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x + speed, this.avatar.y + 16) &&
             !checkColisionNPCS(this.avatar.x + speed, this.avatar.y + 16)) {
-            this.avatar.x += speed*1.2;
+            this.avatar.x += speed * 1.2;
         }
         if (x < -30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x - speed, this.avatar.y + 16) &&
             !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16)) {
-            this.avatar.x -= speed*1.2;
+            this.avatar.x -= speed * 1.2;
         }
         if (y < -30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y + 16 - speed) &&
             !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 - speed)) {
@@ -125,10 +129,10 @@ let player = {
         } else {
             this.returnToIdle();
         }
-    },
+    }
 
 
-    returnToIdle() {
+    returnToIdle = () => {
         switch (this.direction) {
             case up:
                 this.avatar.play("idleUp" + this.shirt);
@@ -164,7 +168,7 @@ class NPC {
 }
 
 
-function createNPCS() {
+function createNPCS_Level_1() {
     // with rotation
     Ella = new NPC("Ella", 210, 190, "All my friends are out on the balcony but this bassist can really hold it down.", null, 44, 46);
     Chester = new NPC("Chester", 270, 200, "It’s not that crowded tonight. I’m gonna graffiti the bathroom while I have the chance.", null, 33, 35);
@@ -221,16 +225,16 @@ function createNPCS() {
 
 }
 
-createNPCS();
+
 
 // --------------------------------- M E T H O D S ----------------------------------
 
 function resetGame() {
-    controls.joystickLocked=true;
-    controls.buttonsLocked=false;
+    controls.joystickLocked = true;
+    controls.buttonsLocked = false;
     NPCS = [];
     createNPCS();
-    Object.assign(player,{
+    Object.assign(player, {
         x: 98,
         y: 141,
         shirt: "Blue",
@@ -240,7 +244,7 @@ function resetGame() {
     })
 }
 
-function minDistance() {
+function minDistance() {    // compute the min distance between the player and the NPCS from the npc array
     return NPCS.reduce((acc, val) => {
         if (Math.sqrt((player.avatar.x - val.avatar.x) ** 2 + (player.avatar.y - val.avatar.y) ** 2) < acc[0] && val.visible) {
             acc[0] = Math.sqrt((player.avatar.x - val.avatar.x) ** 2 + (player.avatar.y - val.avatar.y) ** 2);
@@ -248,6 +252,10 @@ function minDistance() {
         }
         return acc;
     }, [999])
+}
+
+function distance(x1,y1,x2,y2){
+    return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
 }
 
 function NpcLookPlayer(npc) {
@@ -327,7 +335,7 @@ function shareTwitter(tweettxt) { //share score on twitter
 
     // else
     // var tweettxt = 'Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.';
-   
+
     var finaltweet = tweetbegin + tweettxt + window.location.href;
     window.open(finaltweet, '_blank');
 }
@@ -350,11 +358,146 @@ function copyStringToClipboard() {
     document.body.removeChild(el);
 }
 
-function ValidateEmail(mail) 
-{
- if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
-  {
-    return (true)
-  }
+function ValidateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+        return (true)
+    }
     return (false)
+}
+
+
+
+//---------------------------------------- load animations of the player 
+
+function loadAnimationsPlayer(scene){
+    scene.anims.create({
+        key: "walkRightBlue",
+        repeat: -1,
+        frameRate: 7,
+        frames: scene.anims.generateFrameNumbers('blueGuy', {
+            frames: [14, 15]
+        })
+    })
+    scene.anims.create({
+        key: "walkLeftBlue",
+        repeat: -1,
+        frameRate: 7,
+        frames: scene.anims.generateFrameNumbers('blueGuy', {
+            frames: [12, 13]
+        })
+    })
+    scene.anims.create({
+        key: "walkDownBlue",
+        repeat: -1,
+        frameRate: 10,
+        frames: scene.anims.generateFrameNumbers('blueGuy', {
+            frames: [4, 5, 6, 7]
+        })
+    })
+    scene.anims.create({
+        key: "walkUpBlue",
+        repeat: -1,
+        frameRate: 10,
+        frames: scene.anims.generateFrameNumbers('blueGuy', {
+            frames: [8, 9, 10, 11]
+        })
+    })
+    scene.anims.create({
+        key: "idleDownBlue",
+        repeat: -1,
+        frameRate: 5,
+        frames: scene.anims.generateFrameNumbers('blueGuy', {
+            frames: [0]
+        })
+    })
+    scene.anims.create({
+        key: "idleLeftBlue",
+        repeat: -1,
+        frameRate: 5,
+        frames: scene.anims.generateFrameNumbers('blueGuy', {
+            frames: [1]
+        })
+    })
+    scene.anims.create({
+        key: "idleRightBlue",
+        repeat: -1,
+        frameRate: 5,
+        frames: scene.anims.generateFrameNumbers('blueGuy', {
+            frames: [3]
+        })
+    })
+    scene.anims.create({
+        key: "idleUpBlue",
+        repeat: -1,
+        frameRate: 5,
+        frames: scene.anims.generateFrameNumbers('blueGuy', {
+            frames: [2]
+        })
+    })
+
+    //----------------------------------------     Player Red shirt
+    scene.anims.create({
+        key: "walkRightRed",
+        repeat: -1,
+        frameRate: 7,
+        frames: scene.anims.generateFrameNumbers('redGuy', {
+            frames: [14, 15]
+        })
+    })
+    scene.anims.create({
+        key: "walkLeftRed",
+        repeat: -1,
+        frameRate: 7,
+        frames: scene.anims.generateFrameNumbers('redGuy', {
+            frames: [12, 13]
+        })
+    })
+    scene.anims.create({
+        key: "walkDownRed",
+        repeat: -1,
+        frameRate: 10,
+        frames: scene.anims.generateFrameNumbers('redGuy', {
+            frames: [4, 5, 6, 7]
+        })
+    })
+    scene.anims.create({
+        key: "walkUpRed",
+        repeat: -1,
+        frameRate: 10,
+        frames: scene.anims.generateFrameNumbers('redGuy', {
+            frames: [8, 9, 10, 11]
+        })
+    })
+    scene.anims.create({
+        key: "idleDownRed",
+        repeat: -1,
+        frameRate: 5,
+        frames: scene.anims.generateFrameNumbers('redGuy', {
+            frames: [0]
+        })
+    })
+    scene.anims.create({
+        key: "idleLeftRed",
+        repeat: -1,
+        frameRate: 5,
+        frames: scene.anims.generateFrameNumbers('redGuy', {
+            frames: [1]
+        })
+    })
+    scene.anims.create({
+        key: "idleRightRed",
+        repeat: -1,
+        frameRate: 5,
+        frames: scene.anims.generateFrameNumbers('redGuy', {
+            frames: [3]
+        })
+    })
+    scene.anims.create({
+        key: "idleUpRed",
+        repeat: -1,
+        frameRate: 5,
+        frames: scene.anims.generateFrameNumbers('redGuy', {
+            frames: [2]
+        })
+    })
 }

@@ -1,4 +1,3 @@
-
 var intro_1 = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -246,9 +245,9 @@ var intro_1 = new Phaser.Class({
                 this.copyURL.tweenIn.play();
 
                 this.time.delayedCall(200, () => {
-                    this.facebook.input.enabled=true;
-                    this.twitter.input.enabled=true;
-                    this.copyURL.input.enabled=true;
+                    this.facebook.input.enabled = true;
+                    this.twitter.input.enabled = true;
+                    this.copyURL.input.enabled = true;
                 });
 
 
@@ -259,9 +258,9 @@ var intro_1 = new Phaser.Class({
                     this.twitter.visible = false;
                     this.copyURL.visible = false;
                 });
-                this.facebook.input.enabled=false;
-                this.twitter.input.enabled=false;
-                this.copyURL.input.enabled=false;
+                this.facebook.input.enabled = false;
+                this.twitter.input.enabled = false;
+                this.copyURL.input.enabled = false;
                 this.facebook.tweenOut.play();
                 this.twitter.tweenOut.play();
                 this.copyURL.tweenOut.play();
@@ -273,8 +272,7 @@ var intro_1 = new Phaser.Class({
         //---------------Facebook
         this.facebook = this.add.image(40, 100, "facebook").setScale(0.4).setVisible(false);
         this.facebook.setInteractive();
-        this.facebook.input.enabled=false;
-        console.log(this.facebook)
+        this.facebook.input.enabled = false;
         this.facebook.on('pointerup', () => {
             shareFacebook();
 
@@ -312,7 +310,7 @@ var intro_1 = new Phaser.Class({
         //----------------Twitter
         this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
         this.twitter.setInteractive();
-        this.twitter.input.enabled=false;
+        this.twitter.input.enabled = false;
         this.twitter.on('pointerup', () => {
             shareTwitter('Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.');
         });
@@ -350,7 +348,7 @@ var intro_1 = new Phaser.Class({
         //----------------Copy to clipboard
         this.copyURL = this.add.image(40, 210, "copyIcon").setScale(1).setVisible(false);
         this.copyURL.setInteractive();
-        this.copyURL.input.enabled=false;
+        this.copyURL.input.enabled = false;
         this.copyURL.on('pointerdown', () => {
             copyStringToClipboard();
         });
@@ -406,12 +404,6 @@ var intro_1 = new Phaser.Class({
             } else if (this.currentMessageIndex <= 3) this.typingEffect();
         });
 
-
-        // this.input.keyboard.on('keydown', () => {
-        //     if (this.mutedIcon.visible) {
-        //         this.mutedIcon.setVisible(false);
-        //     }
-        // })
 
         this.flashingText.on('pointerdown', () => {
 
@@ -493,8 +485,8 @@ var intro_1 = new Phaser.Class({
                 this.background_videoA.play(false);
                 this.background_videoA.destroy();
                 this.background_videoB.play(true);
-                
-                
+
+
                 this.rectangleDialog.visible = true;
                 this.textDialog.visible = true;
                 this.textDialogInstructions.visible = true;
@@ -533,6 +525,9 @@ var intro_1 = new Phaser.Class({
         this.typingEffect = () => {
 
             this.currentMessageIndex++;
+
+            if(this.currentMessageIndex>this.dialogMessages.length-1) return;
+
             if (this.currentMessageIndex === 2) {
                 this.zone.setInteractive(false);
                 this.zone.destroy('pointerdown');
@@ -603,19 +598,23 @@ var intro_1 = new Phaser.Class({
                 return;
             }
 
+            console.log("currentMessageIndex: "+this.currentMessageIndex);
+
+           
             let i = 0;
             this.textDialog.text = "";
             if (this.eventTyping !== undefined) this.eventTyping.remove(false); //stop all the typing events, if exist
             this.eventTyping = this.time.addEvent({ // create the event that makes the typing effect
                 delay: 50,
                 callback: (text) => {
+
                     this.textDialog.text += this.dialogMessages[this.currentMessageIndex][i]
                     i++
                 },
                 args: [],
                 repeat: this.dialogMessages[this.currentMessageIndex].length - 1
             });
-
+            console.log(this.currentMessageIndex);
         }
 
     },
