@@ -16,16 +16,16 @@ var level_2 = new Phaser.Class({
     },
 
     create: function () {
-        background2 = this.add.image(0, 0, "level2_back2").setOrigin(0, 0);
-        background3 = this.add.image(0, 0, "level2_back3").setOrigin(0, 0);
-        background1 = this.add.image(0, 0, "level2_back1").setOrigin(0, 0);
+        this.background2 = this.add.image(0, 0, "level2_back2").setOrigin(0, 0);
+        this.background3 = this.add.image(0, 0, "level2_back3").setOrigin(0, 0);
+        this.background1 = this.add.image(0, 0, "level2_back1").setOrigin(0, 0);
 
         this.cameras.main.zoom = 2;
         this.cameras.main.setBounds(0, 20, 440, 250);
 
 
         //polygon for the floor boundaries (inside bar)
-        poly = new Phaser.Geom.Polygon([
+        this.poly = new Phaser.Geom.Polygon([
             new Phaser.Geom.Point(1, 252),
             new Phaser.Geom.Point(1, 211),
             new Phaser.Geom.Point(30, 182),
@@ -45,17 +45,36 @@ var level_2 = new Phaser.Class({
 
         ]);
 
+        //colliders for the tables and chairs
+        this.colls = [
+            [122, 215, 10],
+            [163, 200, 20],
+            [265, 200, 20],
+            [365, 200, 20],
+            [345, 160, 10],
+            [321, 135, 10],
+            [288, 135, 10],
+            [263, 135, 10],
+            [199, 145, 10],
+            [181, 145, 10],
+        ];
+        // this.colls.forEach(el => {
+        //     this.add.circle(el[0], el[1], el[2], 0xff0000).setAlpha(0.5)
+        //     //this.add.rectangle(el[0],el[1],el[2],el[2],0x00ff00).setAlpha(0.5)
+        // });
 
         loadAnimationsPlayer(this);
 
+
+
         //add the player
-        player = new Player(150, 141, poly);
+        player = new Player_Lvl_2(150, 141, this.poly, this.colls);
 
         player.avatar = this.add.sprite(player.x, player.y, "blueGuy", 0);
         player.avatar.depth = player.avatar.y;
         player.avatar.play("idleDown" + player.shirt);
 
-        player.checkCollisions
+
 
         // movement of the player
         this.upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -75,19 +94,33 @@ var level_2 = new Phaser.Class({
             player.moving = false;
         })
 
-        controls.buttonsLocked=false;
-        controls.joystickLocked=false;
+        controls.buttonsLocked = false;
+        controls.joystickLocked = false;
+
+        // footsteps
+        this.footsteps = [];
 
 
+        //dust effect
+        numberParticles = 100;
+        this.dustParticles = [];
+        for (let i = 0; i < numberParticles; i++) {
+            let particle = this.add.image(Math.random() * 888, Math.random() * 250, 'whiteSquare').setScale(Math.random())
+            particle.speed = Math.random() * 4 + 1;
+            this.dustParticles.push(
+                particle
+            )
+        }
 
-        NPCS = [];
+
+        NPCS = []; //delete the npcs from the first level
         this.input.keyboard.clearCaptures();
         controls.joystickLocked = false;
 
 
         this.input.on('pointerup', () => {
             var pointer = this.input.activePointer;
-            points.push([pointer.x, pointer.y])
+            points.push([pointer.x / 2, pointer.y / 2])
 
         })
 
@@ -116,8 +149,41 @@ var level_2 = new Phaser.Class({
             }
         }
 
+        // creating the footsteps
+        if (this.footsteps.length !== 0) {
+
+            let dist = distance(player.avatar.x, player.avatar.y + 15, this.footsteps[this.footsteps.length - 1].x, this.footsteps[this.footsteps.length - 1].y);
+            if (dist > 15) {
+                this.footsteps.push(this.add.image(player.avatar.x, player.avatar.y + 15, 'footsteps'))
+            }
+
+            //reduce the opacity of the footsteps
+            for (let i = this.footsteps.length - 1; i >= 0; i--) {
+                this.footsteps[i].alpha -= 0.005;
+                //delete the footstep object once its opacity is less than 0
+                if (this.footsteps[i].alpha < 0) {
+                    this.footsteps[i].destroy();
+                    this.footsteps.splice(i, 1);
+                }
+            }
+
+        } else {
+            this.footsteps.push(this.add.image(player.avatar.x, player.avatar.y + 15, 'footsteps'))
+        }
+
+        //moving the dust particles
+        this.dustParticles.forEach(el => {
+            el.y += el.speed;
+            el.alpha = ((530 - el.y) / 530);
+            if (el.y > 530) {
+                el.y = -5;
+                el.setScale(Math.random())
+            }
+        })
+
+
+
+
     }
 
 })
-
-

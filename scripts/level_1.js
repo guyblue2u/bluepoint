@@ -34,7 +34,7 @@ var level_1 = new Phaser.Class({
 
 
         loadAnimationsPlayer(this);
-        player = new Player(98,141 ,poly);
+        player = new Player_Lvl_1(98,141 ,poly);
 
         player.avatar = this.add.sprite(player.x, player.y, "blueGuy", 0);
         player.avatar.depth=player.avatar.y;

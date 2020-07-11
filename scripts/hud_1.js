@@ -524,8 +524,6 @@ var hud_1 = new Phaser.Class({
             this.showDialogue("I wonder what’s happening tonight, let’s ask around.");
             this.textInstruction.visible = false;
 
-
-
         });
 
         this.timedEvent = this.time.delayedCall(6000 + initialTime, () => {

@@ -130,11 +130,8 @@ var loading = new Phaser.Class({
         this.load.image("level2_back1", "./assets/images/level_2/collisions layer.png");
         this.load.image("level2_back2", "./assets/images/level_2/base walkable area.png");
         this.load.image("level2_back3", "./assets/images/level_2/dust layer.png");
-        this.load.image("map_base", "./assets/images/map/base.png");
-        this.load.image("map_base", "./assets/images/map/base.png");
-        this.load.image("map_base", "./assets/images/map/base.png");
 
-
+        this.load.image("footsteps", "./assets/images/level_2/footsteps.png");
 
         this.load.video('background_intro_1', './assets/videos/start screen background.mp4');
         this.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');

@@ -377,17 +377,15 @@ var hud_2 = new Phaser.Class({
 
 
         // ------------------------- Time events
-        this.timedEvent = this.time.delayedCall(50 + initialTime, () => {
-            this.showDialogue("Oh wow, this place has seen better days. Jeez look at all this dust.");
-            this.textInstruction.visible = false;
+        // this.timedEvent = this.time.delayedCall(50 + initialTime, () => {
+        //     this.showDialogue("Oh wow, this place has seen better days. Jeez look at all this dust.");
 
-        });
+        // });
 
-        this.timedEvent = this.time.delayedCall(4000 + initialTime, () => {
-            this.showDialogue("Let’s see if there’s beer left in any of these cans.");
-            this.textInstruction.visible = false;
+        // this.timedEvent = this.time.delayedCall(4000 + initialTime, () => {
+        //     this.showDialogue("Let’s see if there’s beer left in any of these cans.");
 
-        });
+        // });
 
 
 
@@ -464,12 +462,6 @@ var hud_2 = new Phaser.Class({
     interact() { //when button is pressed for interact, show the dialog
 
         let nearest = this.minDistance();
-        console.log(nearest);
-
-        this.beerPoints.forEach(val => {
-            console.log(distance(player.avatar.x, player.avatar.y, val[0], val[1]))
-        });
-
 
         if (nearest[0] < radiusInteraction) {
             this.showDialogue();
