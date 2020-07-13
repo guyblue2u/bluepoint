@@ -58,10 +58,10 @@ var level_2 = new Phaser.Class({
             [199, 145, 10],
             [181, 145, 10],
         ];
-        this.colls.forEach(el => {
-            this.add.circle(el[0], el[1], el[2], 0xff0000).setAlpha(0.5)
-            //this.add.rectangle(el[0],el[1],el[2],el[2],0x00ff00).setAlpha(0.5)
-        });
+        // this.colls.forEach(el => {
+        //     this.add.circle(el[0], el[1], el[2], 0xff0000).setAlpha(0.5)
+        //     //this.add.rectangle(el[0],el[1],el[2],el[2],0x00ff00).setAlpha(0.5)
+        // });
 
         loadAnimationsPlayer(this);
 
