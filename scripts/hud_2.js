@@ -42,7 +42,7 @@ var hud_2 = new Phaser.Class({
         }).setFontSize(25).setDepth(2);
 
 
-        this.typingEffect = (text) => {
+        this.typingEffect = (text , unlockControls=true) => {
 
             this.messageToShow = text;
             let i = 0;
@@ -64,7 +64,7 @@ var hud_2 = new Phaser.Class({
             this.eventCloseDialog = this.time.addEvent({ // create the event that closes the dialog box after 2 seconds of finished
                 delay: text.length * 50 + 2000,
                 callback: () => {
-                    this.hideDialogue();
+                    this.hideDialogue(unlockControls);
                 },
                 args: [text]
             });
@@ -357,19 +357,8 @@ var hud_2 = new Phaser.Class({
             });
         }
 
+        this.beerPoints = [];
 
-        this.beerPoints = [
-            [59, 145, "Careful, these cans are rusty."],
-            [50, 190, "This one is full...of dust."],
-            [159, 173, "Gross, nothing but dead bugs."],
-            [260, 189, "Bupkis."],
-            [370, 178, "Both empty."],
-            [320, 100, "Not a drop in any of these."],
-            [292, 130, "Whatever that is, it’s not beer."],
-            [259, 96, "Bingo! Wait, nope, just dust."],
-            [208, 105, "Nope, nothing in these."],
-            [171, 96, "Crap, more empties."]
-        ]
 
         // this.beerPoints.forEach(element => {     //uncomment to show circles over the bottles
         //     this.add.circle(element[0]*2,element[1]*2,20,0xff0000);
@@ -377,15 +366,43 @@ var hud_2 = new Phaser.Class({
 
 
         // ------------------------- Time events
-        // this.timedEvent = this.time.delayedCall(50 + initialTime, () => {
-        //     this.showDialogue("Oh wow, this place has seen better days. Jeez look at all this dust.");
+        this.time.delayedCall(50, () => {
+            this.showDialogue("I hope Matchless still has booze.",false);
+            this.textInstruction.visible = false;
+        });
 
-        // });
 
-        // this.timedEvent = this.time.delayedCall(4000 + initialTime, () => {
-        //     this.showDialogue("Let’s see if there’s beer left in any of these cans.");
+        this.time.delayedCall(10000, () => {
+            this.showDialogue("Let’s see if there’s beer left in any of these cans.");
+            this.textInstruction.visible = true;
+            this.beerPoints = [
+                [59, 145, "Careful, these cans are rusty."],
+                [50, 190, "This one is full...of dust."],
+                [159, 173, "Gross, nothing but dead bugs."],
+                [260, 189, "Bupkis."],
+                [370, 178, "Both empty."],
+                [320, 100, "Not a drop in any of these."],
+                [292, 130, "Whatever that is, it’s not beer."],
+                [259, 96, "Bingo! Wait, nope, just dust."],
+                [208, 105, "Nope, nothing in these."],
+                [171, 96, "Crap, more empties."]
+            ]
+        });
 
-        // });
+        this.time.delayedCall(12000, ()=>{
+            this.instructionText.visible = true;
+            controls.buttonsLocked = false;
+            controls.joystickLocked =false;
+
+        })
+
+        this.time.delayedCall(29000, ()=>{
+            this.instructionText.visible = false;
+            controls.buttonsLocked = true;
+            controls.joystickLocked =true;
+            this.showDialogue("Oh it looks like the tap is still hooked up. Let’s check it out.",false);
+            this.beerPoints = [];
+        })
 
 
 
@@ -396,7 +413,7 @@ var hud_2 = new Phaser.Class({
         this.playTime += delta;
 
         let nearest = this.minDistance();
-        if (nearest[0] < radiusInteraction) {
+        if (nearest[0] < radiusInteraction ) {
             this.buttonInteract.visible = true;
             this.buttonInteractText.visible = true;
 
@@ -418,7 +435,7 @@ var hud_2 = new Phaser.Class({
             player.moveJoystic(this.joyStick.forceX, this.joyStick.forceY)
     },
 
-    hideDialogue() { // hide the current dialogue or goes to the next one in a sequential dialog
+    hideDialogue(unlockControls=true) { // hide the current dialogue or goes to the next one in a sequential dialog
 
 
         this.showingDialogue = false;
@@ -426,7 +443,7 @@ var hud_2 = new Phaser.Class({
         this.textDialogue.visible = false;
         this.textInstruction.visible = false;
         this.dialogueWindow.visible = false;
-        controls.joystickLocked = false;
+        if(unlockControls) controls.joystickLocked = false;
 
 
     },
@@ -441,10 +458,10 @@ var hud_2 = new Phaser.Class({
         }, [999])
     },
 
-    showDialogue(message) { // shows the dialogue window with a specific message
+    showDialogue(message , unlockControls=true) { // shows the dialogue window with a specific message
 
         if (message != null) {
-            this.typingEffect(message);
+            this.typingEffect(message , unlockControls);
             this.textTitle.text = "Guy Blue"
         }
         this.showingDialogue = true;
@@ -464,8 +481,8 @@ var hud_2 = new Phaser.Class({
         let nearest = this.minDistance();
 
         if (nearest[0] < radiusInteraction) {
-            this.showDialogue();
-            this.typingEffect(nearest[1]);
+            this.showDialogue(nearest[1]);
+            
         }
 
     }
