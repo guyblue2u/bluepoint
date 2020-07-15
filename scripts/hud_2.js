@@ -42,7 +42,9 @@ var hud_2 = new Phaser.Class({
         }).setFontSize(25).setDepth(2);
 
 
-        this.typingEffect = (text , unlockControls=true) => {
+        this.typingEffect = (text , unlockControls) => {
+
+            if(unlockControls===undefined) unlockControls=true;
 
             this.messageToShow = text;
             let i = 0;
@@ -435,8 +437,9 @@ var hud_2 = new Phaser.Class({
             player.moveJoystic(this.joyStick.forceX, this.joyStick.forceY)
     },
 
-    hideDialogue(unlockControls=true) { // hide the current dialogue or goes to the next one in a sequential dialog
+    hideDialogue(unlockControls) { // hide the current dialogue or goes to the next one in a sequential dialog
 
+        if(unlockControls===undefined) unlockControls=true;
 
         this.showingDialogue = false;
         this.textTitle.visible = false;
@@ -458,7 +461,9 @@ var hud_2 = new Phaser.Class({
         }, [999])
     },
 
-    showDialogue(message , unlockControls=true) { // shows the dialogue window with a specific message
+    showDialogue(message , unlockControls) { // shows the dialogue window with a specific message
+
+        if(unlockControls===undefined) unlockControls=true;
 
         if (message != null) {
             this.typingEffect(message , unlockControls);
