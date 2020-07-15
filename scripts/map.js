@@ -129,6 +129,7 @@ var map = new Phaser.Class({
         this.banner = this.add.rectangle(444, 480, 888, 100).setFillStyle(0x000000).setInteractive();
         this.banner.on('pointerdown', () => {
             if (this.selectedLevel === 1) {
+                this.game.sound.stopAll();
                 this.scene.start("intro_1");
             }
 
