@@ -265,7 +265,7 @@ var hud_1 = new Phaser.Class({
         // restart the game 
         this.restartRect = this.add.rectangle(750, 140, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
         this.restartText = this.add.text(750, 140, "Restart ", {
-            fontFamily: 'ZCOOL QingKe HuangYou',
+            fontFamily: 'euroStyle',
             fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);
 
@@ -310,7 +310,7 @@ var hud_1 = new Phaser.Class({
         // ---------- return tu menu
         this.returnRect = this.add.rectangle(750, 200, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
         this.returnText = this.add.text(750, 200, "Menu ", {
-            fontFamily: 'ZCOOL QingKe HuangYou',
+            fontFamily: 'euroStyle',
             fontSize: 30
         }).setOrigin(0.5, 0.5).setVisible(false);
 

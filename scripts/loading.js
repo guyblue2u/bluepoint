@@ -18,7 +18,7 @@ var loading = new Phaser.Class({
 
     preload: function () { //loads all the assets from the complete game
 
-        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+        //this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
         this.load.html('form', './scripts/form.html');
 
