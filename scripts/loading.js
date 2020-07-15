@@ -1,8 +1,8 @@
-let music;
-let complete = 0;
+
 
 window.onerror = function (e) {
     document.getElementById('prompt').innerHTML = e.toString();
+    console.log(e);
 }
 
 
@@ -184,12 +184,21 @@ var loading = new Phaser.Class({
             }
 
         });
+
+
+        this.add.text(50,50,test1());
+        this.add.text(50,100,test2());
+        this.add.text(50,150,test3());
+        this.add.text(50,200,test4());
     },
 
     create: function () {
-
-
+   
+        
     },
+ 
+
+
 
     update: function () {
 

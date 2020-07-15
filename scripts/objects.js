@@ -595,3 +595,22 @@ class Player_Lvl_2 {
         })
     }
 }
+
+
+var test1=function(){
+    return "test 1: correct (var)"
+}
+
+test2= function(){
+    return "test 1: correct (nothing)"
+}
+
+window.test3= function(){
+    return "test 1: correct (window)"
+}
+
+
+let test4= function(){
+    return "test 1: correct (let)"
+}
+
