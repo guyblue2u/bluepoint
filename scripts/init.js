@@ -17,8 +17,7 @@ const config={
 	// 	disableWebAudio: true,
     // }
 }
-let loadingMain=0;
-let loadingHUD=0; 
+
 var Game;
 function initGame(){
 	Game=new Phaser.Game(config);

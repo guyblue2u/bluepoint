@@ -1,6 +1,43 @@
 //----------------------------------------S O C I A L     M E D I A
 
-function createSocialMediaMenu(scene) {
+
+
+window.shareTwitter=(tweettxt)=> { //share score on twitter        
+    var tweetbegin = 'https://twitter.com/intent/tweet?text=';
+
+    var finaltweet = tweetbegin + tweettxt + window.location.href;
+    window.open(finaltweet, '_blank');
+}
+
+window.function shareFacebook=()=> {
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + window.location.href, '_blank')
+}
+
+window.copyStringToClipboard=()=> {
+    var el = document.createElement('textarea');
+    el.value = window.location.href;
+    el.setAttribute('readonly', '');
+    el.style = {
+        position: 'absolute',
+        left: '-9999px'
+    };
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+}
+
+window.ValidateEmail=(mail)=> {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+        return (true)
+    }
+    return (false)
+}
+
+
+
+
+window.createSocialMediaMenu=(scene)=> {
 
     //---------------Share button
     scene.share = scene.add.image(40, 40, "shareIcon").setScale(0.09);

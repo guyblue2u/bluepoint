@@ -43,7 +43,7 @@ class Player_Lvl_1 {
         this.poly = poly
     };
 
-    move = (params) => {
+    move  (params)  {
         if (params === left) {
             if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
                 !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16))
@@ -83,9 +83,9 @@ class Player_Lvl_1 {
             this.moving = true;
             this.avatar.depth = this.avatar.y;
         }
-    }
+    };
 
-    moveJoystic = (x, y) => {
+    moveJoystic (x, y) {
         // movement
         if (x > 30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x + speed, this.avatar.y + 16) &&
             !checkColisionNPCS(this.avatar.x + speed, this.avatar.y + 16)) {
@@ -129,10 +129,10 @@ class Player_Lvl_1 {
         } else {
             this.returnToIdle();
         }
-    }
+    };
 
 
-    returnToIdle = () => {
+    returnToIdle ()  {
         switch (this.direction) {
             case up:
                 this.avatar.play("idleUp" + this.shirt);
@@ -147,7 +147,7 @@ class Player_Lvl_1 {
                 this.avatar.play("idleLeft" + this.shirt);
                 break;
         }
-    }
+    };
 }
 
 class NPC {
@@ -326,50 +326,12 @@ function hideAllCharacters() {
     }
 }
 
-// -------------------------------------- Social Media
-
-function shareTwitter(tweettxt) { //share score on twitter        
-    var tweetbegin = 'https://twitter.com/intent/tweet?text=';
-    // if(score!==null && score!== undefined)
-    //     var tweettxt = 'I%20woke%20up%20' + score + '%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=';
-
-    // else
-    // var tweettxt = 'Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.';
-
-    var finaltweet = tweetbegin + tweettxt + window.location.href;
-    window.open(finaltweet, '_blank');
-}
-
-function shareFacebook() {
-    window.open('https://www.facebook.com/sharer/sharer.php?u=' + window.location.href, '_blank')
-}
-
-function copyStringToClipboard() {
-    var el = document.createElement('textarea');
-    el.value = window.location.href;
-    el.setAttribute('readonly', '');
-    el.style = {
-        position: 'absolute',
-        left: '-9999px'
-    };
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-}
-
-function ValidateEmail(mail) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-        return (true)
-    }
-    return (false)
-}
 
 
 
 //---------------------------------------- load animations of the player 
 
-function loadAnimationsPlayer(scene) {
+window.loadAnimationsPlayer=function(scene) {
     scene.anims.create({
         key: "walkRightBlue",
         repeat: -1,
@@ -514,7 +476,7 @@ class Player_Lvl_2 {
         this.colliders = colliders;
     };
 
-    move = (params) => {
+    move(params) {
        
 
         if (params === left) {
@@ -560,7 +522,7 @@ class Player_Lvl_2 {
         }
     }
 
-    moveJoystic = (x, y) => {
+    moveJoystic (x, y)  {
         // movement
         if (x > 30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x + speed, this.avatar.y + 16) &&
             !this.checkColisios(this.avatar.x + speed, this.avatar.y + 16)) {
@@ -606,7 +568,7 @@ class Player_Lvl_2 {
         }
     }
 
-    returnToIdle = () => {
+    returnToIdle ()  {
         switch (this.direction) {
             case up:
                 this.avatar.play("idleUp" + this.shirt);
