@@ -41,113 +41,116 @@ class Player_Lvl_1 {
         this.direction = null;
         this.avatar = null;
         this.poly = poly
-    };
 
-    move  (params)  {
-        if (params === left) {
-            if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
-                !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16))
-                this.avatar.x -= speed;
-            if (!this.moving) {
-                this.direction = left;
-                this.avatar.play("walkLeft" + this.shirt);
-            }
-            this.moving = true;
-        }
 
-        if (params === right) {
-            if (Phaser.Geom.Polygon.Contains(poly, this.avatar.x + speed, this.avatar.y + 16) &&
-                !checkColisionNPCS(this.avatar.x + speed, this.avatar.y + 16))
-                this.avatar.x += speed;
-            if (!this.moving) {
-                this.avatar.play("walkRight" + this.shirt);
-                this.direction = right;
-            }
-            this.moving = true;
-        }
-        if (params === up) {
-            if (Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y - speed + 16) &&
-                !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 - speed))
-                this.avatar.y -= speed;
-            if (this.direction != up) this.avatar.play("walkUp" + this.shirt);
-            this.direction = up;
-            this.moving = true;
-            this.avatar.depth = this.avatar.y;
-        }
-        if (params === down) {
-            if (Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y + speed + 16) &&
-                !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 + speed))
-                this.avatar.y += speed;
-            if (this.direction != down) this.avatar.play("walkDown" + this.shirt);
-            this.direction = down;
-            this.moving = true;
-            this.avatar.depth = this.avatar.y;
-        }
-    };
-
-    moveJoystic (x, y) {
-        // movement
-        if (x > 30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x + speed, this.avatar.y + 16) &&
-            !checkColisionNPCS(this.avatar.x + speed, this.avatar.y + 16)) {
-            this.avatar.x += speed * 1.2;
-        }
-        if (x < -30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x - speed, this.avatar.y + 16) &&
-            !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16)) {
-            this.avatar.x -= speed * 1.2;
-        }
-        if (y < -30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y + 16 - speed) &&
-            !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 - speed)) {
-            this.avatar.y -= speed;
-            this.avatar.depth = this.avatar.y;
-        }
-        if (y > 30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y + 16 + speed) &&
-            !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 + speed)) {
-            this.avatar.y += speed;
-            this.avatar.depth = this.avatar.y;
-        }
-
-        // direction
-        if (Math.abs(x) > 20 || Math.abs(y) > 20) {
-            this.moving = true;
-            if (Math.abs(x) > Math.abs(y)) {
-                if (x > 0) {
-                    this.direction = right;
-                    if (this.avatar.anims.currentAnim.key !== "walkRight" + this.shirt) this.avatar.play("walkRight" + this.shirt);
-                } else {
+        move = (params) => {
+            if (params === left) {
+                if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
+                    !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16))
+                    this.avatar.x -= speed;
+                if (!this.moving) {
                     this.direction = left;
-                    if (this.avatar.anims.currentAnim.key !== "walkLeft" + this.shirt) this.avatar.play("walkLeft" + this.shirt);
+                    this.avatar.play("walkLeft" + this.shirt);
+                }
+                this.moving = true;
+            }
+
+            if (params === right) {
+                if (Phaser.Geom.Polygon.Contains(poly, this.avatar.x + speed, this.avatar.y + 16) &&
+                    !checkColisionNPCS(this.avatar.x + speed, this.avatar.y + 16))
+                    this.avatar.x += speed;
+                if (!this.moving) {
+                    this.avatar.play("walkRight" + this.shirt);
+                    this.direction = right;
+                }
+                this.moving = true;
+            }
+            if (params === up) {
+                if (Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y - speed + 16) &&
+                    !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 - speed))
+                    this.avatar.y -= speed;
+                if (this.direction != up) this.avatar.play("walkUp" + this.shirt);
+                this.direction = up;
+                this.moving = true;
+                this.avatar.depth = this.avatar.y;
+            }
+            if (params === down) {
+                if (Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y + speed + 16) &&
+                    !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 + speed))
+                    this.avatar.y += speed;
+                if (this.direction != down) this.avatar.play("walkDown" + this.shirt);
+                this.direction = down;
+                this.moving = true;
+                this.avatar.depth = this.avatar.y;
+            }
+        };
+
+        moveJoystic = (x, y) => {
+            // movement
+            if (x > 30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x + speed, this.avatar.y + 16) &&
+                !checkColisionNPCS(this.avatar.x + speed, this.avatar.y + 16)) {
+                this.avatar.x += speed * 1.2;
+            }
+            if (x < -30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x - speed, this.avatar.y + 16) &&
+                !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16)) {
+                this.avatar.x -= speed * 1.2;
+            }
+            if (y < -30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y + 16 - speed) &&
+                !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 - speed)) {
+                this.avatar.y -= speed;
+                this.avatar.depth = this.avatar.y;
+            }
+            if (y > 30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x, this.avatar.y + 16 + speed) &&
+                !checkColisionNPCS(this.avatar.x, this.avatar.y + 16 + speed)) {
+                this.avatar.y += speed;
+                this.avatar.depth = this.avatar.y;
+            }
+
+            // direction
+            if (Math.abs(x) > 20 || Math.abs(y) > 20) {
+                this.moving = true;
+                if (Math.abs(x) > Math.abs(y)) {
+                    if (x > 0) {
+                        this.direction = right;
+                        if (this.avatar.anims.currentAnim.key !== "walkRight" + this.shirt) this.avatar.play("walkRight" + this.shirt);
+                    } else {
+                        this.direction = left;
+                        if (this.avatar.anims.currentAnim.key !== "walkLeft" + this.shirt) this.avatar.play("walkLeft" + this.shirt);
+                    }
+                } else {
+                    if (y > 0) {
+                        this.direction = down;
+                        if (this.avatar.anims.currentAnim.key !== "walkDown" + this.shirt) this.avatar.play("walkDown" + this.shirt);
+                    } else {
+                        this.direction = up;
+                        if (this.avatar.anims.currentAnim.key !== "walkUp" + this.shirt) this.avatar.play("walkUp" + this.shirt);
+                    }
                 }
             } else {
-                if (y > 0) {
-                    this.direction = down;
-                    if (this.avatar.anims.currentAnim.key !== "walkDown" + this.shirt) this.avatar.play("walkDown" + this.shirt);
-                } else {
-                    this.direction = up;
-                    if (this.avatar.anims.currentAnim.key !== "walkUp" + this.shirt) this.avatar.play("walkUp" + this.shirt);
-                }
+                this.returnToIdle();
             }
-        } else {
-            this.returnToIdle();
-        }
+        };
+
+
+        returnToIdle = () => {
+            switch (this.direction) {
+                case up:
+                    this.avatar.play("idleUp" + this.shirt);
+                    break;
+                case down:
+                    this.avatar.play("idleDown" + this.shirt);
+                    break;
+                case right:
+                    this.avatar.play("idleRight" + this.shirt);
+                    break;
+                case left:
+                    this.avatar.play("idleLeft" + this.shirt);
+                    break;
+            }
+        };
     };
 
 
-    returnToIdle ()  {
-        switch (this.direction) {
-            case up:
-                this.avatar.play("idleUp" + this.shirt);
-                break;
-            case down:
-                this.avatar.play("idleDown" + this.shirt);
-                break;
-            case right:
-                this.avatar.play("idleRight" + this.shirt);
-                break;
-            case left:
-                this.avatar.play("idleLeft" + this.shirt);
-                break;
-        }
-    };
 }
 
 class NPC {
@@ -331,7 +334,7 @@ function hideAllCharacters() {
 
 //---------------------------------------- load animations of the player 
 
-window.loadAnimationsPlayer=function(scene) {
+window.loadAnimationsPlayer = function (scene) {
     scene.anims.create({
         key: "walkRightBlue",
         repeat: -1,
@@ -474,143 +477,125 @@ class Player_Lvl_2 {
         this.avatar = null;
         this.poly = poly
         this.colliders = colliders;
-    };
 
-    move(params) {
-       
+        move = (params) => {
 
-        if (params === left) {
-            if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
-                !this.checkColisions(this.avatar.x - speed, this.avatar.y + 16))
-                this.avatar.x -= speed;
-            if (!this.moving) {
-                this.direction = left;
-                this.avatar.play("walkLeft" + this.shirt);
-            }
-            this.moving = true;
-        }
 
-        if (params === right) {
-            if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x + speed, this.avatar.y + 16) &&
-                !this.checkColisions(this.avatar.x + speed, this.avatar.y + 16)) {
-                this.avatar.x += speed;
-            }
-            if (!this.moving) {
-                this.avatar.play("walkRight" + this.shirt);
-                this.direction = right;
-            }
-            this.moving = true;
-        }
-        //return;
-        if (params === up) {
-            if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x, this.avatar.y - speed + 16) &&
-                !this.checkColisions(this.avatar.x, this.avatar.y + 16 - speed))
-                this.avatar.y -= speed;
-            if (this.direction != up) this.avatar.play("walkUp" + this.shirt);
-            this.direction = up;
-            this.moving = true;
-            this.avatar.depth = this.avatar.y;
-        }
-        if (params === down) {
-            if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x, this.avatar.y + speed + 16) &&
-                !this.checkColisions(this.avatar.x, this.avatar.y + 16 + speed))
-                this.avatar.y += speed;
-            if (this.direction != down) this.avatar.play("walkDown" + this.shirt);
-            this.direction = down;
-            this.moving = true;
-            this.avatar.depth = this.avatar.y;
-        }
-    }
-
-    moveJoystic (x, y)  {
-        // movement
-        if (x > 30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x + speed, this.avatar.y + 16) &&
-            !this.checkColisios(this.avatar.x + speed, this.avatar.y + 16)) {
-            this.avatar.x += speed * 1.2;
-        }
-        if (x < -30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
-            !this.checkColisions(this.avatar.x - speed, this.avatar.y + 16)) {
-            this.avatar.x -= speed * 1.2;
-        }
-        if (y < -30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x, this.avatar.y + 16 - speed) &&
-            !this.checkColisions(this.avatar.x, this.avatar.y + 16 - speed)) {
-            this.avatar.y -= speed;
-            this.avatar.depth = this.avatar.y;
-        }
-        if (y > 30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x, this.avatar.y + 16 + speed) &&
-            !this.checkColisions(this.avatar.x, this.avatar.y + 16 + speed)) {
-            this.avatar.y += speed;
-            this.avatar.depth = this.avatar.y;
-        }
-
-        // direction
-        if (Math.abs(x) > 20 || Math.abs(y) > 20) {
-            this.moving = true;
-            if (Math.abs(x) > Math.abs(y)) {
-                if (x > 0) {
-                    this.direction = right;
-                    if (this.avatar.anims.currentAnim.key !== "walkRight" + this.shirt) this.avatar.play("walkRight" + this.shirt);
-                } else {
+            if (params === left) {
+                if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
+                    !this.checkColisions(this.avatar.x - speed, this.avatar.y + 16))
+                    this.avatar.x -= speed;
+                if (!this.moving) {
                     this.direction = left;
-                    if (this.avatar.anims.currentAnim.key !== "walkLeft" + this.shirt) this.avatar.play("walkLeft" + this.shirt);
+                    this.avatar.play("walkLeft" + this.shirt);
+                }
+                this.moving = true;
+            }
+
+            if (params === right) {
+                if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x + speed, this.avatar.y + 16) &&
+                    !this.checkColisions(this.avatar.x + speed, this.avatar.y + 16)) {
+                    this.avatar.x += speed;
+                }
+                if (!this.moving) {
+                    this.avatar.play("walkRight" + this.shirt);
+                    this.direction = right;
+                }
+                this.moving = true;
+            }
+            //return;
+            if (params === up) {
+                if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x, this.avatar.y - speed + 16) &&
+                    !this.checkColisions(this.avatar.x, this.avatar.y + 16 - speed))
+                    this.avatar.y -= speed;
+                if (this.direction != up) this.avatar.play("walkUp" + this.shirt);
+                this.direction = up;
+                this.moving = true;
+                this.avatar.depth = this.avatar.y;
+            }
+            if (params === down) {
+                if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x, this.avatar.y + speed + 16) &&
+                    !this.checkColisions(this.avatar.x, this.avatar.y + 16 + speed))
+                    this.avatar.y += speed;
+                if (this.direction != down) this.avatar.play("walkDown" + this.shirt);
+                this.direction = down;
+                this.moving = true;
+                this.avatar.depth = this.avatar.y;
+            }
+        }
+
+        moveJoystic = (x, y) => {
+            // movement
+            if (x > 30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x + speed, this.avatar.y + 16) &&
+                !this.checkColisios(this.avatar.x + speed, this.avatar.y + 16)) {
+                this.avatar.x += speed * 1.2;
+            }
+            if (x < -30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
+                !this.checkColisions(this.avatar.x - speed, this.avatar.y + 16)) {
+                this.avatar.x -= speed * 1.2;
+            }
+            if (y < -30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x, this.avatar.y + 16 - speed) &&
+                !this.checkColisions(this.avatar.x, this.avatar.y + 16 - speed)) {
+                this.avatar.y -= speed;
+                this.avatar.depth = this.avatar.y;
+            }
+            if (y > 30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x, this.avatar.y + 16 + speed) &&
+                !this.checkColisions(this.avatar.x, this.avatar.y + 16 + speed)) {
+                this.avatar.y += speed;
+                this.avatar.depth = this.avatar.y;
+            }
+
+            // direction
+            if (Math.abs(x) > 20 || Math.abs(y) > 20) {
+                this.moving = true;
+                if (Math.abs(x) > Math.abs(y)) {
+                    if (x > 0) {
+                        this.direction = right;
+                        if (this.avatar.anims.currentAnim.key !== "walkRight" + this.shirt) this.avatar.play("walkRight" + this.shirt);
+                    } else {
+                        this.direction = left;
+                        if (this.avatar.anims.currentAnim.key !== "walkLeft" + this.shirt) this.avatar.play("walkLeft" + this.shirt);
+                    }
+                } else {
+                    if (y > 0) {
+                        this.direction = down;
+                        if (this.avatar.anims.currentAnim.key !== "walkDown" + this.shirt) this.avatar.play("walkDown" + this.shirt);
+                    } else {
+                        this.direction = up;
+                        if (this.avatar.anims.currentAnim.key !== "walkUp" + this.shirt) this.avatar.play("walkUp" + this.shirt);
+                    }
                 }
             } else {
-                if (y > 0) {
-                    this.direction = down;
-                    if (this.avatar.anims.currentAnim.key !== "walkDown" + this.shirt) this.avatar.play("walkDown" + this.shirt);
-                } else {
-                    this.direction = up;
-                    if (this.avatar.anims.currentAnim.key !== "walkUp" + this.shirt) this.avatar.play("walkUp" + this.shirt);
-                }
+                this.returnToIdle();
             }
-        } else {
-            this.returnToIdle();
         }
-    }
 
-    returnToIdle ()  {
-        switch (this.direction) {
-            case up:
-                this.avatar.play("idleUp" + this.shirt);
-                break;
-            case down:
-                this.avatar.play("idleDown" + this.shirt);
-                break;
-            case right:
-                this.avatar.play("idleRight" + this.shirt);
-                break;
-            case left:
-                this.avatar.play("idleLeft" + this.shirt);
-                break;
+        returnToIdle = () => {
+            switch (this.direction) {
+                case up:
+                    this.avatar.play("idleUp" + this.shirt);
+                    break;
+                case down:
+                    this.avatar.play("idleDown" + this.shirt);
+                    break;
+                case right:
+                    this.avatar.play("idleRight" + this.shirt);
+                    break;
+                case left:
+                    this.avatar.play("idleLeft" + this.shirt);
+                    break;
+            }
         }
-    }
 
-    checkColisions(X, Y) { //check collisions with circular colliders
-        return this.colliders.some((el) => {
+        checkColisions = (X, Y) => { //check collisions with circular colliders
+            return this.colliders.some((el) => {
 
-            let X1 = el[0];
-            let Y1 = el[1];
-            let radius = el[2]
-            return (distance(X, Y, X1, Y1) < radius)
-        })
-    }
-}
-
-
-var test1=function(){
-    return "test 1: correct (var)"
-}
-
-test2= function(){
-    return "test 2: correct (nothing)"
-}
-
-window.test3= function(){
-    return "test 3: correct (window)"
-}
-
-
-let test4= function(){
-    return "test 4: correct (let)"
+                let X1 = el[0];
+                let Y1 = el[1];
+                let radius = el[2]
+                return (distance(X, Y, X1, Y1) < radius)
+            })
+        }
+    };
 }
 
