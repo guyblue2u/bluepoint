@@ -168,8 +168,25 @@ var loading = new Phaser.Class({
         });
 
 
-        this.load.on('complete', function () {
-            complete++;
+        this.load.on('complete',  () =>{
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            if (urlParams.get('lvl') == 1) {
+                this.scene.start("intro_1");
+            }
+
+            else if (urlParams.get('lvl') == 2) {
+                this.scene.start("level_2");
+            }
+
+            else if (urlParams.get('lvl') == 3) {
+                this.scene.start("level_1");
+            }
+
+            else if (urlParams.get('lvl') === null) {
+                this.scene.start("map");
+            }
+
         });
     },
 
@@ -191,33 +208,6 @@ var loading = new Phaser.Class({
     },
 
     update: function () {
-        //if (complete == 2) this.scene.start("intro_1");
-        //if (complete == 2) this.scene.start("loserBoard", {     type: 1,            name: "Davido",            score: 10        });
-        //if (complete == 2) this.scene.start("level_2");
-        //if (complete == 2) this.scene.start("map");
-
-
-        if (complete == 1) {
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            if (urlParams.get('lvl') == 1) {
-                this.scene.start("intro_1");
-            }
-
-            else if (urlParams.get('lvl') == 2) {
-                this.scene.start("level_2");
-            }
-
-            else if (urlParams.get('lvl') == 3) {
-                this.scene.start("level_1");
-            }
-
-            else if (urlParams.get('lvl') === null) {
-                this.scene.start("map");
-            }
-
-
-        }
 
 
     }

@@ -31,10 +31,6 @@ var hud_1 = new Phaser.Class({
 
     create: function () {
 
-
-
-
-
         this.playTime = 0;
         this.score = 0;
         this.textToShow = "";
@@ -62,94 +58,7 @@ var hud_1 = new Phaser.Class({
 
         this.buttonSubmitRect = this.add.rectangle(340, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
         this.buttonSkipRect = this.add.rectangle(560, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
-        //------------------form
-        this.form = this.add.dom(450, 430).createFromCache('form').setVisible(false);
-        graphics.fillStyle(0x334fcb, 0.9);
 
-        this.buttonSubmit = this.add.text(this.buttonSubmitRect.x, this.buttonSubmitRect.y, "Submit", {
-            fontFamily: 'euroStyle',
-            fontSize: 25
-        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
-
-        this.buttonSkip = this.add.text(this.buttonSkipRect.x, this.buttonSkipRect.y, "Skip", {
-            fontFamily: 'euroStyle',
-            fontSize: 25
-        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
-
-        //--------------Hover effect for the buttons
-        this.buttonSubmitRect.on('pointerover', () => {
-            this.buttonSubmitRect.setFillStyle(0x334fcb);
-        });
-        this.buttonSubmitRect.on('pointerout', () => {
-            this.buttonSubmitRect.setFillStyle(0x1f317d);
-        });
-
-
-        this.buttonSkipRect.on('pointerover', () => {
-            this.buttonSkipRect.setFillStyle(0x334fcb);
-        });
-        this.buttonSkipRect.on('pointerout', () => {
-            this.buttonSkipRect.setFillStyle(0x1f317d);
-        });
-
-
-        this.validationForm = this.add.text(430, 510, '', {
-            fontFamily: 'euroStyle',
-            fontSize: 15,
-            color: '#f20a0a'
-        }).setOrigin(0.5, 0.5)
-
-
-        this.buttonSubmitRect.on('pointerdown', () => {
-
-            // validate email and name:
-            if (this.form.getChildByID('formName').value.length < 2) {
-                this.validationForm.text = "enter a valid name"
-                return;
-            }
-            if (!ValidateEmail(this.form.getChildByID('formEmail').value)) {
-                this.validationForm.text = "enter a valid email"
-                return;
-            }
-
-            this.validationForm.text = ""
-            player.avatar.setVisible(false);
-            var inputName = this.form.getChildByID('formName').value;
-            var inputEmail = this.form.getChildByID('formEmail').value;
-
-            this.form.visible = false;
-            this.rectangleDialog.visible = false;
-
-            this.buttonSkip.visible = false;
-            this.buttonSkipRect.visible = false;
-            this.buttonSubmit.visible = false;
-            this.buttonSubmitRect.visible = false;
-
-            testDB(inputName, this.score, inputEmail)
-            this.scene.launch("loserBoard", {
-                type: 1,
-                score: this.score,
-                name: inputName
-            })
-        })
-
-        this.buttonSkipRect.on('pointerdown', () => {
-
-            player.avatar.setVisible(false);
-            this.form.visible = false;
-            this.rectangleDialog.visible = false;
-
-            this.buttonSkip.visible = false;
-            this.buttonSkipRect.visible = false;
-            this.buttonSubmit.visible = false;
-            this.buttonSubmitRect.visible = false;
-
-            this.scene.launch("loserBoard", {
-                type: 2,
-                score: this.score,
-                name: undefined
-            })
-        })
 
 
 
@@ -485,6 +394,98 @@ var hud_1 = new Phaser.Class({
         });
 
 
+        //------------------form
+        this.form = this.add.dom(450, 430).createFromCache('form').setVisible(false);
+        graphics.fillStyle(0x334fcb, 0.9);
+
+        this.buttonSubmit = this.add.text(this.buttonSubmitRect.x, this.buttonSubmitRect.y, "Submit", {
+            fontFamily: 'euroStyle',
+            fontSize: 25
+        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+
+        this.buttonSkip = this.add.text(this.buttonSkipRect.x, this.buttonSkipRect.y, "Skip", {
+            fontFamily: 'euroStyle',
+            fontSize: 25
+        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+
+        //--------------Hover effect for the buttons
+        this.buttonSubmitRect.on('pointerover', () => {
+            this.buttonSubmitRect.setFillStyle(0x334fcb);
+        });
+        this.buttonSubmitRect.on('pointerout', () => {
+            this.buttonSubmitRect.setFillStyle(0x1f317d);
+        });
+
+
+        this.buttonSkipRect.on('pointerover', () => {
+            this.buttonSkipRect.setFillStyle(0x334fcb);
+        });
+        this.buttonSkipRect.on('pointerout', () => {
+            this.buttonSkipRect.setFillStyle(0x1f317d);
+        });
+
+
+        this.validationForm = this.add.text(430, 510, '', {
+            fontFamily: 'euroStyle',
+            fontSize: 15,
+            color: '#f20a0a'
+        }).setOrigin(0.5, 0.5)
+
+
+        this.buttonSubmitRect.on('pointerdown', () => {
+
+            // validate email and name:
+            if (this.form.getChildByID('formName').value.length < 2) {
+                this.validationForm.text = "enter a valid name"
+                return;
+            }
+            if (!ValidateEmail(this.form.getChildByID('formEmail').value)) {
+                this.validationForm.text = "enter a valid email"
+                return;
+            }
+
+            this.validationForm.text = ""
+            player.avatar.setVisible(false);
+            var inputName = this.form.getChildByID('formName').value;
+            var inputEmail = this.form.getChildByID('formEmail').value;
+
+            this.form.visible = false;
+            this.rectangleDialog.visible = false;
+
+            this.buttonSkip.visible = false;
+            this.buttonSkipRect.visible = false;
+            this.buttonSubmit.visible = false;
+            this.buttonSubmitRect.visible = false;
+
+            testDB(inputName, this.score, inputEmail)
+            this.scene.launch("loserBoard", {
+                type: 1,
+                score: this.score,
+                name: inputName
+            })
+        })
+
+        this.buttonSkipRect.on('pointerdown', () => {
+
+            player.avatar.setVisible(false);
+            this.form.visible = false;
+            this.rectangleDialog.visible = false;
+
+            this.buttonSkip.visible = false;
+            this.buttonSkipRect.visible = false;
+            this.buttonSubmit.visible = false;
+            this.buttonSubmitRect.visible = false;
+
+            this.scene.launch("loserBoard", {
+                type: 2,
+                score: this.score,
+                name: undefined
+            })
+        })
+
+
+
+
         if (mobileAndTabletCheck()) { //--------------------MOBILE
             // ------------------------- Joystick
             this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
@@ -521,7 +522,7 @@ var hud_1 = new Phaser.Class({
 
         });
         this.timedEvent = this.time.delayedCall(3000 + initialTime, () => {
-            this.showDialogue("I wonder what’s happening tonight, let’s ask around.");
+            this.showDialogue("I wonder what's happening tonight, let's ask around.");
             this.textInstruction.visible = false;
 
         });
@@ -593,7 +594,7 @@ var hud_1 = new Phaser.Class({
             this.textDialogue.y = 430;
             this.textDialogue.x = 240;
             this.textDialogue.setShadow(3, 3, 'rgba(0,0,0,0.9)', 4);
-            this.typingEffect("Oh, you’re still here?  We should stick together.");
+            this.typingEffect("Oh, you're still here?  We should stick together.");
         })
         this.timedEvent = this.time.delayedCall(175000 + initialTime, () => {
             controls.joystickLocked = true;
