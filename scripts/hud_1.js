@@ -395,7 +395,7 @@ var hud_1 = new Phaser.Class({
 
 
         //------------------form
-        this.form = this.add.dom(450, 430).createFromCache('form').setVisible(false);
+        
         graphics.fillStyle(0x334fcb, 0.9);
 
         this.buttonSubmit = this.add.text(this.buttonSubmitRect.x, this.buttonSubmitRect.y, "Submit", {
@@ -431,6 +431,8 @@ var hud_1 = new Phaser.Class({
             color: '#f20a0a'
         }).setOrigin(0.5, 0.5)
 
+        // IMPORTANT! : every font after this gets broken, so it should be at the end
+        this.form = this.add.dom(450, 430).createFromCache('form').setVisible(false);
 
         this.buttonSubmitRect.on('pointerdown', () => {
 
