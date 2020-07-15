@@ -39,6 +39,11 @@ var hud_1 = new Phaser.Class({
         this.eventTyping = undefined;
         this.messageToShow = "";
 
+        this.music = this.sound.add('song', {
+                delay: 0
+            });
+
+
 
         this.textDialogue = this.add.text(190, 70, "", { //text showing the message of the NPC or Guy Blue
             fontFamily: 'ZCOOL QingKe HuangYou',
@@ -631,8 +636,8 @@ var hud_1 = new Phaser.Class({
             this.scene.resume();
         });
 
-        this.texto = this.add.text(10, 10, "");
-        music.play();
+       
+        this.music.play();
 
         outroMusic = this.sound.add('outro', {
             delay: 0

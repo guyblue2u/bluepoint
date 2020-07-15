@@ -1,7 +1,9 @@
 let music;
 let complete = 0;
 
-
+window.onerror = function(e){
+    document.getElementById('prompt').innerHTML = e.toString();
+  }
 
 
 var loading = new Phaser.Class({
@@ -201,9 +203,9 @@ var loading = new Phaser.Class({
         //         complete++;
         //     }
         // });
-        music = this.sound.add('song', {
-            delay: 0
-        });
+        // music = this.sound.add('song', {
+        //     delay: 0
+        // });
 
     },
 
