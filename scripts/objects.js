@@ -602,15 +602,15 @@ var test1=function(){
 }
 
 test2= function(){
-    return "test 1: correct (nothing)"
+    return "test 2: correct (nothing)"
 }
 
 window.test3= function(){
-    return "test 1: correct (window)"
+    return "test 3: correct (window)"
 }
 
 
 let test4= function(){
-    return "test 1: correct (let)"
+    return "test 4: correct (let)"
 }
 

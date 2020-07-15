@@ -176,7 +176,7 @@ var loading = new Phaser.Class({
             if (urlParams.get('lvl') == 1) {
                 this.scene.start("intro_1");
             } else if (urlParams.get('lvl') == 2) {
-                this.scene.start("level_2");
+               // this.scene.start("level_2");
             } else if (urlParams.get('lvl') == 3) {
                 this.scene.start("level_1");
             } else if (urlParams.get('lvl') === null) {
@@ -184,12 +184,6 @@ var loading = new Phaser.Class({
             }
 
         });
-
-
-        this.add.text(50,50,test1());
-        this.add.text(50,100,test2());
-        this.add.text(50,150,test3());
-        this.add.text(50,200,test4());
     },
 
     create: function () {
