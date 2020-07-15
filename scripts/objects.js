@@ -43,7 +43,7 @@ class Player_Lvl_1 {
         this.poly = poly
 
 
-        move = (params) => {
+        this.move = (params) => {
             if (params === left) {
                 if (Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&
                     !checkColisionNPCS(this.avatar.x - speed, this.avatar.y + 16))
@@ -85,7 +85,7 @@ class Player_Lvl_1 {
             }
         };
 
-        moveJoystic = (x, y) => {
+        this.moveJoystic = (x, y) => {
             // movement
             if (x > 30 && Phaser.Geom.Polygon.Contains(poly, this.avatar.x + speed, this.avatar.y + 16) &&
                 !checkColisionNPCS(this.avatar.x + speed, this.avatar.y + 16)) {
@@ -132,7 +132,7 @@ class Player_Lvl_1 {
         };
 
 
-        returnToIdle = () => {
+        this.returnToIdle = () => {
             switch (this.direction) {
                 case up:
                     this.avatar.play("idleUp" + this.shirt);
@@ -478,7 +478,7 @@ class Player_Lvl_2 {
         this.poly = poly
         this.colliders = colliders;
 
-        move = (params) => {
+        this.move = (params) => {
 
 
             if (params === left) {
@@ -524,7 +524,7 @@ class Player_Lvl_2 {
             }
         }
 
-        moveJoystic = (x, y) => {
+        this.moveJoystic = (x, y) => {
             // movement
             if (x > 30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x + speed, this.avatar.y + 16) &&
                 !this.checkColisios(this.avatar.x + speed, this.avatar.y + 16)) {
@@ -570,7 +570,7 @@ class Player_Lvl_2 {
             }
         }
 
-        returnToIdle = () => {
+        this.returnToIdle = () => {
             switch (this.direction) {
                 case up:
                     this.avatar.play("idleUp" + this.shirt);
@@ -587,7 +587,7 @@ class Player_Lvl_2 {
             }
         }
 
-        checkColisions = (X, Y) => { //check collisions with circular colliders
+        this.checkColisions = (X, Y) => { //check collisions with circular colliders
             return this.colliders.some((el) => {
 
                 let X1 = el[0];
