@@ -197,7 +197,7 @@ var loading = new Phaser.Class({
         //if (complete == 2) this.scene.start("map");
 
 
-        if (complete == 2) {
+        if (complete == 1) {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             if (urlParams.get('lvl') == 1) {
