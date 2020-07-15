@@ -189,18 +189,6 @@ var loading = new Phaser.Class({
     create: function () {
 
 
-        // WebFont.load({
-        //     google: {
-        //         families: ['ZCOOL QingKe HuangYou']
-        //     },
-        //     active: function () {
-        //         complete++;
-        //     }
-        // });
-        // music = this.sound.add('song', {
-        //     delay: 0
-        // });
-
     },
 
     update: function () {
