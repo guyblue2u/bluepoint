@@ -9,7 +9,7 @@ window.shareTwitter=(tweettxt)=> { //share score on twitter
     window.open(finaltweet, '_blank');
 }
 
-window.function shareFacebook=()=> {
+window.shareFacebook=()=> {
     window.open('https://www.facebook.com/sharer/sharer.php?u=' + window.location.href, '_blank')
 }
 
