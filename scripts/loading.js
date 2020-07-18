@@ -84,15 +84,7 @@ var loading = new Phaser.Class({
         this.load.image("shareIcon", "./assets/images/pngwave.png");
         this.load.image("copyIcon", "./assets/images/copy.png");
 
-        // audios
-        this.load.audio("start_Sound", "./assets/audio/Start Sound.mp3");
-        this.load.audio("intro_Synth", "./assets/Bluepoint Intro Synth.mp3");
-        this.load.audio("intro_Rythm", "./assets/Bluepoint Intro Rhythm.mp3");
-        this.load.audio("song", "./assets/Gutted.mp3");
-        this.load.audio("loading", "./assets/Bluepoint Loading Sound.m4a");
-        this.load.audio("outro", "./assets/Bluepoint Outro Music.m4a");
-        this.load.audio("map_music", "./assets/Bluepoint Menu Theme.mp3");
-        this.load.audio("map_select", "./assets/map select sound.mp3");
+
 
 
         // map
@@ -140,6 +132,19 @@ var loading = new Phaser.Class({
         this.load.video('background_intro_1', './assets/videos/start screen background.mp4');
         this.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
         this.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
+
+        // audios
+        this.load.audio("start_Sound", "./assets/audio/Start_Sound.m4a");
+        this.load.audio("intro_Synth", "./assets/audio/Bluepoint_Intro_Synth.mp3");
+        this.load.audio("intro_Rythm", "./assets/audio/Bluepoint_Intro_Rhythm.mp3");
+        this.load.audio("song", "./assets/audio/Gutted_original.mp3");
+        this.load.audio("loading", "./assets/audio/Bluepoint_Loading_Sound.m4a");
+        this.load.audio("outro", "./assets/audio/Bluepoint_Outro_Music.m4a");
+        this.load.audio("map_music", "./assets/audio/Bluepoint_Menu_Theme.mp3");
+        this.load.audio("map_select", "./assets/audio/map_select_sound.mp3");
+
+
+
 
         // loading text
         this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
@@ -194,8 +199,8 @@ var loading = new Phaser.Class({
 
         });
 
-        this.load.on('fileprogress',  (file)=> {
-            this.fileText.text=(file.src);
+        this.load.on('fileprogress', (file) => {
+            this.fileText.text = (file.src);
         });
 
 
