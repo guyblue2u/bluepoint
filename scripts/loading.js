@@ -6,6 +6,8 @@ window.onerror = function (e) {
 }
 
 
+
+
 var loading = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -148,16 +150,17 @@ var loading = new Phaser.Class({
             yoyo: true,
         });
 
-        this.time.delayedCall(2000 , () => {
+        this.time.delayedCall(2000 + initialTime, () => {
             this.loadingText.text = "Rendering Environment "
         });
-        this.time.delayedCall(6000 , () => {
+        this.time.delayedCall(6000 + initialTime, () => {
             this.loadingText.text = "Populating Lobby "
         });
 
-        this.time.delayedCall(10000 , () => {
-            this.loadingText.text = "Awaiting Clearance "
+        this.load.on('complete', function () {
+            complete++;
         });
+
 
         // loading files text
         this.fileText = this.add.text(444, 350, " ", {
@@ -165,15 +168,10 @@ var loading = new Phaser.Class({
             fontSize: 30
         }).setOrigin(0.5)
 
-
-        this.load.on('fileprogress',  (file)=> {
-            this.fileText.text=(file.src);
+        this.load.on('fileprogress', (file) => {
+            this.fileText.text = (file.src);
         });
 
-
-        this.load.on('complete', function () {
-            complete++;
-        });
     },
 
     create: function () {
