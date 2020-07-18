@@ -85,12 +85,12 @@ var loading = new Phaser.Class({
         this.load.image("copyIcon", "./assets/images/copy.png");
 
         // audios
-        // this.load.audio("start_Sound", "./assets/audio/Start Sound.mp3");
-        // this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
-        // this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
-        // this.load.audio("song", "./assets/audio/Gutted.mp3");
-        // this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
-        // this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
+        this.load.audio("start_Sound", "./assets/audio/Start Sound.mp3");
+        this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
+        this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
+        this.load.audio("song", "./assets/audio/Gutted.mp3");
+        this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
+        this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
         this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
         this.load.audio("map_select", "./assets/audio/map select sound.mp3");
 
@@ -181,8 +181,8 @@ var loading = new Phaser.Class({
             } else if (urlParams.get('lvl') == 3) {
                 this.scene.start("level_1");
             } else if (urlParams.get('lvl') === null) {
-                this.scene.start("map");
-                // this.scene.start("tests");
+                //this.scene.start("map");
+                 this.scene.start("tests");
             }
 
         });
