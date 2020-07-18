@@ -180,7 +180,8 @@ var loading = new Phaser.Class({
             } else if (urlParams.get('lvl') == 3) {
                 this.scene.start("level_1");
             } else if (urlParams.get('lvl') === null) {
-                this.scene.start("map");
+                //this.scene.start("map");
+                this.scene.start("tests");
             }
 
         });

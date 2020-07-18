@@ -1,4 +1,4 @@
-let particles=[]
+
 var tests = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -16,7 +16,9 @@ var tests = new Phaser.Class({
 
     },
 
-    create: function () {},
+    create: function () {
+        this.add.rectangle(0,20,500,200).setFillStyle(0x1f317d);
+    },
 
     update: function () { },
 
