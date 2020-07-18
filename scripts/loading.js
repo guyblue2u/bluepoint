@@ -90,7 +90,7 @@ var loading = new Phaser.Class({
         this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
         this.load.audio("song", "./assets/audio/Gutted.mp3");
         this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
-        //this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
+        this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.m4a");
         this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
         this.load.audio("map_select", "./assets/audio/map select sound.mp3");
 
