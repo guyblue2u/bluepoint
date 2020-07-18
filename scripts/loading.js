@@ -86,9 +86,9 @@ var loading = new Phaser.Class({
 
         // audios
         this.load.audio("start_Sound", "./assets/audio/Start Sound.mp3");
-        this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
-        this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
-        this.load.audio("song", "./assets/audio/Gutted.mp3");
+        // this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
+        // this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
+        // this.load.audio("song", "./assets/audio/Gutted.mp3");
         // this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
         // this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.m4a");
         // this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
