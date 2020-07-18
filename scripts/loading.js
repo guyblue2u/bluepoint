@@ -158,14 +158,14 @@ var loading = new Phaser.Class({
             yoyo: true,
         });
 
-        this.time.delayedCall(2000 + initialTime, () => {
+        this.time.delayedCall(2000 , () => {
             this.loadingText.text = "Rendering Environment "
         });
-        this.time.delayedCall(6000 + initialTime, () => {
+        this.time.delayedCall(6000 , () => {
             this.loadingText.text = "Populating Lobby "
         });
 
-        this.time.delayedCall(10000 + initialTime, () => {
+        this.time.delayedCall(10000 , () => {
             this.loadingText.text = "Awaiting Clearance "
         });
 
