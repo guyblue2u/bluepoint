@@ -1,4 +1,3 @@
-
 window.onerror = function (e) {
     document.getElementById('prompt').innerHTML = e.toString();
 }
@@ -99,7 +98,6 @@ var loading = new Phaser.Class({
         this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
         this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.m4a");
         this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
-        this.load.audio("map_select", "./assets/audio/map select sound.mp3");
 
 
         // map
@@ -134,8 +132,7 @@ var loading = new Phaser.Class({
 
 
         this.load.video('background_intro_1', './assets/videos/start screen background.mp4');
-        this.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
-        this.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
+
 
         // fonts
         this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
@@ -152,17 +149,12 @@ var loading = new Phaser.Class({
             yoyo: true,
         });
 
-        this.time.delayedCall(2000 + 0, () => {
+        this.time.delayedCall(2000 + initialTime, () => {
             this.loadingText.text = "Rendering Environment "
         });
-        this.time.delayedCall(6000 + 0, () => {
+        this.time.delayedCall(6000 + initialTime, () => {
             this.loadingText.text = "Populating Lobby "
         });
-
-        this.time.delayedCall(10000 + 0, () => {
-            this.loadingText.text = "Awaiting Clearance "
-        });
-
 
         this.load.on('complete', function () {
             complete++;
