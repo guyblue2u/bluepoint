@@ -6,7 +6,7 @@ window.onerror = function (e) {
 
 let music;
 let complete = 0;
-let initialTime=0;
+
 
 
 
@@ -152,14 +152,14 @@ var loading = new Phaser.Class({
             yoyo: true,
         });
 
-        this.time.delayedCall(2000 + initialTime, () => {
+        this.time.delayedCall(2000 + 0, () => {
             this.loadingText.text = "Rendering Environment "
         });
-        this.time.delayedCall(6000 + initialTime, () => {
+        this.time.delayedCall(6000 + 0, () => {
             this.loadingText.text = "Populating Lobby "
         });
 
-        this.time.delayedCall(10000 + initialTime, () => {
+        this.time.delayedCall(10000 + 0, () => {
             this.loadingText.text = "Awaiting Clearance "
         });
 
