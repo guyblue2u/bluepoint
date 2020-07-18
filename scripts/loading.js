@@ -96,34 +96,34 @@ var loading = new Phaser.Class({
 
 
         // map
-        this.load.image("map_trees", "./assets/images/map/trees.png");
-        this.load.image("map_logo", "./assets/images/map/map_logo.png");
+        // this.load.image("map_trees", "./assets/images/map/trees.png");
+        // this.load.image("map_logo", "./assets/images/map/map_logo.png");
 
-        this.load.image("map_golden_road", "./assets/images/map/golden_20road_20.png");
-        this.load.image("map_golden_road_grey", "./assets/images/map/golden road  grey.png");
-        this.load.image("map_golden_road_glow", "./assets/images/map/golden road  grey_glow.png");
+        // this.load.image("map_golden_road", "./assets/images/map/golden_20road_20.png");
+        // this.load.image("map_golden_road_grey", "./assets/images/map/golden road  grey.png");
+        // this.load.image("map_golden_road_glow", "./assets/images/map/golden road  grey_glow.png");
 
-        this.load.image("map_204_grey", "./assets/images/map/building_204_20grey.png");
-        this.load.image("map_204_glow", "./assets/images/map/building_204_20grey_glow.png");
-        this.load.image("map_204_color", "./assets/images/map/building_204_20color.png");
+        // this.load.image("map_204_grey", "./assets/images/map/building_204_20grey.png");
+        // this.load.image("map_204_glow", "./assets/images/map/building_204_20grey_glow.png");
+        // this.load.image("map_204_color", "./assets/images/map/building_204_20color.png");
 
-        this.load.image("map_203_grey", "./assets/images/map/building_203_20grey.png");
-        this.load.image("map_203_glow", "./assets/images/map/building_203_20grey_glow.png");
-        this.load.image("map_203_color", "./assets/images/map/building_203_20color.png");
+        // this.load.image("map_203_grey", "./assets/images/map/building_203_20grey.png");
+        // this.load.image("map_203_glow", "./assets/images/map/building_203_20grey_glow.png");
+        // this.load.image("map_203_color", "./assets/images/map/building_203_20color.png");
 
-        this.load.image("map_202_grey", "./assets/images/map/building_202_20grey.png");
-        this.load.image("map_202_glow", "./assets/images/map/building_202_20grey_glow.png");
-        this.load.image("map_202_color", "./assets/images/map/building_202_20color.png");
+        // this.load.image("map_202_grey", "./assets/images/map/building_202_20grey.png");
+        // this.load.image("map_202_glow", "./assets/images/map/building_202_20grey_glow.png");
+        // this.load.image("map_202_color", "./assets/images/map/building_202_20color.png");
 
-        this.load.image("map_201_grey", "./assets/images/map/building_201_20grey.png");
-        this.load.image("map_201_glow", "./assets/images/map/building_201_20grey_glow.png");
-        this.load.image("map_201_color", "./assets/images/map/building_201_20color.png");
+        // this.load.image("map_201_grey", "./assets/images/map/building_201_20grey.png");
+        // this.load.image("map_201_glow", "./assets/images/map/building_201_20grey_glow.png");
+        // this.load.image("map_201_color", "./assets/images/map/building_201_20color.png");
 
-        this.load.image("map_bridge_grey", "./assets/images/map/bridge_20grey.png");
-        this.load.image("map_bridge_glow", "./assets/images/map/bridge_20grey_glow.png");
-        this.load.image("map_bridge_color", "./assets/images/map/bridge_20color.png");
+        // this.load.image("map_bridge_grey", "./assets/images/map/bridge_20grey.png");
+        // this.load.image("map_bridge_glow", "./assets/images/map/bridge_20grey_glow.png");
+        // this.load.image("map_bridge_color", "./assets/images/map/bridge_20color.png");
 
-        this.load.image("map_base", "./assets/images/map/base.png");
+        // this.load.image("map_base", "./assets/images/map/base.png");
 
 
         //---------- Level 2
