@@ -22,13 +22,13 @@ var loading = new Phaser.Class({
 
         // this.load.html('form', './scripts/form.html');
 
-        // this.load.image("black", "./assets/images/level_1/black.png");
-        // this.load.image("background_1", "./assets/images/level_1/base1.png");
-        // this.load.image("background_2", "./assets/images/level_1/base2.png");
-        // this.load.image("bloom", "./assets/images/level_1/lights_bloom.png");
-        // this.load.image("whiteSquare", "./assets/images/level_1/white_square.png");
-        // this.load.image("hambugerIcon", "./assets/images/Hamburger_icon.png");
-        // this.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
+        this.load.image("black", "./assets/images/level_1/black.png");
+        this.load.image("background_1", "./assets/images/level_1/base1.png");
+        this.load.image("background_2", "./assets/images/level_1/base2.png");
+        this.load.image("bloom", "./assets/images/level_1/lights_bloom.png");
+        this.load.image("whiteSquare", "./assets/images/level_1/white_square.png");
+        this.load.image("hambugerIcon", "./assets/images/Hamburger_icon.png");
+        this.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
 
         // this.load.spritesheet("discoBall", "./assets/images/level_1/disco ball.png", {
         //     frameWidth: 36,
