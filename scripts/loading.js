@@ -28,75 +28,72 @@ var loading = new Phaser.Class({
         this.load.audio("loading", "./assets/audio/Bluepoint_Loading_Sound.m4a");
         this.load.audio("outro", "./assets/audio/Bluepoint_Outro_Music.m4a");
         this.load.audio("map_music", "./assets/audio/Bluepoint_Menu_Theme.mp3");
-        //this.load.audio("map_select", "./assets/audio/map_select_sound.mp3");
+        this.load.audio("map_select", "./assets/audio/map_select_sound.mp3");
 
 
+        this.load.html('form', './scripts/form.html');
+
+        this.load.image("black", "./assets/images/level_1/black.png");
+        this.load.image("background_1", "./assets/images/level_1/base1.png");
+        this.load.image("background_2", "./assets/images/level_1/base2.png");
+        this.load.image("bloom", "./assets/images/level_1/lights_bloom.png");
+        this.load.image("whiteSquare", "./assets/images/level_1/white_square.png");
+        this.load.image("hambugerIcon", "./assets/images/Hamburger_icon.png");
+        this.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
+
+        this.load.spritesheet("discoBall", "./assets/images/level_1/disco ball.png", {
+            frameWidth: 36,
+            frameHeight: 36
+        }); //ball
+        this.load.spritesheet("blueGuy", "./assets/images/level_1/guy blue sprites.png", {
+            frameWidth: 36,
+            frameHeight: 36
+        }); // blue character
+        this.load.spritesheet("redGuy", "./assets/images/level_1/red guy blue sprites.png", {
+            frameWidth: 36,
+            frameHeight: 36
+        }); // blue character
+        this.load.spritesheet("collapsingRed", "./assets/images/level_1/collapsing_red.png", {
+            frameWidth: 36,
+            frameHeight: 36
+        });
+        this.load.spritesheet("collapsingBlue", "./assets/images/level_1/collapsing_blue.png", {
+            frameWidth: 36,
+            frameHeight: 36
+        });
+
+        this.load.spritesheet("NPC", "./assets/images/level_1/NPC sprites.png", {
+            frameWidth: 36,
+            frameHeight: 36
+        }); // NPC
+        this.load.spritesheet("ZZZ", "./assets/images/level_1/white z.png", {
+            frameWidth: 36,
+            frameHeight: 36
+        }); // zzz when sleeping
+
+        this.load.image("drums", "./assets/images/level_1/drums.png"); //Objects
+        this.load.image("table", "./assets/images/level_1/table.png");
+        this.load.image("speakers", "./assets/images/level_1/speakers.png");
+
+        this.load.image("messageBoard", "./assets/images/level_1/dialogue window rectangle.png"); // dialogue window       
+        this.load.image("startButton", "./assets/images/level_1/start_button.png"); // start button       
+        this.load.image("interactButton", "./assets/images/level_1/interact_button.png"); // interact window       
+
+        this.load.spritesheet("ZZZIcon", "./assets/images/level_1/white z.png", {
+            frameWidth: 36,
+            frameHeight: 36
+        });
+
+        // initial screen
+        this.load.image("guttedText", "./assets/images/level_1/Lvl 1_and_name_updated.png");
+        this.load.image("bluepointLogo", "./assets/images/level_1/logo_updated.png");
 
 
-
-        // this.load.html('form', './scripts/form.html');
-
-        // this.load.image("black", "./assets/images/level_1/black.png");
-        // this.load.image("background_1", "./assets/images/level_1/base1.png");
-        // this.load.image("background_2", "./assets/images/level_1/base2.png");
-        // this.load.image("bloom", "./assets/images/level_1/lights_bloom.png");
-        // this.load.image("whiteSquare", "./assets/images/level_1/white_square.png");
-        // this.load.image("hambugerIcon", "./assets/images/Hamburger_icon.png");
-        // this.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
-
-        // this.load.spritesheet("discoBall", "./assets/images/level_1/disco ball.png", {
-        //     frameWidth: 36,
-        //     frameHeight: 36
-        // }); //ball
-        // this.load.spritesheet("blueGuy", "./assets/images/level_1/guy blue sprites.png", {
-        //     frameWidth: 36,
-        //     frameHeight: 36
-        // }); // blue character
-        // this.load.spritesheet("redGuy", "./assets/images/level_1/red guy blue sprites.png", {
-        //     frameWidth: 36,
-        //     frameHeight: 36
-        // }); // blue character
-        // this.load.spritesheet("collapsingRed", "./assets/images/level_1/collapsing_red.png", {
-        //     frameWidth: 36,
-        //     frameHeight: 36
-        // });
-        // this.load.spritesheet("collapsingBlue", "./assets/images/level_1/collapsing_blue.png", {
-        //     frameWidth: 36,
-        //     frameHeight: 36
-        // });
-
-        // this.load.spritesheet("NPC", "./assets/images/level_1/NPC sprites.png", {
-        //     frameWidth: 36,
-        //     frameHeight: 36
-        // }); // NPC
-        // this.load.spritesheet("ZZZ", "./assets/images/level_1/white z.png", {
-        //     frameWidth: 36,
-        //     frameHeight: 36
-        // }); // zzz when sleeping
-
-        // this.load.image("drums", "./assets/images/level_1/drums.png"); //Objects
-        // this.load.image("table", "./assets/images/level_1/table.png");
-        // this.load.image("speakers", "./assets/images/level_1/speakers.png");
-
-        // this.load.image("messageBoard", "./assets/images/level_1/dialogue window rectangle.png"); // dialogue window       
-        // this.load.image("startButton", "./assets/images/level_1/start_button.png"); // start button       
-        // this.load.image("interactButton", "./assets/images/level_1/interact_button.png"); // interact window       
-
-        // this.load.spritesheet("ZZZIcon", "./assets/images/level_1/white z.png", {
-        //     frameWidth: 36,
-        //     frameHeight: 36
-        // });
-
-        // // initial screen
-        // this.load.image("guttedText", "./assets/images/level_1/Lvl 1_and_name_updated.png");
-        // this.load.image("bluepointLogo", "./assets/images/level_1/logo_updated.png");
-
-
-        // // social media icons
-        // this.load.image("facebook", "./assets/images/facebook.png");
-        // this.load.image("twitter", "./assets/images/twitter.png");
-        // this.load.image("shareIcon", "./assets/images/pngwave.png");
-        // this.load.image("copyIcon", "./assets/images/copy.png");
+        // social media icons
+        this.load.image("facebook", "./assets/images/facebook.png");
+        this.load.image("twitter", "./assets/images/twitter.png");
+        this.load.image("shareIcon", "./assets/images/pngwave.png");
+        this.load.image("copyIcon", "./assets/images/copy.png");
 
 
 
