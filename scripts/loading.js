@@ -1,5 +1,3 @@
-
-
 window.onerror = function (e) {
     document.getElementById('prompt').innerHTML = e.toString();
     console.log(e);
@@ -80,62 +78,62 @@ var loading = new Phaser.Class({
         this.load.image("bluepointLogo", "./assets/images/level_1/logo_updated.png");
 
 
-        // // social media icons
-        // this.load.image("facebook", "./assets/images/facebook.png");
-        // this.load.image("twitter", "./assets/images/twitter.png");
-        // this.load.image("shareIcon", "./assets/images/pngwave.png");
-        // this.load.image("copyIcon", "./assets/images/copy.png");
+        // social media icons
+        this.load.image("facebook", "./assets/images/facebook.png");
+        this.load.image("twitter", "./assets/images/twitter.png");
+        this.load.image("shareIcon", "./assets/images/pngwave.png");
+        this.load.image("copyIcon", "./assets/images/copy.png");
 
-        // // audios
-        // this.load.audio("start_Sound", "./assets/audio/Start Sound.mp3");
-        // this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
-        // this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
-        // this.load.audio("song", "./assets/audio/Gutted.mp3");
-        // this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
-        // this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
-        // this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
-        // this.load.audio("map_select", "./assets/audio/map select sound.mp3");
-
-
-        // // map
-        // this.load.image("map_trees", "./assets/images/map/trees.png");
-        // this.load.image("map_logo", "./assets/images/map/map_logo.png");
-
-        // this.load.image("map_golden_road", "./assets/images/map/golden_20road_20.png");
-        // this.load.image("map_golden_road_grey", "./assets/images/map/golden road  grey.png");
-        // this.load.image("map_golden_road_glow", "./assets/images/map/golden road  grey_glow.png");
-
-        // this.load.image("map_204_grey", "./assets/images/map/building_204_20grey.png");
-        // this.load.image("map_204_glow", "./assets/images/map/building_204_20grey_glow.png");
-        // this.load.image("map_204_color", "./assets/images/map/building_204_20color.png");
-
-        // this.load.image("map_203_grey", "./assets/images/map/building_203_20grey.png");
-        // this.load.image("map_203_glow", "./assets/images/map/building_203_20grey_glow.png");
-        // this.load.image("map_203_color", "./assets/images/map/building_203_20color.png");
-
-        // this.load.image("map_202_grey", "./assets/images/map/building_202_20grey.png");
-        // this.load.image("map_202_glow", "./assets/images/map/building_202_20grey_glow.png");
-        // this.load.image("map_202_color", "./assets/images/map/building_202_20color.png");
-
-        // this.load.image("map_201_grey", "./assets/images/map/building_201_20grey.png");
-        // this.load.image("map_201_glow", "./assets/images/map/building_201_20grey_glow.png");
-        // this.load.image("map_201_color", "./assets/images/map/building_201_20color.png");
-
-        // this.load.image("map_bridge_grey", "./assets/images/map/bridge_20grey.png");
-        // this.load.image("map_bridge_glow", "./assets/images/map/bridge_20grey_glow.png");
-        // this.load.image("map_bridge_color", "./assets/images/map/bridge_20color.png");
-
-        // this.load.image("map_base", "./assets/images/map/base.png");
+        // audios
+        this.load.audio("start_Sound", "./assets/audio/Start Sound.mp3");
+        this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
+        this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
+        this.load.audio("song", "./assets/audio/Gutted.mp3");
+        this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
+        this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
+        this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
+        this.load.audio("map_select", "./assets/audio/map select sound.mp3");
 
 
-        // //---------- Level 2
-        // this.load.image("level2_back1", "./assets/images/level_2/collisions layer.png");
-        // this.load.image("level2_back2", "./assets/images/level_2/base walkable area.png");
-        // this.load.image("level2_back3", "./assets/images/level_2/dust layer.png");
+        // map
+        this.load.image("map_trees", "./assets/images/map/trees.png");
+        this.load.image("map_logo", "./assets/images/map/map_logo.png");
 
-        // this.load.image("level2_outside", "./assets/images/level_2/Matchless outside.png");
+        this.load.image("map_golden_road", "./assets/images/map/golden_20road_20.png");
+        this.load.image("map_golden_road_grey", "./assets/images/map/golden road  grey.png");
+        this.load.image("map_golden_road_glow", "./assets/images/map/golden road  grey_glow.png");
 
-        // this.load.image("footsteps", "./assets/images/level_2/footsteps.png");
+        this.load.image("map_204_grey", "./assets/images/map/building_204_20grey.png");
+        this.load.image("map_204_glow", "./assets/images/map/building_204_20grey_glow.png");
+        this.load.image("map_204_color", "./assets/images/map/building_204_20color.png");
+
+        this.load.image("map_203_grey", "./assets/images/map/building_203_20grey.png");
+        this.load.image("map_203_glow", "./assets/images/map/building_203_20grey_glow.png");
+        this.load.image("map_203_color", "./assets/images/map/building_203_20color.png");
+
+        this.load.image("map_202_grey", "./assets/images/map/building_202_20grey.png");
+        this.load.image("map_202_glow", "./assets/images/map/building_202_20grey_glow.png");
+        this.load.image("map_202_color", "./assets/images/map/building_202_20color.png");
+
+        this.load.image("map_201_grey", "./assets/images/map/building_201_20grey.png");
+        this.load.image("map_201_glow", "./assets/images/map/building_201_20grey_glow.png");
+        this.load.image("map_201_color", "./assets/images/map/building_201_20color.png");
+
+        this.load.image("map_bridge_grey", "./assets/images/map/bridge_20grey.png");
+        this.load.image("map_bridge_glow", "./assets/images/map/bridge_20grey_glow.png");
+        this.load.image("map_bridge_color", "./assets/images/map/bridge_20color.png");
+
+        this.load.image("map_base", "./assets/images/map/base.png");
+
+
+        //---------- Level 2
+        this.load.image("level2_back1", "./assets/images/level_2/collisions layer.png");
+        this.load.image("level2_back2", "./assets/images/level_2/base walkable area.png");
+        this.load.image("level2_back3", "./assets/images/level_2/dust layer.png");
+
+        this.load.image("level2_outside", "./assets/images/level_2/Matchless outside.png");
+
+        this.load.image("footsteps", "./assets/images/level_2/footsteps.png");
 
 
         //--------- Intro
@@ -158,14 +156,14 @@ var loading = new Phaser.Class({
             yoyo: true,
         });
 
-        this.time.delayedCall(2000 , () => {
+        this.time.delayedCall(2000, () => {
             this.loadingText.text = "Rendering Environment "
         });
-        this.time.delayedCall(6000 , () => {
+        this.time.delayedCall(6000, () => {
             this.loadingText.text = "Populating Lobby "
         });
 
-        this.time.delayedCall(10000 , () => {
+        this.time.delayedCall(10000, () => {
             this.loadingText.text = "Awaiting Clearance "
         });
 
@@ -183,18 +181,18 @@ var loading = new Phaser.Class({
             } else if (urlParams.get('lvl') == 3) {
                 this.scene.start("level_1");
             } else if (urlParams.get('lvl') === null) {
-                //this.scene.start("map");
-                this.scene.start("tests");
+                this.scene.start("map");
+                // this.scene.start("tests");
             }
 
         });
     },
 
     create: function () {
-   
-        
+
+
     },
- 
+
 
 
 
