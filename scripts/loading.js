@@ -134,14 +134,14 @@ var loading = new Phaser.Class({
         this.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
 
         // audios
-        this.load.audio("start_Sound", "./assets/audio/Start_Sound.m4a");
-        this.load.audio("intro_Synth", "./assets/audio/Bluepoint_Intro_Synth.mp3");
-        this.load.audio("intro_Rythm", "./assets/audio/Bluepoint_Intro_Rhythm.mp3");
-        this.load.audio("song", "./assets/audio/Gutted.mp3");
-        this.load.audio("loading", "./assets/audio/Bluepoint_Loading_Sound.m4a");
-        this.load.audio("outro", "./assets/audio/Bluepoint_Outro_Music.m4a");
-        this.load.audio("map_music", "./assets/audio/Bluepoint_Menu_Theme.mp3");
-        this.load.audio("map_select", "./assets/audio/map_select_sound.mp3");
+        // this.load.audio("start_Sound", "./assets/audio/Start_Sound.m4a");
+        // this.load.audio("intro_Synth", "./assets/audio/Bluepoint_Intro_Synth.mp3");
+        // this.load.audio("intro_Rythm", "./assets/audio/Bluepoint_Intro_Rhythm.mp3");
+        // this.load.audio("song", "./assets/audio/Gutted.mp3");
+        // this.load.audio("loading", "./assets/audio/Bluepoint_Loading_Sound.m4a");
+        // this.load.audio("outro", "./assets/audio/Bluepoint_Outro_Music.m4a");
+        // this.load.audio("map_music", "./assets/audio/Bluepoint_Menu_Theme.mp3");
+        // this.load.audio("map_select", "./assets/audio/map_select_sound.mp3");
 
         // load audio
         this.load.audio("start_Sound", "./assets/Start_Sound.m4a");
