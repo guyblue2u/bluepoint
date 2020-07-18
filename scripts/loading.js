@@ -1,10 +1,12 @@
-let music;
-let complete = 0;
 
 window.onerror = function (e) {
     document.getElementById('prompt').innerHTML = e.toString();
 }
 
+
+let music;
+let complete = 0;
+let initialTime=0;
 
 
 
@@ -30,7 +32,7 @@ var loading = new Phaser.Class({
         this.load.image("background_1", "./assets/images/base1.png");
         this.load.image("background_2", "./assets/images/base2.png");
         this.load.image("bloom", "./assets/images/lights_bloom.png");
-        //this.load.image("dust", "./assets/images/dust.gif");
+        this.load.image("dust", "./assets/images/dust.gif");
         this.load.image("whiteSquare", "./assets/images/white_square.png");
         this.load.image("hambugerIcon", "./assets/images/Hamburger_icon.png");
         this.load.image("mutedIcon", "./assets/images/unmute-icon-12.png");
@@ -72,7 +74,7 @@ var loading = new Phaser.Class({
         this.load.image("messageBoard", "./assets/images/dialogue window rectangle.png"); // dialogue window       
         this.load.image("startButton", "./assets/images/start_button.png"); // start button       
         this.load.image("interactButton", "./assets/images/interact_button.png"); // interact window       
-        //this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml'); //load the font
+        this.load.bitmapFont('Antenna', 'assets/fonts/antenna.png', 'assets/fonts/antenna.xml'); //load the font
         this.load.spritesheet("ZZZIcon", "./assets/images/white z.png", {
             frameWidth: 36,
             frameHeight: 36
@@ -90,7 +92,7 @@ var loading = new Phaser.Class({
         this.load.image("copyIcon", "./assets/images/copy.png");
 
         // audios
-        this.load.audio("start_Sound", "./assets/audio/Start Sound.m4a");
+        this.load.audio("start_Sound", "./assets/audio/Start Sound.mp3");
         this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
         this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
         this.load.audio("song", "./assets/audio/Gutted.mp3");
@@ -157,21 +159,14 @@ var loading = new Phaser.Class({
             this.loadingText.text = "Populating Lobby "
         });
 
+        this.time.delayedCall(10000 + initialTime, () => {
+            this.loadingText.text = "Awaiting Clearance "
+        });
+
+
         this.load.on('complete', function () {
             complete++;
         });
-
-
-        // loading files text
-        this.fileText = this.add.text(444, 350, " ", {
-            fontFamily: 'euroStyle',
-            fontSize: 30
-        }).setOrigin(0.5)
-
-        this.load.on('fileprogress', (file) => {
-            this.fileText.text = (file.src);
-        });
-
     },
 
     create: function () {
