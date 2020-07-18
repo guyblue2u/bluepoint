@@ -175,42 +175,43 @@ var loading = new Phaser.Class({
         });
 
 
-        this.load.on('complete', () => {
+        // this.load.on('complete', () => {
 
-            document.getElementById('prompt').innerHTML = "carga";
+        //     document.getElementById('prompt').innerHTML = "carga";
 
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            if (urlParams.get('lvl') == 1) {
-                this.scene.start("intro_1");
-            } else if (urlParams.get('lvl') == 2) {
-                this.scene.start("level_2");
-            } else if (urlParams.get('lvl') == 3) {
-                this.scene.start("level_1");
-            } else if (urlParams.get('lvl') === null) {
-                //this.scene.start("map");
-                this.scene.start("tests");
-            }
+        //     const queryString = window.location.search;
+        //     const urlParams = new URLSearchParams(queryString);
+        //     if (urlParams.get('lvl') == 1) {
+        //         this.scene.start("intro_1");
+        //     } else if (urlParams.get('lvl') == 2) {
+        //         this.scene.start("level_2");
+        //     } else if (urlParams.get('lvl') == 3) {
+        //         this.scene.start("level_1");
+        //     } else if (urlParams.get('lvl') === null) {
+        //         //this.scene.start("map");
+        //         this.scene.start("tests");
+        //     }
 
-        });
+        // });
 
-        this.load.on('fileprogress',  (file)=> {
-            this.fileText.text=(file.src);
-        });
+        // this.load.on('fileprogress',  (file)=> {
+        //     this.fileText.text=(file.src);
+        // });
 
 
     },
 
     create: function () {
 
-
+        document.getElementById('prompt').innerHTML = "create";
+        this.scene.start("tests");
     },
 
 
 
 
     update: function () {
-
+        document.getElementById('prompt').innerHTML = "update";
 
     }
 })
