@@ -1,7 +1,7 @@
 window.onerror = function (e) {
     document.getElementById('prompt').innerHTML = e.toString();
     console.log(e);
-}
+};
 
 
 var loading = new Phaser.Class({
@@ -137,7 +137,7 @@ var loading = new Phaser.Class({
         this.load.audio("start_Sound", "./assets/audio/Start_Sound.m4a");
         this.load.audio("intro_Synth", "./assets/audio/Bluepoint_Intro_Synth.mp3");
         this.load.audio("intro_Rythm", "./assets/audio/Bluepoint_Intro_Rhythm.mp3");
-        this.load.audio("song", "./assets/audio/Gutted_original.mp3");
+        this.load.audio("song", "./assets/audio/Gutted.mp3");
         this.load.audio("loading", "./assets/audio/Bluepoint_Loading_Sound.m4a");
         this.load.audio("outro", "./assets/audio/Bluepoint_Outro_Music.m4a");
         this.load.audio("map_music", "./assets/audio/Bluepoint_Menu_Theme.mp3");
@@ -151,14 +151,14 @@ var loading = new Phaser.Class({
         this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
             fontFamily: 'euroStyle',
             fontSize: 50
-        }).setOrigin(0.5)
+        }).setOrigin(0.5);
 
 
         // loading files text
         this.fileText = this.add.text(444, 350, " ", {
             fontFamily: 'euroStyle',
             fontSize: 30
-        }).setOrigin(0.5)
+        }).setOrigin(0.5);
 
         this.tweens.add({
             targets: this.loadingText,
