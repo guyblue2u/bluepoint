@@ -135,12 +135,19 @@ var loading = new Phaser.Class({
 
         // audios
         this.load.audio("start_Sound", "./assets/audio/1.m4a");
+        document.getElementById('prompt').innerHTML = "carga 1";
         this.load.audio("intro_Synth", "./assets/audio/2.mp3");
+        document.getElementById('prompt').innerHTML = "carga 2";
         this.load.audio("intro_Rythm", "./assets/audio/3.mp3");
+        document.getElementById('prompt').innerHTML = "carga 3";
         this.load.audio("song", "./assets/audio/4.mp3");
+        document.getElementById('prompt').innerHTML = "carga 4";
         this.load.audio("loading", "./assets/audio/5.m4a");
+        document.getElementById('prompt').innerHTML = "carga 5";
         this.load.audio("outro", "./assets/audio/6.m4a");
+        document.getElementById('prompt').innerHTML = "carga 6";
         this.load.audio("map_music", "./assets/audio/7.mp3");
+        document.getElementById('prompt').innerHTML = "carga 7";
         this.load.audio("map_select", "./assets/audio/8.mp3");
 
 
