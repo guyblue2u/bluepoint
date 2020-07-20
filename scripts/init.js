@@ -11,7 +11,7 @@ const config={
     },
 	pixelArt: true,
 	type: Phaser.AUTO,
-	scene: [ loading , tests],
+	scene: [ loading , tests , hud_1, hud_2, level_1,level_2,map,loserBoard,intro_1],
 	transparent: true,
 	// audio: {
 	// 	disableWebAudio: true,
