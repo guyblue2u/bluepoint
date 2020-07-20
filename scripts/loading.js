@@ -20,7 +20,7 @@ var loading = new Phaser.Class({
 
         //this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
-        // this.load.html('form', './scripts/form.html');
+        this.load.html('form', './scripts/form.html');
 
         this.load.image("black", "./assets/images/level_1/black.png");
         this.load.image("background_1", "./assets/images/level_1/base1.png");
@@ -67,7 +67,7 @@ var loading = new Phaser.Class({
         this.load.image("messageBoard", "./assets/images/level_1/dialogue window rectangle.png"); // dialogue window       
         this.load.image("startButton", "./assets/images/level_1/start_button.png"); // start button       
         this.load.image("interactButton", "./assets/images/level_1/interact_button.png"); // interact window       
-        
+
         this.load.spritesheet("ZZZIcon", "./assets/images/level_1/white z.png", {
             frameWidth: 36,
             frameHeight: 36
@@ -83,16 +83,6 @@ var loading = new Phaser.Class({
         this.load.image("twitter", "./assets/images/twitter.png");
         this.load.image("shareIcon", "./assets/images/pngwave.png");
         this.load.image("copyIcon", "./assets/images/copy.png");
-
-        // audios
-        this.load.audio("start_Sound", "./assets/audio/Start Sound.m4a");
-        this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
-        this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
-         this.load.audio("song", "./assets/audio/Gutted.mp3");
-        this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
-        this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.m4a");
-         this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
-         this.load.audio("map_select", "./assets/audio/map select sound.mp3");
 
 
         map
@@ -141,6 +131,19 @@ var loading = new Phaser.Class({
         this.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
         this.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
 
+
+        // audios
+        this.load.audio("start_Sound", "./assets/audio/Start Sound.m4a");
+        this.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
+        this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
+        this.load.audio("song", "./assets/audio/Gutted.mp3");
+        this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
+        this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.m4a");
+        this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
+        this.load.audio("map_select", "./assets/audio/map select sound.mp3");
+
+
+
         // loading text
         this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
             fontFamily: 'euroStyle',
@@ -174,8 +177,8 @@ var loading = new Phaser.Class({
             this.loadingText.text = "Awaiting Clearance "
         });
 
-        this.time.delayedCall(20000, () => {    // TEMPORAL FIX, to go to the next scene after 20 seconds
-            
+        this.time.delayedCall(20000, () => { // TEMPORAL FIX, to go to the next scene after 20 seconds
+
             document.getElementById('prompt').innerHTML = "load with the timer";
 
             const queryString = window.location.search;
@@ -212,8 +215,8 @@ var loading = new Phaser.Class({
 
         });
 
-        this.load.on('fileprogress',  (file)=> {
-            this.fileText.text=(file.src);
+        this.load.on('fileprogress', (file) => {
+            this.fileText.text = (file.src);
         });
 
 
