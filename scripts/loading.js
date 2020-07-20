@@ -180,19 +180,19 @@ var loading = new Phaser.Class({
         this.time.delayedCall(20000, () => { // TEMPORAL FIX, to go to the next scene after 20 seconds
 
             document.getElementById('prompt').innerHTML = "load with the timer";
-
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            if (urlParams.get('lvl') == 1) {
-                this.scene.start("intro_1");
-            } else if (urlParams.get('lvl') == 2) {
-                this.scene.start("level_2");
-            } else if (urlParams.get('lvl') == 3) {
-                this.scene.start("level_1");
-            } else if (urlParams.get('lvl') === null) {
-                this.scene.start("map");
-                //this.scene.start("tests");
-            }
+            location.reload(); 
+            // const queryString = window.location.search;
+            // const urlParams = new URLSearchParams(queryString);
+            // if (urlParams.get('lvl') == 1) {
+            //     this.scene.start("intro_1");
+            // } else if (urlParams.get('lvl') == 2) {
+            //     this.scene.start("level_2");
+            // } else if (urlParams.get('lvl') == 3) {
+            //     this.scene.start("level_1");
+            // } else if (urlParams.get('lvl') === null) {
+            //     this.scene.start("map");
+            //     //this.scene.start("tests");
+            // }
         });
 
 
