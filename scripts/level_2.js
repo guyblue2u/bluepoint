@@ -87,6 +87,8 @@ var level_2 = new Phaser.Class({
         this.DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.WKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
+        this.TKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T); //for tests!
+
         this.input.keyboard.on('keyup', (event) => {
             if (!controls.joystickLocked)
                 player.returnToIdle();
@@ -132,7 +134,7 @@ var level_2 = new Phaser.Class({
         this.backgroundInside = this.add.image(0, 0, "level2_outside").setOrigin(0, 0);
 
 
-        this.time.delayedCall(3000, () => {   //start walking
+        this.time.delayedCall(3000, () => { //start walking
             player.avatar.anims.play("walkRight" + player.shirt);
             this.walkingInside = this.tweens.add({
                 targets: player.avatar,
@@ -146,23 +148,23 @@ var level_2 = new Phaser.Class({
             });
         });
 
-        this.time.delayedCall(8000, () => {   // change the animation
+        this.time.delayedCall(8000, () => { // change the animation
             player.avatar.anims.play("idleUp" + player.shirt);
             this.cameras.main.fadeOut(1000);
         });
 
-        this.time.delayedCall(9000, () => {   // Fade to black
-           this.backgroundInside.destroy();
-           player.avatar.x=45;
-           player.avatar.y=225;
-           this.showFootsteps=true;
-           this.playingParticles=true;
-           this.cameras.main.fadeIn(1000);
+        this.time.delayedCall(9000, () => { // Fade to black
+            this.backgroundInside.destroy();
+            player.avatar.x = 45;
+            player.avatar.y = 225;
+            this.showFootsteps = true;
+            this.playingParticles = true;
+            this.cameras.main.fadeIn(1000);
         });
 
-        this.time.delayedCall(29000, () => {   // change the animation
-            let currentPosX=player.avatar.x;
-            let currentPosY=player.avatar.y;
+        this.time.delayedCall(29000, () => { // change the animation
+            let currentPosX = player.avatar.x;
+            let currentPosY = player.avatar.y;
             this.tweens.add({
                 targets: player.avatar,
                 x: {
@@ -190,6 +192,13 @@ var level_2 = new Phaser.Class({
         this.time.delayedCall(32000, () => {
             this.cameras.main.fadeOut(2000);
         })
+
+        this.time.delayedCall(34000, () => { // go to the next part of the level
+            this.scene.launch("level_2_2");
+            this.scene.remove("level_2");
+        })
+
+
         this.scene.launch("hud_2");
 
     },
@@ -199,6 +208,12 @@ var level_2 = new Phaser.Class({
 
 
     update: function () {
+
+        if (this.TKey.isDown) {
+            this.scene.launch("level_2_2");
+            this.scene.remove("level_2");
+        }
+
         if (!controls.joystickLocked) {
             if (this.downKey.isDown || this.SKey.isDown) {
                 player.move(down)
@@ -212,6 +227,7 @@ var level_2 = new Phaser.Class({
             if (this.leftKey.isDown || this.AKey.isDown) {
                 player.move(left)
             }
+
         }
 
         // creating the footsteps
@@ -249,10 +265,97 @@ var level_2 = new Phaser.Class({
                 }
             })
         }
+    }
+
+})
 
 
 
 
+
+
+
+
+//----------------------------SECOND PART OF THE LEVEL
+
+let blueguy;
+let redguy;
+
+var level_2_2 = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize: function level_2() {
+        Phaser.Scene.call(this, {
+            key: 'level_2_2',
+            active: false
+        });
+    },
+
+    preload: function () {
+        loadLevel2(this);
+    },
+
+    create: function () {
+        this.cameras.main.zoom = 2;
+        this.cameras.main.setBounds(0, 0, 440, 250);
+
+        //dust effect
+        this.playingParticles = true;
+        numberParticles = 100;
+        this.dustParticles = [];
+        for (let i = 0; i < numberParticles; i++) {
+            let particle = this.add.image(Math.random() * 888, Math.random() * 250, 'whiteSquare').setScale(Math.random())
+            particle.speed = Math.random() * 4 + 1;
+            particle.depth=2;
+            this.dustParticles.push(
+                particle
+            )
+        }
+
+
+        this.add.image(0, 0, "level2_back4").setOrigin(0, 0);
+        this.lightsEffect=this.add.image(0, 0, "level2_lights").setOrigin(0, 0).setVisible(false);
+        this.add.image(0, 0, "level2_frontBar").setOrigin(0, 0).setDepth(10);
+
+        this.crane = this.add.sprite(297.5, 113, "level2_beerCrane", 0);
+        this.crane.play("level2_beerCrane")
+
+        redguy = this.add.sprite(120, 160, "level2_redguy_drink_beer", 0).play("level2_redguy_drink_beer").setOrigin(0.5, 1);
+        blueguy = this.add.sprite(220, 160, "level2_blueguy_drinking", 0).play("level2_blueguy_drinking").setOrigin(0.5, 1);
+
+
+        this.time.delayedCall(78000, () => {
+            this.lightsEffect.setVisible(true);
+            this.tweens.add({
+                targets: this.lightsEffect,
+                alpha: {
+                    from: 0,
+                    to: 0.8
+                },
+                duration: 500,
+                ease: 'Sine.easeInOut',
+                loop: -1,
+                yoyo:true
+            })
+        })
+
+
+
+    },
+
+    update: function () {
+        //moving the dust particles
+        if (this.playingParticles) {
+            this.dustParticles.forEach(el => {
+                el.y += el.speed;
+                el.alpha = ((530 - el.y) / 530);
+                if (el.y > 530) {
+                    el.y = -5;
+                    el.setScale(Math.random())
+                }
+            })
+        }
     }
 
 })

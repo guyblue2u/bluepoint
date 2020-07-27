@@ -125,6 +125,70 @@ var loading = new Phaser.Class({
 
         this.load.image("footsteps", "./assets/images/level_2/footsteps.png");
 
+        this.load.image("level2_back4", "./assets/images/level_2/base.png");
+        this.load.image("level2_lights", "./assets/images/level_2/lights_on.jpg");
+        this.load.image("level2_frontBar", "./assets/images/level_2/front bar.png");
+
+
+        this.load.spritesheet("level2_beerCrane", "./assets/images/level_2/beer crane 39x64.png", {
+            frameWidth: 39,
+            frameHeight: 64
+        });
+        this.load.spritesheet("level2_beer", "./assets/images/level_2/beer 32x32.png", {
+            frameWidth: 32,
+            frameHeight: 32
+        });
+
+        //--- animations
+        this.load.spritesheet("level2_blueguy_drop_beer", "./assets/images/level_2/58x103 blue guy drop beer.png", {
+            frameWidth: 59,
+            frameHeight: 103
+        });
+        this.load.spritesheet("level2_blueguy_sleeping", "./assets/images/level_2/59x69 blue guy sleeping .png", {
+            frameWidth: 59,
+            frameHeight: 69
+        });
+        this.load.spritesheet("level2_redguy_drink_beer", "./assets/images/level_2/79x75 red guy drink beer.png", {
+            frameWidth: 79,
+            frameHeight: 75
+        });
+        this.load.spritesheet("level2_redguy_looking_down", "./assets/images/level_2/79x75 red guy looking down.png", {
+            frameWidth: 79,
+            frameHeight: 75
+        });
+        this.load.spritesheet("level2_blueguy_drinking", "./assets/images/level_2/80x85 blue guy drinking  beer.png", {
+            frameWidth: 80,
+            frameHeight: 85
+        });
+        this.load.spritesheet("level2_blueguy_falling", "./assets/images/level_2/111x69 blue guy falling.png", {
+            frameWidth: 111,
+            frameHeight: 69
+        });
+        this.load.spritesheet("level2_redguy_poke", "./assets/images/level_2/113x68 red guy poke .png", {
+            frameWidth: 113,
+            frameHeight: 68
+        });
+        this.load.spritesheet("level2_blueguy_talking", "./assets/images/level_2/blue talking 70x70.png", {
+            frameWidth: 70,
+            frameHeight: 70
+        });
+        this.load.spritesheet("level2_redguy_talking_no_beer", "./assets/images/level_2/red talking no beer 70x76.png", {
+            frameWidth: 70,
+            frameHeight: 76
+        });
+        this.load.spritesheet("level2_redguy_talking_beer", "./assets/images/level_2/red talking w_beer 70x76.png", {
+            frameWidth: 70,
+            frameHeight: 76
+        });
+
+        //arrows
+        this.load.image("level2_up", "./assets/images/level_2/up.png");
+        this.load.image("level2_down", "./assets/images/level_2/down.png");
+        this.load.image("level2_left", "./assets/images/level_2/left.png");
+        this.load.image("level2_right", "./assets/images/level_2/right.png");
+
+
+
 
         //--------- Intro
         this.load.video('background_intro_1', './assets/videos/start screen background.mp4');
@@ -138,7 +202,7 @@ var loading = new Phaser.Class({
         this.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
         this.load.audio("song", "./assets/audio/Gutted.mp3");
         this.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
-        this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.m4a");
+        this.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
         this.load.audio("map_music", "./assets/audio/Bluepoint Menu Theme.mp3");
         this.load.audio("map_select", "./assets/audio/map select sound.mp3");
 
@@ -181,18 +245,6 @@ var loading = new Phaser.Class({
 
             document.getElementById('prompt').innerHTML = "load with the timer";
             location.reload(); 
-            // const queryString = window.location.search;
-            // const urlParams = new URLSearchParams(queryString);
-            // if (urlParams.get('lvl') == 1) {
-            //     this.scene.start("intro_1");
-            // } else if (urlParams.get('lvl') == 2) {
-            //     this.scene.start("level_2");
-            // } else if (urlParams.get('lvl') == 3) {
-            //     this.scene.start("level_1");
-            // } else if (urlParams.get('lvl') === null) {
-            //     this.scene.start("map");
-            //     //this.scene.start("tests");
-            // }
         });
 
 
@@ -223,7 +275,7 @@ var loading = new Phaser.Class({
     },
 
     create: function () {
-
+        
 
     },
 

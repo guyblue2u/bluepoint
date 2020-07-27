@@ -284,7 +284,8 @@ var hud_1 = new Phaser.Class({
             this.scene.start("loserBoard", {
                 type: 3,
                 name: null,
-                score: 0
+                score: 0,
+                colectionName: "scores"
             })
         });
 
@@ -464,11 +465,12 @@ var hud_1 = new Phaser.Class({
             this.buttonSubmit.visible = false;
             this.buttonSubmitRect.visible = false;
 
-            testDB(inputName, this.score, inputEmail)
+            writeData(inputName, this.score, inputEmail,"scores")
             this.scene.launch("loserBoard", {
                 type: 1,
                 score: this.score,
-                name: inputName
+                name: inputName,
+                colectionName:"scores"
             })
         })
 
@@ -486,7 +488,8 @@ var hud_1 = new Phaser.Class({
             this.scene.launch("loserBoard", {
                 type: 2,
                 score: this.score,
-                name: undefined
+                name: undefined,
+                colectionName: "scores"
             })
         })
 

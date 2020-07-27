@@ -1,11 +1,11 @@
-var intro_1 = new Phaser.Class({
+var intro_2 = new Phaser.Class({
 
     Extends: Phaser.Scene,
 
-    initialize: function intro_1() {
+    initialize: function intro_2() {
 
         Phaser.Scene.call(this, {
-            key: 'intro_1',
+            key: 'intro_2',
             active: false
         });
     },
@@ -97,7 +97,7 @@ var intro_1 = new Phaser.Class({
         })
 
 
-        createMenu(this, ["Menu ", "Loser Board "], [
+        createMenu(this, ["Menu ", "Loser Board "], [          
             () => {
                 this.game.sound.stopAll();
                 this.scene.start("map");
@@ -105,12 +105,12 @@ var intro_1 = new Phaser.Class({
             () => {
                 rythm.stop();
                 synth.stop();
-                this.scene.stop("intro_1");
+                this.scene.stop("intro_2");
                 this.scene.start("loserBoard", {
                     type: 3,
                     name: null,
                     score: 0,
-                    colectionName: "scores"
+                    colectionName: "scores_lvl_2"
                 })
             }
         ], 250, 40, 750, 40)
@@ -235,7 +235,7 @@ var intro_1 = new Phaser.Class({
         this.currentMessageIndex = -1;
         this.dialogMessages = ['Welcome to Bluepoint,',
             'A virtual world where the past can be preserved and explored.',
-            'Come with me and rediscover the past, intact and at your fingertips.',
+            'But, if you weren’t with me last time - my world is falling apart.',
             'Upload sequence initiated. Running program brkln2010s.exe.',
             'See you there.'
         ]
@@ -328,7 +328,7 @@ var intro_1 = new Phaser.Class({
 
                     this.time.delayedCall(13000, () => {
                         this.game.sound.stopAll();
-                        this.scene.start("level_1");
+                        this.scene.start("level_2");
                     });
 
                 });

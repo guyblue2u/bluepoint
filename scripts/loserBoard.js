@@ -19,6 +19,7 @@ var loserBoard = new Phaser.Class({
         this.sceneType = data.type; //type 1=> doesnt show submit, type 2=> show submit , type 3=> only shows table, without score
         this.score = data.score;
         this.name = data.name;
+        this.colectionName=data.colectionName;
     },
 
 
@@ -346,7 +347,7 @@ var loserBoard = new Phaser.Class({
                     this.name = inputName;
 
                     testDB(inputName, this.score, inputEmail)
-                    this.populateTable()
+                    this.populateTable(this.colectionName)
 
                     this.add.text(444, 30, `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
                         fontFamily: 'euroStyle',
@@ -463,7 +464,7 @@ var loserBoard = new Phaser.Class({
 
         container = this.add.container(0, 0); // container
         this.heightLastItem = 0;
-        this.populateTable();
+        this.populateTable(this.colectionName);
 
         this.zone = this.add.zone(this.xt1, this.yt1, this.xt2, this.yt2).setOrigin(0).setInteractive();
 
@@ -506,13 +507,13 @@ var loserBoard = new Phaser.Class({
 
     },
 
-    populateTable: function () {
+    populateTable: function (colectionName) {
         let currentScene = this;
         container.removeAll();
 
         currentScene.heightSelectedItem = -1;
 
-        db.collection("scores").orderBy("score", "desc").get().then(function (querySnapshot) { // make the db query
+        db.collection(colectionName).orderBy("score", "desc").get().then(function (querySnapshot) { // make the db query
             let i = 1;
             let scoreData = [];
             querySnapshot.forEach(function (doc) {

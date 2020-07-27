@@ -236,7 +236,7 @@ function resetGame() {
     controls.joystickLocked = true;
     controls.buttonsLocked = false;
     NPCS = [];
-    createNPCS();
+    createNPCS_Level_1();
     Object.assign(player, {
         x: 98,
         y: 141,
@@ -329,7 +329,9 @@ function hideAllCharacters() {
     }
 }
 
-
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
 
 
 //---------------------------------------- load animations of the player 
@@ -599,3 +601,228 @@ class Player_Lvl_2 {
     };
 }
 
+function loadLevel2(scene) {
+    scene.anims.create({
+        key: "level2_blueguy_drop_beer",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_blueguy_drop_beer', {
+            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_blueguy_sleeping",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_blueguy_sleeping', {
+            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_redguy_drink_beer",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_redguy_drink_beer', {
+            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_redguy_looking_down",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_redguy_looking_down', {
+            frames: [0, 1, 2]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_blueguy_drinking",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_blueguy_drinking', {
+            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_blueguy_falling",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_blueguy_falling', {
+            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_redguy_poke",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_redguy_poke', {
+            frames: [0, 1, 2, 3, 4, 5, 6]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_blueguy_talking",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_blueguy_talking', {
+            frames: [0, 1, 2, 3, 4, 5]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_redguy_talking_no_beer",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_redguy_talking_no_beer', {
+            frames: [0, 1, 2, 3, 4, 5]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_redguy_talking_beer",
+        repeat: -1,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_redguy_talking_beer', {
+            frames: [0, 1, 2, 3, 4, 5]
+        })
+    })
+    //----other animations
+    scene.anims.create({
+        key: "level2_beerCrane",
+        repeat: 0,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_beerCrane', {
+            frames: [0, 1, 0]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_beer_fill",
+        repeat: 0,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_beer', {
+            frames: [0, 1]
+        })
+    })
+
+    scene.anims.create({
+        key: "level2_beer_drop",
+        repeat: 0,
+        frameRate: 2,
+        frames: scene.anims.generateFrameNumbers('level2_beer', {
+            frames: [2, 3]
+        })
+    })
+
+
+}
+
+
+//------------ create menu
+createMenu = (scene,names, callbacks,width,height,posX,posY) => {
+
+    let buttons=[];
+    let texts=[];
+
+    names.forEach((element,index) => {
+        let button = scene.add.rectangle(posX, posY+(index+1)*60, width, height).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
+        
+        // add interactivity to the button
+        button.on('pointerover', () => {
+            button.setFillStyle(0x4063FF, 1);
+        });
+        button.on('pointerout', () => {
+            button.setFillStyle(0x4063FF, 0.6);
+        });
+
+        button.on('pointerdown', () => {
+            callbacks[index]()
+        });
+        
+        
+        // add tweens in and tween out to the button
+        button.tweenIn = scene.tweens.add({
+            targets: button,
+            y: {
+                from: posY,
+                to: posY+(index+1)*60
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+        button.tweenOut = scene.tweens.add({
+            targets: button,
+            y: {
+                from: posY+(index+1)*60,
+                to: posY
+            },
+            duration: 200,
+            ease: 'Linear',
+            loop: 0,
+        }).stop();
+
+        
+        //add the text
+        let text = scene.add.text(button.x,button.y, element, {
+            fontFamily: 'euroStyle',
+            fontSize: 30
+        }).setOrigin(0.5, 0.5).setVisible(false);
+
+
+        //add the text and buttons to the array
+        texts.push(text);
+        buttons.push(button);
+    });
+
+    
+        //-------------hamburger icon
+        scene.hamburguer = scene.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
+
+        scene.hamburguer.on('pointerover', () => {
+            scene.hamburguer.setScale(0.45);
+        });
+        scene.hamburguer.on('pointerout', () => {
+            scene.hamburguer.setScale(0.4);
+        });
+
+
+        scene.hamburguer.on('pointerdown', () => {
+            if (!buttons[0].visible) { // show the icons
+                buttons.forEach(el=>{
+                    el.visible=true;
+                    el.tweenIn.play();
+                })
+                
+                scene.time.delayedCall(200, () => {
+                    texts.forEach(el=>{
+                        el.setVisible(true);
+                    })
+                });
+
+            } else { //hide the icons
+                texts.forEach(el=>{
+                    el.setVisible(false);
+                })
+                scene.time.delayedCall(200, () => {
+                    buttons.forEach(el=>{
+                        el.visible=false;
+                    })
+
+                });
+                buttons.forEach(el=>{
+                    el.tweenOut.play();
+                })
+            }
+        })
+
+
+
+
+}

@@ -11,7 +11,7 @@ const config={
     },
 	pixelArt: true,
 	type: Phaser.AUTO,
-	scene: [ loading , tests , level_1,level_2, hud_1, hud_2,map,loserBoard,intro_1],
+	scene: [ loading , tests , level_1,level_2, level_2_2, hud_1, hud_2,map,loserBoard,intro_1,intro_2],
 	transparent: true,
 	// audio: {
 	// 	disableWebAudio: true,
@@ -39,8 +39,8 @@ var firebaseConfig = {
   let db = firebase.firestore();
 
 
-function testDB(_name, _score,_email){
-	db.collection("scores").add({
+function writeData(_name, _score,_email,colectionName){
+	db.collection(colectionName).add({
 		name: _name,
 		score: _score,
 		email: _email
@@ -49,9 +49,9 @@ function testDB(_name, _score,_email){
 }
 
 let items=[];
-function getData(){
+function getData(colectionName){
 	
-	db.collection("scores").orderBy("score","desc").get().then(function(querySnapshot) {
+	db.collection(colectionName).orderBy("score","desc").get().then(function(querySnapshot) {
 		console.log(querySnapshot);
 		querySnapshot.forEach(function(doc) {
 			

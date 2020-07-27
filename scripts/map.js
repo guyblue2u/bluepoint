@@ -73,13 +73,19 @@ var map = new Phaser.Class({
 
 
         //---building 203  (level 2)
-        this.map_203_glow = this.add.image(250, 85, "map_203_glow").setOrigin(0).setScale(2).setInteractive().setVisible(false);
-        this.map_203_grey = this.add.image(250, 85, "map_203_grey").setOrigin(0).setScale(2).setInteractive();
-        //this.map_203_color = this.add.image(250, 85, "map_203_color").setOrigin(0).setScale(2).setInteractive().setVisible(false);
+        this.map_203_glow = this.add.image(250, 85, "map_203_glow").setOrigin(0).setScale(2).setVisible(false);
+        //this.map_203_grey = this.add.image(250, 85, "map_203_grey").setOrigin(0).setScale(2).setInteractive();
+        this.map_203_color = this.add.image(250, 85, "map_203_color").setOrigin(0).setScale(2).setInteractive();
 
-        this.map_203_grey.on('pointerdown', () => {
+        this.map_203_color.on('pointerdown', () => {
 
-            this.selectIcon("New Pallet Theme | Matchless ", 2, false, this.map_203_glow);
+
+
+            if (this.selectedLevel === 2) {
+                this.game.sound.stopAll();
+                this.scene.start("intro_2");
+            } else
+                this.selectIcon("New Pallet Theme | Matchless ", 2, true, this.map_203_glow);
 
         })
 
@@ -139,158 +145,7 @@ var map = new Phaser.Class({
         map_logo = this.add.image(20, 450, "map_logo").setOrigin(0).setScale(0.8);
 
 
-        //---------------Share button
-        this.share = this.add.image(40, 40, "shareIcon").setScale(0.09).setInteractive();
-        this.share.on('pointerover', () => {
-            this.share.setScale(0.1);
-        });
-        this.share.on('pointerout', () => {
-            this.share.setScale(0.09);
-        });
-        this.share.on('pointerdown', () => {
-
-            if (!this.facebook.visible) { // show the icons
-                this.facebook.visible = true;
-                this.facebook.tweenIn.play();
-                this.twitter.visible = true;
-                this.twitter.tweenIn.play();
-                this.copyURL.visible = true;
-                this.copyURL.tweenIn.play();
-
-                this.time.delayedCall(200, () => {
-                    this.facebook.input.enabled = true;
-                    this.twitter.input.enabled = true;
-                    this.copyURL.input.enabled = true;
-                });
-
-            } else { //hide the icons
-                this.time.delayedCall(200, () => {
-                    this.facebook.visible = false;
-                    this.twitter.visible = false;
-                    this.copyURL.visible = false;
-                });
-                this.facebook.input.enabled = false;
-                this.twitter.input.enabled = false;
-                this.copyURL.input.enabled = false;
-                this.facebook.tweenOut.play();
-                this.twitter.tweenOut.play();
-                this.copyURL.tweenOut.play();
-
-            }
-        });
-
-
-        //---------------Facebook
-        this.facebook = this.add.image(40, 100, "facebook").setScale(0.4).setVisible(false);
-        this.facebook.setInteractive();
-        this.facebook.input.enabled=false;
-        this.facebook.on('pointerup', () => {
-            shareFacebook();
-
-        });
-
-        this.facebook.on('pointerover', () => {
-            this.facebook.setScale(0.5);
-        });
-        this.facebook.on('pointerout', () => {
-            this.facebook.setScale(0.4);
-        });
-
-        this.facebook.tweenIn = this.tweens.add({
-            targets: this.facebook,
-            y: {
-                from: 40,
-                to: 100
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-        this.facebook.tweenOut = this.tweens.add({
-            targets: this.facebook,
-            y: {
-                from: 100,
-                to: 40
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-        //----------------Twitter
-        this.twitter = this.add.image(40, 160, "twitter").setScale(0.4).setVisible(false);
-        this.twitter.setInteractive();
-        this.twitter.input.enabled=false;
-        this.twitter.on('pointerup', () => {
-            shareTwitter("Explore%20closed%20Brooklyn%20Venues%20in%20%23Bluepoint.%20");
-        });
-
-        this.twitter.on('pointerover', () => {
-            this.twitter.setScale(0.5);
-        });
-        this.twitter.on('pointerout', () => {
-            this.twitter.setScale(0.4);
-        });
-
-        this.twitter.tweenIn = this.tweens.add({
-            targets: this.twitter,
-            y: {
-                from: 40,
-                to: 150
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-
-        this.twitter.tweenOut = this.tweens.add({
-            targets: this.twitter,
-            y: {
-                from: 150,
-                to: 40
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-
-        //----------------Copy to clipboard
-        this.copyURL = this.add.image(40, 210, "copyIcon").setScale(1).setVisible(false);
-        this.copyURL.setInteractive();
-        this.copyURL.input.enabled=false;
-        this.copyURL.on('pointerdown', () => {
-            copyStringToClipboard();
-        });
-
-        this.copyURL.on('pointerover', () => {
-            this.copyURL.setScale(1.2);
-        });
-        this.copyURL.on('pointerout', () => {
-            this.copyURL.setScale(1);
-        });
-
-        this.copyURL.tweenIn = this.tweens.add({
-            targets: this.copyURL,
-            y: {
-                from: 40,
-                to: 210
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
-        this.copyURL.tweenOut = this.tweens.add({
-            targets: this.copyURL,
-            y: {
-                from: 150,
-                to: 40
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        });
+        createSocialMediaMenu(this); // create the social media menu for facebook, twiter and copy link
 
 
         //-------------hamburger icon
@@ -365,12 +220,14 @@ var map = new Phaser.Class({
             this.game.sound.stopAll();
             this.scene.start("intro_1")
         });
-        this.buttonLvl2 = this.createButtonMenu(750, 120, "Matchless", 0xa9afc9, () => {});
+        this.buttonLvl2 = this.createButtonMenu(750, 120, "Matchless", 0x4063FF, () => {
+            this.game.sound.stopAll();
+            this.scene.start("intro_2")
+        });
         this.buttonLvl3 = this.createButtonMenu(750, 160, "Manhattan Ave", 0xa9afc9, () => {});
         this.buttonLvl4 = this.createButtonMenu(750, 200, "Silent Barn", 0xa9afc9, () => {});
         this.buttonLvl5 = this.createButtonMenu(750, 240, "Old Kosciuszko Bridge", 0xa9afc9, () => {});
         this.buttonLvl6 = this.createButtonMenu(750, 280, "Death By Audio", 0xa9afc9, () => {});
-
 
     },
 
