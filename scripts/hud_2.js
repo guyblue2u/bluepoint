@@ -23,6 +23,15 @@ var hud_2 = new Phaser.Class({
 
     create: function () {
 
+        this.music = this.sound.add('song2', {
+            delay: 0
+        }).play();
+
+
+        outroMusic = this.sound.add('outro', {
+            delay: 0
+        }).setVolume(0);
+
         this.playTime = 0;
         this.textToShow = "";
 
@@ -40,7 +49,7 @@ var hud_2 = new Phaser.Class({
             align: 'left'
         }).setFontSize(25).setDepth(52);
 
-
+        this.delay = 50; //time between letters for the typing effect
         this.typingEffect = (text, unlockControls) => {
 
             if (unlockControls === undefined) unlockControls = true;
@@ -51,7 +60,7 @@ var hud_2 = new Phaser.Class({
             this.textDialogue.text = this.textToShow;
             if (this.eventTyping !== undefined) this.eventTyping.remove(false); //stop all the typing events, if exist
             this.eventTyping = this.time.addEvent({ // create the event that makes the typing effect
-                delay: 50,
+                delay: this.delay,
                 callback: (text) => {
                     this.textToShow += text[i]
                     this.textDialogue.text = this.textToShow;
@@ -125,7 +134,10 @@ var hud_2 = new Phaser.Class({
 
         createMenu(this, ["Restart ", "Menu ", "Loser Board "], [
             () => {
-                console.log("restart") // TODO falta esta
+                this.scene.stop("level_2_2");
+                this.scene.stop("level_2");
+                this.scene.stop("level_2_3");
+                this.scene.start("level_2")
             },
             () => {
                 this.game.sound.stopAll();
@@ -135,6 +147,8 @@ var hud_2 = new Phaser.Class({
             () => {
                 this.game.sound.stopAll();
                 this.scene.stop("level_2_2");
+                this.scene.stop("level_2");
+                this.scene.stop("level_2_3");
                 resetGame();
                 this.scene.start("loserBoard", {
                     type: 3,
@@ -218,7 +232,8 @@ var hud_2 = new Phaser.Class({
         // ------------------------- Time events
         this.time.delayedCall(50, () => {
             this.showDialogue("I hope Matchless still has booze.", false);
-            this.textInstruction.visible = false;
+            this.textInstruction.setVisible(false);
+
         });
 
 
@@ -256,13 +271,13 @@ var hud_2 = new Phaser.Class({
 
 
 
-         //--------------------------------------Second part of the level
-        this.time.delayedCall(34000, () => {                    
+        //--------------------------------------Second part of the level
+        this.time.delayedCall(34000, () => {
             this.arrows = this.showSetArrows(this.score);
             this.instructionText.text = "Repeat the sequence with joystick or \n arrow keys to refill Guy Blue’s beer."
             this.instructionText.setVisible(true);
 
-            this.arrows.forEach(el=>{
+            this.arrows.forEach(el => {
                 this.tweens.add({
                     targets: el,
                     alpha: {
@@ -279,22 +294,22 @@ var hud_2 = new Phaser.Class({
         })
 
 
-        this.time.delayedCall(37000, () => {                    //start the game         
+        this.time.delayedCall(37000, () => { //start the game         
 
             this.instructionText.setVisible(false);
 
             this.timebar.setVisible(true);
             this.timebarMargin.setVisible(true);
 
-            this.scoreText.setVisible(true); 
-            this.scoreTitleText.setVisible(true); 
+            this.scoreText.setVisible(true);
+            this.scoreTitleText.setVisible(true);
             this.scoreBeer.setVisible(true);
 
 
             this.isPlaying = true;
         })
 
-       
+
         this.isPlaying = false;
         //score
         this.score = 0;
@@ -307,7 +322,7 @@ var hud_2 = new Phaser.Class({
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(35).setShadow(3, 3, 'rgba(0,0,0,0.5)', 4).setVisible(false);
 
-        this.scoreBeer=this.add.image(725, 70, 'level2_beer').setScale(1.4).setVisible(false);
+        this.scoreBeer = this.add.image(725, 70, 'level2_beer').setScale(1.4).setVisible(false);
 
         //arrows
         this.timeForAnswer = 0;
@@ -325,8 +340,9 @@ var hud_2 = new Phaser.Class({
         this.DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.WKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
+        this.input.keyboard.clearCaptures();
 
-
+        //arrow keys
         this.downKey.on('down', (event) => {
             this.directionPressed(down);
         });
@@ -342,6 +358,24 @@ var hud_2 = new Phaser.Class({
         this.rightKey.on('down', (event) => {
             this.directionPressed(right);
         });
+        //ASDW keys
+        this.SKey.on('down', (event) => {
+            this.directionPressed(down);
+        });
+
+        this.WKey.on('down', (event) => {
+            this.directionPressed(up);
+        });
+
+        this.AKey.on('down', (event) => {
+            this.directionPressed(left);
+        });
+
+        this.DKey.on('down', (event) => {
+            this.directionPressed(right);
+        });
+
+
 
 
         // time bar
@@ -349,25 +383,44 @@ var hud_2 = new Phaser.Class({
         this.timebarMargin = this.add.rectangle(300, 490, 300, 20).setStrokeStyle(4, 0xffffff).setOrigin(0, 0).setVisible(false);
 
 
+        this.level2 = this.scene.get('level_2_2');
 
         //stop the game
         this.time.delayedCall(107000, () => {
-            this.isPlaying=false;
-            this.arrows.forEach(el=>{
+
+            if (this.delayedCallGame1 !== undefined)
+                this.delayedCallGame1.destroy();
+            if (this.delayedCallGame2 !== undefined)
+                this.delayedCallGame2.destroy();
+            if (this.delayedCallGame3 !== undefined)
+                this.delayedCallGame3.destroy();
+            if (this.delayedCallGame4 !== undefined)
+                this.delayedCallGame4.destroy();
+            if (this.delayedCallGame5 !== undefined)
+                this.delayedCallGame5.destroy();
+
+
+            this.isPlaying = false;
+            this.arrows.forEach(el => {
                 el.destroy();
             })
-            this.arrows=[];
+            this.arrows = [];
             this.timebar.setVisible(false);
             this.timebarMargin.setVisible(false);
 
 
+            this.level2.endingAnimation();
         })
 
+        // get a reference of the scene
 
 
         //dialogs at the end
         this.time.delayedCall(135000, () => {
-            console.log("empiezan los diálogos")
+            this.textInstruction.text = "";
+            this.instructionText.text = "";
+            this.delay = 30;
+            this.level2.animateGuyBlue("GB_Talking");
             if (this.score > 5) {
                 this.showDialogue("Huh, I must still be dreaming. This guy can’t be real. ", false, "Guy Blue")
             } else {
@@ -376,6 +429,10 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(138000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_no_beer");
+
             if (this.score > 5) {
                 this.showDialogue(" Hey bud, looks like you took a little doze there. ", false, "Red Guy")
             } else {
@@ -385,6 +442,11 @@ var hud_2 = new Phaser.Class({
 
 
         this.time.delayedCall(138000, () => {
+            this.level2.animateGuyBlue("GB_Talking");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_nb");
+
+
             if (this.score > 5) {
                 this.showDialogue("What the hell is going on?", false, "Guy Blue")
             } else {
@@ -394,6 +456,9 @@ var hud_2 = new Phaser.Class({
 
 
         this.time.delayedCall(141000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_no_beer");
             if (this.score > 5) {
                 this.showDialogue("Well I think there’s a show over at Silent Barn a little later.", false, "Red Guy")
             } else {
@@ -402,6 +467,9 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(144000, () => {
+            this.level2.animateGuyBlue("GB_Talking");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_nb");
             if (this.score > 5) {
                 this.showDialogue("No, I mean what the fuck happened? Look around, this place is a dump. ", false, "Guy Blue")
             } else {
@@ -410,6 +478,9 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(147000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_no_beer");
             if (this.score > 5) {
                 this.showDialogue("Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", false, "Red Guy")
             } else {
@@ -418,6 +489,9 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(150000, () => {
+            this.level2.animateGuyBlue("GB_Talking");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_nb");
             if (this.score > 5) {
                 this.showDialogue("You’re out of your mind. No, wait, I’m out of MY mind. This is all nuts. Ah, fuck it, want a beer? ", false, "Guy Blue")
             } else {
@@ -426,6 +500,9 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(153000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_no_beer");
             if (this.score > 5) {
                 this.showDialogue("Please, thanks. ", false, "Red Guy")
             } else {
@@ -436,12 +513,32 @@ var hud_2 = new Phaser.Class({
 
 
         this.time.delayedCall(157000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_nb");
+
+            this.level2.fillBeer();
+            this.time.delayedCall(800, () => {
+                this.level2.animateGuyBlue("GB_drinks_beer");
+
+                this.level2.fillBeer();
+                this.time.delayedCall(800, () => {
+                    this.level2.redguy.setTexture("RG talking with beer_1");
+                    this.score++;
+                    this.scoreText.text = ("x " + this.score);
+                })
+
+            })
 
         })
 
 
 
         this.time.delayedCall(159000, () => {
+            this.level2.animateGuyBlue("GB_Talking");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_wb");
             if (this.score > 5) {
                 this.showDialogue("So you said there’s a show tonight? At Silent Barn?", false, "Guy Blue")
             } else {
@@ -450,6 +547,9 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(162000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_with_beer");
             if (this.score > 5) {
                 this.showDialogue("Yeah. I’m supposed to meet my friends there later. ", false, "Red Guy")
             } else {
@@ -459,6 +559,9 @@ var hud_2 = new Phaser.Class({
 
 
         this.time.delayedCall(165000, () => {
+            this.level2.animateGuyBlue("GB_Talking");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_wb");
             if (this.score > 5) {
                 this.showDialogue("And Silent Barn is in the same state as this place? ", false, "Guy Blue")
             } else {
@@ -468,6 +571,9 @@ var hud_2 = new Phaser.Class({
 
 
         this.time.delayedCall(168000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_with_beer");
             if (this.score > 5) {
                 this.showDialogue(" Yeah more or less. Are you new to Bluepoint?", false, "Red Guy")
             } else {
@@ -476,6 +582,9 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(171000, () => {
+            this.level2.animateGuyBlue("GB_Talking");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_wb");
             if (this.score > 5) {
                 this.showDialogue("Feels like it. And your friends, I’m guessing they’re all like you? ", false, "Guy Blue")
             } else {
@@ -484,6 +593,9 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(174000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_with_beer");
             if (this.score > 5) {
                 this.showDialogue("We all have similar tastes and interests if that’s what you mean.", false, "Red Guy")
             } else {
@@ -492,6 +604,9 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(177000, () => {
+            this.level2.animateGuyBlue("GB_Talking");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_wb");
             if (this.score > 5) {
                 this.showDialogue("Right…so you’re all nuts.", false, "Guy Blue")
             } else {
@@ -500,12 +615,186 @@ var hud_2 = new Phaser.Class({
         })
 
         this.time.delayedCall(180000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_with_beer");
             if (this.score > 5) {
                 this.showDialogue(" Haha we’ve been called worse.", false, "Red Guy")
             } else {
                 this.showDialogue("Haha we’ve been called worse.", false, "Red Guy")
             }
         })
+
+
+        this.time.delayedCall(183000, () => {
+            this.level2.redguy.anims.stop();
+            this.level2.animateGuyBlue("GB_Falling")
+            this.level2.redguy.setTexture("RG neutral_wb");
+
+
+            this.time.delayedCall(1000, () => {
+                this.level2.animateRedguy("RG_checks_on_GB_after_he_falls");
+            })
+
+        })
+
+        this.time.delayedCall(189000, () => {
+            this.level2.cameras.main.fadeOut(1000);
+        })
+        this.time.delayedCall(190000, () => {
+            this.scene.stop("level_2");
+            this.scene.launch("level_2_3");
+        })
+
+
+        this.time.delayedCall(195000, () => {
+
+            this.textDialogue.y = 430;
+            this.textDialogue.x = 240;
+            this.textDialogue.setShadow(3, 3, 'rgba(0,0,0,0.9)', 4);
+            this.rectangleDialog.setVisible(true);
+            this.textDialogue.setVisible(true);
+            this.typingEffect("Good, you’re still here. Remind me of your name again?", false);
+        })
+
+
+        this.timedEvent = this.time.delayedCall(198000, () => {
+
+            
+
+
+            this.textDialogue.visible = false;
+            this.form.visible = true;
+            this.buttonSkipRect.visible = true;
+            this.buttonSubmitRect.visible = true;
+            this.buttonSubmit.visible = true;
+            this.buttonSkip.visible = true;
+            outroMusic.play();
+            outroMusic.setLoop(true);
+            this.tweens.add({
+                targets: outroMusic,
+                volume: {
+                    from: 0,
+                    to: 0.8
+                },
+                duration: 10000,
+                ease: 'Sine.easeInOut',
+                loop: 0,
+            });
+        })
+
+        //for testing directly
+        // this.arrows = this.showSetArrows(this.score);
+        // this.timebar.setVisible(true);
+        // this.timebarMargin.setVisible(true);
+        // this.isPlaying = true;
+
+        //------------------form
+
+        graphics = this.add.graphics();
+        graphics.fillStyle(0x1f317d, 0.6);
+        this.rectangleDialog = graphics.fillRect(200, 400, 500, 110).setVisible(false);
+
+        this.buttonSubmitRect = this.add.rectangle(340, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+        this.buttonSkipRect = this.add.rectangle(560, 485, 200, 30).setVisible(false).setFillStyle(0x1f317d, 0.6).setStrokeStyle(1, 0x616161, 1.0).setInteractive();
+
+        graphics.fillStyle(0x334fcb, 0.9);
+
+
+        this.buttonSubmit = this.add.text(this.buttonSubmitRect.x, this.buttonSubmitRect.y, "Submit", {
+            fontFamily: 'euroStyle',
+            fontSize: 25
+        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+
+        this.buttonSkip = this.add.text(this.buttonSkipRect.x, this.buttonSkipRect.y, "Skip", {
+            fontFamily: 'euroStyle',
+            fontSize: 25
+        }).setVisible(false).setOrigin(0.5).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+
+        //--------------Hover effect for the buttons
+        this.buttonSubmitRect.on('pointerover', () => {
+            this.buttonSubmitRect.setFillStyle(0x334fcb);
+        });
+        this.buttonSubmitRect.on('pointerout', () => {
+            this.buttonSubmitRect.setFillStyle(0x1f317d);
+        });
+
+
+        this.buttonSkipRect.on('pointerover', () => {
+            this.buttonSkipRect.setFillStyle(0x334fcb);
+        });
+        this.buttonSkipRect.on('pointerout', () => {
+            this.buttonSkipRect.setFillStyle(0x1f317d);
+        });
+
+
+        this.validationForm = this.add.text(430, 510, '', {
+            fontFamily: 'euroStyle',
+            fontSize: 15,
+            color: '#f20a0a'
+        }).setOrigin(0.5, 0.5)
+
+        // IMPORTANT! : every font after this gets broken, so it should be at the end
+        this.form = this.add.dom(450, 430).createFromCache('form').setVisible(false);
+
+        this.buttonSubmitRect.on('pointerdown', () => {
+
+            // validate email and name:
+            if (this.form.getChildByID('formName').value.length < 2) {
+                this.validationForm.text = "enter a valid name"
+                return;
+            }
+            if (!ValidateEmail(this.form.getChildByID('formEmail').value)) {
+                this.validationForm.text = "enter a valid email"
+                return;
+            }
+
+            this.validationForm.text = ""
+            player.avatar.setVisible(false);
+            var inputName = this.form.getChildByID('formName').value;
+            var inputEmail = this.form.getChildByID('formEmail').value;
+
+            this.form.visible = false;
+            this.rectangleDialog.visible = false;
+
+            this.buttonSkip.visible = false;
+            this.buttonSkipRect.visible = false;
+            this.buttonSubmit.visible = false;
+            this.buttonSubmitRect.visible = false;
+
+            writeData(inputName, this.score, inputEmail, "scores_lvl_2");
+            this.scene.stop("level_2_3");
+            this.scene.start("loserBoard", {
+                type: 1,
+                score: this.score,
+                name: inputName,
+                colectionName: "scores_lvl_2",
+                topMessage: [" drank " , " beers: Matchless still closed. "]
+            })
+        })
+
+        this.buttonSkipRect.on('pointerdown', () => {
+
+            player.avatar.setVisible(false);
+            this.form.visible = false;
+            this.rectangleDialog.visible = false;
+
+            this.buttonSkip.visible = false;
+            this.buttonSkipRect.visible = false;
+            this.buttonSubmit.visible = false;
+            this.buttonSubmitRect.visible = false;
+
+            this.scene.stop("level_2_3");
+            this.scene.start("loserBoard", {
+                type: 2,
+                score: this.score,
+                name: undefined,
+                colectionName: "scores_lvl_2"
+            })
+        })
+
+
+
 
     },
 
@@ -523,7 +812,7 @@ var hud_2 = new Phaser.Class({
                 });
 
                 this.isPlaying = false;
-                this.time.delayedCall(500, () => {
+                this.delayedCallGame5 = this.time.delayedCall(500, () => {
                     this.arrows.forEach(element => {
                         element.destroy();
                     });
@@ -536,18 +825,19 @@ var hud_2 = new Phaser.Class({
             }
         }
 
+        if (!this.isplaying) {
+            let nearest = this.minDistance();
+            if (nearest[0] < radiusInteraction) {
+                this.buttonInteract.visible = true;
+                this.buttonInteractText.visible = true;
 
-        let nearest = this.minDistance();
-        if (nearest[0] < radiusInteraction) {
-            this.buttonInteract.visible = true;
-            this.buttonInteractText.visible = true;
+                this.buttonInteractText.text = "check bottle";
 
-            this.buttonInteractText.text = "check bottle";
+            } else {
 
-        } else {
-
-            this.buttonInteract.visible = false;
-            this.buttonInteractText.visible = false;
+                this.buttonInteract.visible = false;
+                this.buttonInteractText.visible = false;
+            }
         }
 
 
@@ -572,9 +862,8 @@ var hud_2 = new Phaser.Class({
             } else {
                 this.joyStickPressed = false
             }
-        }
-        //else if (!controls.joystickLocked)
-        //player.moveJoystic(this.joyStick.forceX, this.joyStick.forceY)
+        } else if (!controls.joystickLocked)
+            player.moveJoystic(this.joyStick.forceX, this.joyStick.forceY)
     },
 
     hideDialogue(unlockControls) { // hide the current dialogue or goes to the next one in a sequential dialog
@@ -641,7 +930,7 @@ var hud_2 = new Phaser.Class({
         else N = ArrowsScore[score];
 
         //set the timer
-        this.initialTime = (N * 2 - 0.28 * score) * 1000;
+        this.initialTime = (N * 1 - 0.28 * score) * 1000;
         this.timeForAnswer = this.initialTime;
 
 
@@ -668,11 +957,25 @@ var hud_2 = new Phaser.Class({
         if (!this.isPlaying) return
         if (this.arrows[this.currentArrow].direction == key) { // correct key in the sequence
             this.arrows[this.currentArrow].setTint(0x00ff00);
+
+            this.tweens.add({
+                targets: this.arrows[this.currentArrow],
+                scale: {
+                    from: 1,
+                    to: 1.4
+                },
+                duration: 250,
+                ease: 'Sine.easeInOut',
+                loop: 0,
+                yoyo: true
+            });
+
             this.currentArrow++;
+
         } else { //wrong key 
             this.arrows[this.currentArrow].setTint(0xff0000);
             this.isPlaying = false;
-            this.time.delayedCall(500, () => {
+            this.delayedCallGame1 = this.time.delayedCall(1800, () => {
                 this.arrows.forEach(element => {
                     element.destroy();
                 });
@@ -682,12 +985,20 @@ var hud_2 = new Phaser.Class({
                 this.timebar.width = 300;
                 this.isPlaying = true;
             });
+            this.level2.fillBeer();
+            this.delayedCallGame2 = this.time.delayedCall(800, () => {
+                this.level2.animateGuyBlue("GB_spills_beer");
+            })
         }
 
         if (this.currentArrow >= this.arrows.length) { // completed all the sequence
 
             this.isPlaying = false;
-            this.time.delayedCall(500, () => {
+            this.level2.fillBeer();
+            this.delayedCallGame3 = this.time.delayedCall(800, () => {
+                this.level2.animateGuyBlue("GB_drinks_beer");
+            })
+            this.delayedCallGame4 = this.time.delayedCall(1800, () => {
                 this.arrows.forEach(element => {
                     element.destroy();
                 });
@@ -700,6 +1011,7 @@ var hud_2 = new Phaser.Class({
                 this.currentArrow = 0;
                 this.timebar.width = 300;
                 this.isPlaying = true;
+
             });
         }
     }

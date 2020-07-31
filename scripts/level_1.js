@@ -690,7 +690,7 @@ var level_1 = new Phaser.Class({
                 rect.speed=Math.random()*4+1;
                 this.particles.push(rect);
             })
-            this.tweens.add({                   // camera zoom in again
+            this.tweens.add({                   
                 targets: this.particlesAlpha,
                 alpha: {
                     from: 0,

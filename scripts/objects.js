@@ -529,7 +529,7 @@ class Player_Lvl_2 {
         this.moveJoystic = (x, y) => {
             // movement
             if (x > 30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x + speed, this.avatar.y + 16) &&
-                !this.checkColisios(this.avatar.x + speed, this.avatar.y + 16)) {
+                !this.checkColisions(this.avatar.x + speed, this.avatar.y + 16)) {
                 this.avatar.x += speed * 1.2;
             }
             if (x < -30 && Phaser.Geom.Polygon.Contains(this.poly, this.avatar.x - speed, this.avatar.y + 16) &&

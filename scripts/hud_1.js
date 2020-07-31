@@ -470,7 +470,8 @@ var hud_1 = new Phaser.Class({
                 type: 1,
                 score: this.score,
                 name: inputName,
-                colectionName:"scores"
+                colectionName:"scores",
+                topMessage:[" Woke Up " , " People: Shea Stadium still closed. "]
             })
         })
 

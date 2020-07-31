@@ -20,6 +20,7 @@ var loserBoard = new Phaser.Class({
         this.score = data.score;
         this.name = data.name;
         this.colectionName=data.colectionName;
+        this.topMessage=data.topMessage;
     },
 
 
@@ -280,8 +281,7 @@ var loserBoard = new Phaser.Class({
 
 
             if (this.sceneType === 1) { // show the upper message
-
-                this.add.text(444, 30, `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
+                this.add.text(444, 30, this.name+this.topMessage[0] + this.score + this.topMessage[1], {
                     fontFamily: 'euroStyle',
                     fontSize: 20
                 }).setOrigin(0.5);
@@ -571,7 +571,7 @@ var loserBoard = new Phaser.Class({
             //----scroll bar
 
             let scrollHeight = (currentScene.yt2 * currentScene.yt2 / heightLastItem)
-            if (scrollHeight > currentScene.yt2) scrollHeight = yt2
+            if (scrollHeight > currentScene.yt2) scrollHeight = currentScene.yt2
             currentScene.scrollRatio = currentScene.yt2 / heightLastItem;
             currentScene.scrollHeight = scrollHeight;
             if (currentScene.scroller !== undefined) currentScene.scroller.destroy();
