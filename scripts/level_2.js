@@ -102,7 +102,9 @@ var level_2 = new Phaser.Class({
         // footsteps
         this.showFootsteps = false;
         this.footsteps = [];
-
+        this.frameFootsteps={40:0,38:1,37:2,39:3}
+        this.footstepOffsetX=4;
+        this.footstepOffsetY=3;
 
         //dust effect
         this.playingParticles = false;
@@ -160,34 +162,35 @@ var level_2 = new Phaser.Class({
             this.showFootsteps = true;
             this.playingParticles = true;
             this.cameras.main.fadeIn(1000);
+
+
+
         });
 
-        this.time.delayedCall(29000, () => { // change the animation
-            let currentPosX = player.avatar.x;
-            let currentPosY = player.avatar.y;
-            this.tweens.add({
-                targets: player.avatar,
-                x: {
-                    from: currentPosX,
-                    to: 290
-                },
-                duration: 4000,
-                ease: 'Sine.easeInOut',
-                loop: 0,
-            });
+        this.time.delayedCall(28000, () => { // zoom in to the player     
+            this.cameras.main.startFollow(player.avatar, true)
 
             this.tweens.add({
-                targets: player.avatar,
-                y: {
-                    from: currentPosY,
-                    to: 130
-                },
-                duration: 4000,
+                targets: this.cameras.main,
+                zoom: 5,
+                duration: 3000,
                 ease: 'Sine.easeInOut',
                 loop: 0,
             });
 
         });
+        this.time.delayedCall(31000, () => { //zoom in to the bar
+            this.cameras.main.stopFollow();
+            this.tweens.add({
+                targets: this.cameras.main,
+                scrollX: -150,
+                scrollY: -150,
+                duration: 2000,
+                ease: 'Sine.easeInOut',
+                loop: 0,
+            });
+        })
+
 
         this.time.delayedCall(32000, () => {
             this.cameras.main.fadeOut(2000);
@@ -195,7 +198,7 @@ var level_2 = new Phaser.Class({
 
         this.time.delayedCall(34000, () => { // go to the next part of the level
             this.scene.launch("level_2_2");
-            this.scene.remove("level_2");
+            this.scene.stop();
         })
 
 
@@ -211,7 +214,7 @@ var level_2 = new Phaser.Class({
 
         if (this.TKey.isDown) {
             this.scene.launch("level_2_2");
-            this.scene.remove("level_2");
+            this.scene.stop();
         }
 
         if (!controls.joystickLocked) {
@@ -235,8 +238,19 @@ var level_2 = new Phaser.Class({
             if (this.footsteps.length !== 0) {
 
                 let dist = distance(player.avatar.x, player.avatar.y + 15, this.footsteps[this.footsteps.length - 1].x, this.footsteps[this.footsteps.length - 1].y);
-                if (dist > 15) {
-                    this.footsteps.push(this.add.image(player.avatar.x, player.avatar.y + 15, 'footsteps'))
+                if (dist > 8) {
+                    let footstep;
+                    if(player.direction==up || player.direction==down){
+                        this.footstepOffsetX*=-1
+                        footstep=this.add.image(player.avatar.x+this.footstepOffsetX, player.avatar.y + 15, 'footsteps');
+                    }
+                    else{
+                        this.footstepOffsetY*=-1
+                        footstep=this.add.image(player.avatar.x, player.avatar.y + 15 +this.footstepOffsetY, 'footsteps');
+                    }
+                 
+                    footstep.setTexture('footsteps',this.frameFootsteps[player.direction])
+                    this.footsteps.push(footstep)
                 }
 
                 //reduce the opacity of the footsteps
@@ -305,7 +319,7 @@ var level_2_2 = new Phaser.Class({
         for (let i = 0; i < numberParticles; i++) {
             let particle = this.add.image(Math.random() * 888, Math.random() * 250, 'whiteSquare').setScale(Math.random())
             particle.speed = Math.random() * 4 + 1;
-            particle.depth=2;
+            particle.depth = 2;
             this.dustParticles.push(
                 particle
             )
@@ -316,38 +330,84 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'GB_drinks_beer',
-            frames: [
-                { key: 'GB drinks beer_1' },
-                { key: 'GB drinks beer_2' },
-                { key: 'GB drinks beer_3' },
-                { key: 'GB drinks beer_4' },
-                { key: 'GB drinks beer_5' },
-                { key: 'GB drinks beer_6' },
-                { key: 'GB drinks beer_7' },
-                { key: 'GB drinks beer_8' },
-                { key: 'GB drinks beer_9' },
-                { key: 'GB drinks beer_10' },
-                { key: 'GB drinks beer_11' },
-                { key: 'GB drinks beer_12' },
-                { key: 'GB drinks beer_13' },
-                { key: 'GB neutral' }
+            frames: [{
+                    key: 'GB drinks beer_1'
+                },
+                {
+                    key: 'GB drinks beer_2'
+                },
+                {
+                    key: 'GB drinks beer_3'
+                },
+                {
+                    key: 'GB drinks beer_4'
+                },
+                {
+                    key: 'GB drinks beer_5'
+                },
+                {
+                    key: 'GB drinks beer_6'
+                },
+                {
+                    key: 'GB drinks beer_7'
+                },
+                {
+                    key: 'GB drinks beer_8'
+                },
+                {
+                    key: 'GB drinks beer_9'
+                },
+                {
+                    key: 'GB drinks beer_10'
+                },
+                {
+                    key: 'GB drinks beer_11'
+                },
+                {
+                    key: 'GB drinks beer_12'
+                },
+                {
+                    key: 'GB drinks beer_13'
+                },
+                {
+                    key: 'GB neutral'
+                }
             ],
             frameRate: 10,
             repeat: 0
         });
         this.anims.create({
             key: 'GB_Falling',
-            frames: [
-                { key: 'GB Falling_1' },
-                { key: 'GB Falling_2' },
-                { key: 'GB Falling_3' },
-                { key: 'GB Falling_4' },
-                { key: 'GB Falling_5' },
-                { key: 'GB Falling_6' },
-                { key: 'GB Falling_7' },
-                { key: 'GB Falling_8' },
-                { key: 'GB Falling_9' },
-                { key: 'GB Falling_10' }
+            frames: [{
+                    key: 'GB Falling_1'
+                },
+                {
+                    key: 'GB Falling_2'
+                },
+                {
+                    key: 'GB Falling_3'
+                },
+                {
+                    key: 'GB Falling_4'
+                },
+                {
+                    key: 'GB Falling_5'
+                },
+                {
+                    key: 'GB Falling_6'
+                },
+                {
+                    key: 'GB Falling_7'
+                },
+                {
+                    key: 'GB Falling_8'
+                },
+                {
+                    key: 'GB Falling_9'
+                },
+                {
+                    key: 'GB Falling_10'
+                }
             ],
             frameRate: 10,
             repeat: 0
@@ -355,16 +415,33 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'GB_falls_asleep',
-            frames: [
-                { key: 'GB falls asleep_1' },
-                { key: 'GB falls asleep_2' },
-                { key: 'GB falls asleep_3' },
-                { key: 'GB falls asleep_4' },
-                { key: 'GB falls asleep_5' },
-                { key: 'GB falls asleep_6' },
-                { key: 'GB falls asleep_7' },
-                { key: 'GB falls asleep_8' },
-                { key: 'GB falls asleep_9' }
+            frames: [{
+                    key: 'GB falls asleep_1'
+                },
+                {
+                    key: 'GB falls asleep_2'
+                },
+                {
+                    key: 'GB falls asleep_3'
+                },
+                {
+                    key: 'GB falls asleep_4'
+                },
+                {
+                    key: 'GB falls asleep_5'
+                },
+                {
+                    key: 'GB falls asleep_6'
+                },
+                {
+                    key: 'GB falls asleep_7'
+                },
+                {
+                    key: 'GB falls asleep_8'
+                },
+                {
+                    key: 'GB falls asleep_9'
+                }
             ],
             frameRate: 5,
             repeat: 0
@@ -372,10 +449,15 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'GB_sleepiing',
-            frames: [
-                { key: 'GB falls asleep_7' },
-                { key: 'GB falls asleep_8' },
-                { key: 'GB falls asleep_9' }
+            frames: [{
+                    key: 'GB falls asleep_7'
+                },
+                {
+                    key: 'GB falls asleep_8'
+                },
+                {
+                    key: 'GB falls asleep_9'
+                }
             ],
             frameRate: 2,
             repeat: -1
@@ -384,19 +466,42 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'GB_spills_beer',
-            frames: [
-                { key: 'GB spills beer_1' },
-                { key: 'GB spills beer_2' },
-                { key: 'GB spills beer_3' },
-                { key: 'GB spills beer_4' },
-                { key: 'GB spills beer_5' },
-                { key: 'GB spills beer_6' },
-                { key: 'GB spills beer_7' },
-                { key: 'GB spills beer_8' },
-                { key: 'GB spills beer_9' },
-                { key: 'GB spills beer_10' },
-                { key: 'GB spills beer_11' },
-                { key: 'GB neutral' }
+            frames: [{
+                    key: 'GB spills beer_1'
+                },
+                {
+                    key: 'GB spills beer_2'
+                },
+                {
+                    key: 'GB spills beer_3'
+                },
+                {
+                    key: 'GB spills beer_4'
+                },
+                {
+                    key: 'GB spills beer_5'
+                },
+                {
+                    key: 'GB spills beer_6'
+                },
+                {
+                    key: 'GB spills beer_7'
+                },
+                {
+                    key: 'GB spills beer_8'
+                },
+                {
+                    key: 'GB spills beer_9'
+                },
+                {
+                    key: 'GB spills beer_10'
+                },
+                {
+                    key: 'GB spills beer_11'
+                },
+                {
+                    key: 'GB neutral'
+                }
             ],
             frameRate: 10,
             repeat: 0
@@ -404,13 +509,24 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'GB_Talking',
-            frames: [
-                { key: 'GB Talking_1' },
-                { key: 'GB Talking_2' },
-                { key: 'GB Talking_3' },
-                { key: 'GB Talking_4' },
-                { key: 'GB Talking_5' },
-                { key: 'GB Talking_6' }
+            frames: [{
+                    key: 'GB Talking_1'
+                },
+                {
+                    key: 'GB Talking_2'
+                },
+                {
+                    key: 'GB Talking_3'
+                },
+                {
+                    key: 'GB Talking_4'
+                },
+                {
+                    key: 'GB Talking_5'
+                },
+                {
+                    key: 'GB Talking_6'
+                }
             ],
             frameRate: 10,
             repeat: -1
@@ -418,23 +534,54 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'GB_wakes_up_looks_at_RG',
-            frames: [
-                { key: 'GB wakes up, looks at RG_1' },
-                { key: 'GB wakes up, looks at RG_2' },
-                { key: 'GB wakes up, looks at RG_3' },
-                { key: 'GB wakes up, looks at RG_4' },
-                { key: 'GB wakes up, looks at RG_5' },
-                { key: 'GB wakes up, looks at RG_6' },
-                { key: 'GB wakes up, looks at RG_7' },
-                { key: 'GB wakes up, looks at RG_8' },
-                { key: 'GB wakes up, looks at RG_9' },
-                { key: 'GB wakes up, looks at RG_10' },
-                { key: 'GB wakes up, looks at RG_11' },
-                { key: 'GB wakes up, looks at RG_12' },
-                { key: 'GB wakes up, looks at RG_13' },
-                { key: 'GB wakes up, looks at RG_14' },
-                { key: 'GB wakes up, looks at RG_15' },
-                { key: 'GB wakes up, looks at RG_16' }
+            frames: [{
+                    key: 'GB wakes up, looks at RG_1'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_2'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_3'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_4'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_5'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_6'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_7'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_8'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_9'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_10'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_11'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_12'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_13'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_14'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_15'
+                },
+                {
+                    key: 'GB wakes up, looks at RG_16'
+                }
             ],
             frameRate: 10,
             repeat: 0
@@ -442,11 +589,18 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'RG_checks_on_GB_after_he_falls',
-            frames: [
-                { key: 'RG checks on GB after he falls_1' },
-                { key: 'RG checks on GB after he falls_2' },
-                { key: 'RG checks on GB after he falls_3' },
-                { key: 'RG checks on GB after he falls_4' }
+            frames: [{
+                    key: 'RG checks on GB after he falls_1'
+                },
+                {
+                    key: 'RG checks on GB after he falls_2'
+                },
+                {
+                    key: 'RG checks on GB after he falls_3'
+                },
+                {
+                    key: 'RG checks on GB after he falls_4'
+                }
             ],
             frameRate: 10,
             repeat: 0
@@ -454,21 +608,46 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'RG_pokes_GB',
-            frames: [
-                { key: 'RG pokes GB_1' },
-                { key: 'RG pokes GB_2' },
-                { key: 'RG pokes GB_3' },
-                { key: 'RG pokes GB_4' },
-                { key: 'RG pokes GB_5' },
-                { key: 'RG pokes GB_6' },
-                { key: 'RG pokes GB_7' },
-                { key: 'RG pokes GB_8' },
-                { key: 'RG pokes GB_8' },
-                { key: 'RG pokes GB_8' },
-                { key: 'RG pokes GB_8' },
-                { key: 'RG pokes GB_8' },
-                { key: 'RG pokes GB_8' }
-    
+            frames: [{
+                    key: 'RG pokes GB_1'
+                },
+                {
+                    key: 'RG pokes GB_2'
+                },
+                {
+                    key: 'RG pokes GB_3'
+                },
+                {
+                    key: 'RG pokes GB_4'
+                },
+                {
+                    key: 'RG pokes GB_5'
+                },
+                {
+                    key: 'RG pokes GB_6'
+                },
+                {
+                    key: 'RG pokes GB_7'
+                },
+                {
+                    key: 'RG pokes GB_8'
+                },
+                {
+                    key: 'RG pokes GB_8'
+                },
+                {
+                    key: 'RG pokes GB_8'
+                },
+                {
+                    key: 'RG pokes GB_8'
+                },
+                {
+                    key: 'RG pokes GB_8'
+                },
+                {
+                    key: 'RG pokes GB_8'
+                }
+
             ],
             frameRate: 6,
             repeat: -1
@@ -476,14 +655,27 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'RG_talking_no_beer',
-            frames: [
-                { key: 'RG talking no beer_1' },
-                { key: 'RG talking no beer_2' },
-                { key: 'RG talking no beer_3' },
-                { key: 'RG talking no beer_4' },
-                { key: 'RG talking no beer_5' },
-                { key: 'RG talking no beer_6' },
-                { key: 'RG talking no beer_7' }
+            frames: [{
+                    key: 'RG talking no beer_1'
+                },
+                {
+                    key: 'RG talking no beer_2'
+                },
+                {
+                    key: 'RG talking no beer_3'
+                },
+                {
+                    key: 'RG talking no beer_4'
+                },
+                {
+                    key: 'RG talking no beer_5'
+                },
+                {
+                    key: 'RG talking no beer_6'
+                },
+                {
+                    key: 'RG talking no beer_7'
+                }
             ],
             frameRate: 10,
             repeat: -1
@@ -491,13 +683,24 @@ var level_2_2 = new Phaser.Class({
 
         this.anims.create({
             key: 'RG_talking_with_beer',
-            frames: [
-                { key: 'RG talking with beer_1' },
-                { key: 'RG talking with beer_2' },
-                { key: 'RG talking with beer_3' },
-                { key: 'RG talking with beer_4' },
-                { key: 'RG talking with beer_5' },
-                { key: 'RG talking with beer_6' }
+            frames: [{
+                    key: 'RG talking with beer_1'
+                },
+                {
+                    key: 'RG talking with beer_2'
+                },
+                {
+                    key: 'RG talking with beer_3'
+                },
+                {
+                    key: 'RG talking with beer_4'
+                },
+                {
+                    key: 'RG talking with beer_5'
+                },
+                {
+                    key: 'RG talking with beer_6'
+                }
             ],
             frameRate: 10,
             repeat: -1
@@ -517,7 +720,7 @@ var level_2_2 = new Phaser.Class({
             repeat: 0,
             frameRate: 5,
             frames: this.anims.generateFrameNumbers('level2_beer', {
-                frames: [1,1,1,0,4]
+                frames: [1, 1, 1, 0, 4]
             })
         })
 
@@ -526,22 +729,22 @@ var level_2_2 = new Phaser.Class({
         this.blueguy = this.add.sprite(0, 0, "GB drinks beer_1").setDepth(100).setScale(0.5).setOrigin(0);
         this.redguy = this.add.sprite(0, 0, "RG talking no beer_1").setDepth(100).setScale(0.5).setOrigin(0).setVisible(false);
 
-        
 
 
 
-         //------------------------------------------------------------------------------------------
+
+        //------------------------------------------------------------------------------------------
 
 
         this.add.image(0, 0, "level2_back4").setOrigin(0, 0);
-        this.lightsEffect=this.add.image(0, 0, "level2_lights").setOrigin(0, 0).setVisible(false);
+        this.lightsEffect = this.add.image(0, 0, "level2_lights").setOrigin(0, 0).setVisible(false);
         this.add.image(0, 0, "level2_frontBar").setOrigin(0, 0).setDepth(10);
 
         this.crane = this.add.sprite(297.5, 113, "level2_beerCrane", 0).setDepth(20);
         this.crane.play("level2_beerCrane")
 
-        this.fillingBeer=this.add.sprite(299,159,"level2_beer").setDepth(20).play("filling_beer");
-        
+        this.fillingBeer = this.add.sprite(299, 159, "level2_beer").setDepth(20).play("filling_beer");
+
         this.time.delayedCall(78000, () => {
             this.lightsEffect.setVisible(true);
             this.tweens.add({
@@ -553,7 +756,7 @@ var level_2_2 = new Phaser.Class({
                 duration: 500,
                 ease: 'Sine.easeInOut',
                 loop: -1,
-                yoyo:true
+                yoyo: true
             })
         })
 
@@ -591,34 +794,34 @@ var level_2_2 = new Phaser.Class({
         }
     },
 
-    animateGuyBlue: function(animation){
+    animateGuyBlue: function (animation) {
         this.blueguy.anims.play(animation);
     },
 
-    animateRedguy: function(animation){
+    animateRedguy: function (animation) {
         this.redguy.anims.play(animation);
     },
 
 
-    showRedguy: function(){
+    showRedguy: function () {
         this.redguy.setVisible(true);
     },
 
-    fillBeer: function(){
+    fillBeer: function () {
         this.fillingBeer.anims.play("filling_beer");
         this.crane.anims.play("level2_beerCrane");
     },
-   
-    endingAnimation: function(){        //animations after the game ends
+
+    endingAnimation: function () { //animations after the game ends
         this.blueguy.anims.play("GB_falls_asleep");
 
-        this.time.delayedCall(1400,()=>{
+        this.time.delayedCall(1400, () => {
             this.blueguy.play("GB_sleepiing");
         })
 
-        this.time.delayedCall(5000,()=>{    //lights effect start
+        this.time.delayedCall(5000, () => { //lights effect start
             this.lightsEffect.setVisible(true);
-            this.lightsEffectTween=this.tweens.add({
+            this.lightsEffectTween = this.tweens.add({
                 targets: this.lightsEffect,
                 alpha: {
                     from: 0,
@@ -627,17 +830,17 @@ var level_2_2 = new Phaser.Class({
                 duration: 500,
                 ease: 'Sine.easeInOut',
                 loop: -1,
-                yoyo:true
+                yoyo: true
             })
         })
 
-        this.time.delayedCall(9000,()=>{
+        this.time.delayedCall(9000, () => {
             this.lightsEffectTween.stop();
             this.lightsEffect.setVisible(false);
 
             this.redguy.setVisible(true);
 
-           this.rgFlickeringTween= this.tweens.add({
+            this.rgFlickeringTween = this.tweens.add({
                 targets: this.redguy,
                 alpha: {
                     from: 0,
@@ -646,40 +849,40 @@ var level_2_2 = new Phaser.Class({
                 duration: 500,
                 ease: 'Sine.easeInOut',
                 loop: -1,
-                yoyo:true
+                yoyo: true
             })
-         })
+        })
 
 
-         this.time.delayedCall(14000,()=>{
+        this.time.delayedCall(14000, () => {
             this.rgFlickeringTween.stop();
-            this.redguy.alpha=1;
+            this.redguy.alpha = 1;
             this.redguy.anims.play("RG_pokes_GB");
-         })
-         
-         this.time.delayedCall(18000,()=>{
-             this.redguy.anims.setTimeScale(1.25);
-         })
+        })
 
-         this.time.delayedCall(20000,()=>{
+        this.time.delayedCall(18000, () => {
+            this.redguy.anims.setTimeScale(1.25);
+        })
+
+        this.time.delayedCall(20000, () => {
             this.redguy.anims.setTimeScale(1.5);
         })
 
-        this.time.delayedCall(22000,()=>{
+        this.time.delayedCall(22000, () => {
             this.redguy.anims.setTimeScale(2);
         })
 
-         this.time.delayedCall(23000,()=>{
-             this.redguy.anims.stop();
-             this.redguy.anims.setTimeScale(1);
-             this.redguy.setTexture("RG neutral_nb");
-             this.blueguy.anims.play("GB_wakes_up_looks_at_RG");
-         })
+        this.time.delayedCall(23000, () => {
+            this.redguy.anims.stop();
+            this.redguy.anims.setTimeScale(1);
+            this.redguy.setTexture("RG neutral_nb");
+            this.blueguy.anims.play("GB_wakes_up_looks_at_RG");
+        })
 
-         this.time.delayedCall(25000,()=>{
+        this.time.delayedCall(25000, () => {
             this.blueguy.anims.stop();
             this.blueguy.setTexture("GB neutral");
-         })
+        })
 
 
     }
@@ -700,10 +903,10 @@ var level_2_3 = new Phaser.Class({
     },
 
     preload: function () {
-        
+
     },
 
-    create:function(){
+    create: function () {
         this.background2 = this.add.image(0, 0, "level2_back2").setOrigin(0, 0);
         this.background3 = this.add.image(0, 0, "level2_back3").setOrigin(0, 0);
         this.background1 = this.add.image(0, 0, "level2_back1").setOrigin(0, 0);
@@ -749,7 +952,7 @@ var level_2_3 = new Phaser.Class({
             this.cameras.main.setBounds(0, 20, 440, 250);
 
 
-            this.tweens.add({                   // camera zoom in again
+            this.tweens.add({ // camera zoom in again
                 targets: this.cameras.main,
                 zoom: {
                     from: 2,
@@ -758,7 +961,7 @@ var level_2_3 = new Phaser.Class({
                 duration: 4000,
                 ease: 'Linear',
                 loop: 0,
-            }); 
+            });
         })
 
 
@@ -770,7 +973,7 @@ var level_2_3 = new Phaser.Class({
 
         timedEvent = this.time.delayedCall(4000 + initialTime, () => {
 
-            this.black.visible = true;              // fade to black
+            this.black.visible = true; // fade to black
             this.black.depth = this.player.avatar.depth - 2;
             this.tweens.add({
                 targets: this.black,
@@ -793,14 +996,14 @@ var level_2_3 = new Phaser.Class({
 
         });
 
-        timedEvent = this.time.delayedCall(8000 , () => {
-            
+        timedEvent = this.time.delayedCall(8000, () => {
+
             this.particles = []
-            particles=this.particles;
-            this.particlesAlpha={};
-            this.particlesAlpha.alpha=0;  
-            
-            this.tweens.add({                   
+            particles = this.particles;
+            this.particlesAlpha = {};
+            this.particlesAlpha.alpha = 0;
+
+            this.tweens.add({
                 targets: this.particlesAlpha,
                 alpha: {
                     from: 0,
@@ -812,13 +1015,13 @@ var level_2_3 = new Phaser.Class({
             });
 
 
-            createDust(100).forEach(el=>{
-                              
-                var rect = this.bloom = this.add.image(el.x, el.y, "whiteSquare").setDepth(this.player.avatar.y-1);
-                rect.speed=Math.random()*4+1;
+            createDust(100).forEach(el => {
+
+                var rect = this.bloom = this.add.image(el.x, el.y, "whiteSquare").setDepth(this.player.avatar.y - 1);
+                rect.speed = Math.random() * 4 + 1;
                 this.particles.push(rect);
             })
-  
+
             console.log(this.particles.length);
         });
 
@@ -828,12 +1031,12 @@ var level_2_3 = new Phaser.Class({
 
     },
 
-    update:function(){
-        if(this.particles!==undefined){
-            this.particles.forEach(el=>{
-                el.y+=el.speed;
-                el.alpha=((300-el.y)/300)*this.particlesAlpha.alpha
-                if(el.y>300) el.y=50;
+    update: function () {
+        if (this.particles !== undefined) {
+            this.particles.forEach(el => {
+                el.y += el.speed;
+                el.alpha = ((300 - el.y) / 300) * this.particlesAlpha.alpha
+                if (el.y > 300) el.y = 50;
             })
         }
     }

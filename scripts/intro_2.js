@@ -49,7 +49,7 @@ var intro_2 = new Phaser.Class({
         this.cameras.main.setBackgroundColor('#FFFFFF')
 
 
-        this.guttedText = this.add.image(444, 260, "guttedText").setOrigin(0.5).setVisible(false).setAlpha(0);
+        this.guttedText = this.add.image(444, 260, "level2_logo").setOrigin(0.5).setVisible(false).setAlpha(0);
         this.logo = this.add.image(444, 230, "bluepointLogo").setOrigin(0.5).setVisible(false).setAlpha(0);
 
         this.whiteRect = this.add.rectangle(0, 0, 888, 520).setFillStyle(0xffffff).setDepth(3).setOrigin(0, 0).setAlpha(0);

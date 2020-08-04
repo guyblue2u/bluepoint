@@ -134,14 +134,19 @@ var hud_2 = new Phaser.Class({
 
         createMenu(this, ["Restart ", "Menu ", "Loser Board "], [
             () => {
+                this.game.sound.stopAll();
                 this.scene.stop("level_2_2");
                 this.scene.stop("level_2");
                 this.scene.stop("level_2_3");
-                this.scene.start("level_2")
+                this.scene.stop();
+                this.scene.start("level_2");
+                console.log("starts again")
             },
             () => {
                 this.game.sound.stopAll();
                 this.scene.stop("level_2_2");
+                this.scene.stop("level_2");
+                this.scene.stop("level_2_3");
                 this.scene.start("map");
             },
             () => {
@@ -149,7 +154,7 @@ var hud_2 = new Phaser.Class({
                 this.scene.stop("level_2_2");
                 this.scene.stop("level_2");
                 this.scene.stop("level_2_3");
-                resetGame();
+
                 this.scene.start("loserBoard", {
                     type: 3,
                     name: null,
@@ -342,6 +347,18 @@ var hud_2 = new Phaser.Class({
 
         this.input.keyboard.clearCaptures();
 
+
+        //clear previous events:
+        this.downKey.off('down' );
+        this.upKey.off('down');
+        this.leftKey.off('down');
+        this.rightKey.off('down');
+        this.SKey.off('down');
+        this.WKey.off('down');
+        this.AKey.off('down');
+        this.DKey.off('down');
+
+
         //arrow keys
         this.downKey.on('down', (event) => {
             this.directionPressed(down);
@@ -421,7 +438,7 @@ var hud_2 = new Phaser.Class({
             this.instructionText.text = "";
             this.delay = 30;
             this.level2.animateGuyBlue("GB_Talking");
-            if (this.score > 5) {
+            if (this.score < 5) {
                 this.showDialogue("Huh, I must still be dreaming. This guy can’t be real. ", false, "Guy Blue")
             } else {
                 this.showDialogue("Wuuh, I must still be dream—hicc*—ing. Thiiis guy can’t be real. ", false, "Guy Blue")
@@ -433,7 +450,7 @@ var hud_2 = new Phaser.Class({
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_no_beer");
 
-            if (this.score > 5) {
+            if (this.score < 5) {
                 this.showDialogue(" Hey bud, looks like you took a little doze there. ", false, "Red Guy")
             } else {
                 this.showDialogue("Hey bud, looks like you took a little doze there.  ", false, "Red Guy")
@@ -447,7 +464,7 @@ var hud_2 = new Phaser.Class({
             this.level2.redguy.setTexture("RG neutral_nb");
 
 
-            if (this.score > 5) {
+            if (this.score < 5) {
                 this.showDialogue("What the hell is going on?", false, "Guy Blue")
             } else {
                 this.showDialogue("What the hElll is g-g-going on? ", false, "Guy Blue")
@@ -459,60 +476,49 @@ var hud_2 = new Phaser.Class({
             this.level2.blueguy.anims.stop();
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_no_beer");
-            if (this.score > 5) {
-                this.showDialogue("Well I think there’s a show over at Silent Barn a little later.", false, "Red Guy")
-            } else {
-                this.showDialogue("Well I think there’s a show over at Silent Barn a little later.", false, "Red Guy")
-            }
+            this.showDialogue("Well I think there’s a show over at Silent Barn a little later.", false, "Red Guy")
+
         })
 
-        this.time.delayedCall(144000, () => {
+        this.time.delayedCall(145000, () => {
             this.level2.animateGuyBlue("GB_Talking");
             this.level2.redguy.anims.stop();
             this.level2.redguy.setTexture("RG neutral_nb");
-            if (this.score > 5) {
+            if (this.score < 5) {
                 this.showDialogue("No, I mean what the fuck happened? Look around, this place is a dump. ", false, "Guy Blue")
             } else {
                 this.showDialogue("N-N-No, I mean what the fuck—hicc*—happened? Look around, this place issSsssa dump-uh!! ", false, "Guy Blue")
             }
         })
 
-        this.time.delayedCall(147000, () => {
+        this.time.delayedCall(149000, () => {
             this.level2.blueguy.anims.stop();
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_no_beer");
-            if (this.score > 5) {
-                this.showDialogue("Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", false, "Red Guy")
-            } else {
-                this.showDialogue("Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", false, "Red Guy")
-            }
+            this.showDialogue("Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", false, "Red Guy")       
         })
 
-        this.time.delayedCall(150000, () => {
+        this.time.delayedCall(152000, () => {
             this.level2.animateGuyBlue("GB_Talking");
             this.level2.redguy.anims.stop();
             this.level2.redguy.setTexture("RG neutral_nb");
-            if (this.score > 5) {
+            if (this.score < 5) {
                 this.showDialogue("You’re out of your mind. No, wait, I’m out of MY mind. This is all nuts. Ah, fuck it, want a beer? ", false, "Guy Blue")
             } else {
                 this.showDialogue("Youuuu’re outt of your d-d-amn mind. No—hicc*— I’m outTta my mind. Thirrs issaaall nuts. Aaahh, F-Fuck it. Want-ta a beer? ", false, "Guy Blue")
             }
         })
 
-        this.time.delayedCall(153000, () => {
+        this.time.delayedCall(156000, () => {
             this.level2.blueguy.anims.stop();
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_no_beer");
-            if (this.score > 5) {
-                this.showDialogue("Please, thanks. ", false, "Red Guy")
-            } else {
-                this.showDialogue(" Please, thanks. ", false, "Red Guy")
-            }
+            this.showDialogue(" Please, thanks. ", false, "Red Guy")
         })
 
 
 
-        this.time.delayedCall(157000, () => {
+        this.time.delayedCall(159000, () => {
             this.level2.blueguy.anims.stop();
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.redguy.anims.stop();
@@ -535,34 +541,30 @@ var hud_2 = new Phaser.Class({
 
 
 
-        this.time.delayedCall(159000, () => {
+        this.time.delayedCall(162000, () => {
             this.level2.animateGuyBlue("GB_Talking");
             this.level2.redguy.anims.stop();
             this.level2.redguy.setTexture("RG neutral_wb");
-            if (this.score > 5) {
+            if (this.score < 5) {
                 this.showDialogue("So you said there’s a show tonight? At Silent Barn?", false, "Guy Blue")
             } else {
                 this.showDialogue("GB: Sssooo you saird there’s a show-w tonight? —Hicc*— At Silent Barn? ", false, "Guy Blue")
             }
         })
 
-        this.time.delayedCall(162000, () => {
+        this.time.delayedCall(166000, () => {
             this.level2.blueguy.anims.stop();
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_with_beer");
-            if (this.score > 5) {
-                this.showDialogue("Yeah. I’m supposed to meet my friends there later. ", false, "Red Guy")
-            } else {
-                this.showDialogue("Yeah. I’m supposed to meet my friends there later. ", false, "Red Guy")
-            }
+            this.showDialogue("Yeah. I’m supposed to meet my friends there later. ", false, "Red Guy")
         })
 
 
-        this.time.delayedCall(165000, () => {
+        this.time.delayedCall(169000, () => {
             this.level2.animateGuyBlue("GB_Talking");
             this.level2.redguy.anims.stop();
             this.level2.redguy.setTexture("RG neutral_wb");
-            if (this.score > 5) {
+            if (this.score < 5) {
                 this.showDialogue("And Silent Barn is in the same state as this place? ", false, "Guy Blue")
             } else {
                 this.showDialogue("And Silent Barn is’n the same state—hicc*— as th-this place? ", false, "Guy Blue")
@@ -570,47 +572,21 @@ var hud_2 = new Phaser.Class({
         })
 
 
-        this.time.delayedCall(168000, () => {
+        this.time.delayedCall(173000, () => {
             this.level2.blueguy.anims.stop();
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_with_beer");
-            if (this.score > 5) {
-                this.showDialogue(" Yeah more or less. Are you new to Bluepoint?", false, "Red Guy")
-            } else {
-                this.showDialogue("Yeah more or less. Are you new to Bluepoint? ", false, "Red Guy")
-            }
+            this.showDialogue("Yeah more or less. Are you new to Bluepoint? ", false, "Red Guy")
         })
 
-        this.time.delayedCall(171000, () => {
+        this.time.delayedCall(176000, () => {
             this.level2.animateGuyBlue("GB_Talking");
             this.level2.redguy.anims.stop();
             this.level2.redguy.setTexture("RG neutral_wb");
-            if (this.score > 5) {
+            if (this.score < 5) {
                 this.showDialogue("Feels like it. And your friends, I’m guessing they’re all like you? ", false, "Guy Blue")
             } else {
                 this.showDialogue("S-sure feels liiike it. An-n-nd your frainnds, I’m guessing they’re all—hicc*— like you? ", false, "Guy Blue")
-            }
-        })
-
-        this.time.delayedCall(174000, () => {
-            this.level2.blueguy.anims.stop();
-            this.level2.blueguy.setTexture("GB neutral");
-            this.level2.animateRedguy("RG_talking_with_beer");
-            if (this.score > 5) {
-                this.showDialogue("We all have similar tastes and interests if that’s what you mean.", false, "Red Guy")
-            } else {
-                this.showDialogue("We all have similar tastes and interests if that’s what you mean. ", false, "Red Guy")
-            }
-        })
-
-        this.time.delayedCall(177000, () => {
-            this.level2.animateGuyBlue("GB_Talking");
-            this.level2.redguy.anims.stop();
-            this.level2.redguy.setTexture("RG neutral_wb");
-            if (this.score > 5) {
-                this.showDialogue("Right…so you’re all nuts.", false, "Guy Blue")
-            } else {
-                this.showDialogue("Buuuurppp*—…y-yer all nutssss.", false, "Guy Blue")
             }
         })
 
@@ -618,15 +594,31 @@ var hud_2 = new Phaser.Class({
             this.level2.blueguy.anims.stop();
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_with_beer");
-            if (this.score > 5) {
-                this.showDialogue(" Haha we’ve been called worse.", false, "Red Guy")
+            this.showDialogue("We all have similar tastes and interests if that’s what you mean. ", false, "Red Guy")
+            
+        })
+
+        this.time.delayedCall(183000, () => {
+            this.level2.animateGuyBlue("GB_Talking");
+            this.level2.redguy.anims.stop();
+            this.level2.redguy.setTexture("RG neutral_wb");
+            if (this.score < 5) {
+                this.showDialogue("Right…so you’re all nuts.", false, "Guy Blue")
             } else {
-                this.showDialogue("Haha we’ve been called worse.", false, "Red Guy")
+                this.showDialogue("Buuuurppp*—…y-yer all nutssss.", false, "Guy Blue")
             }
         })
 
+        this.time.delayedCall(186000, () => {
+            this.level2.blueguy.anims.stop();
+            this.level2.blueguy.setTexture("GB neutral");
+            this.level2.animateRedguy("RG_talking_with_beer");
+            this.showDialogue("Haha we’ve been called worse.", false, "Red Guy")
+            
+        })
 
-        this.time.delayedCall(183000, () => {
+
+        this.time.delayedCall(189000, () => {
             this.level2.redguy.anims.stop();
             this.level2.animateGuyBlue("GB_Falling")
             this.level2.redguy.setTexture("RG neutral_wb");
@@ -638,16 +630,16 @@ var hud_2 = new Phaser.Class({
 
         })
 
-        this.time.delayedCall(189000, () => {
+        this.time.delayedCall(192000, () => {
             this.level2.cameras.main.fadeOut(1000);
         })
-        this.time.delayedCall(190000, () => {
+        this.time.delayedCall(193000, () => {
             this.scene.stop("level_2");
             this.scene.launch("level_2_3");
         })
 
-
-        this.time.delayedCall(195000, () => {
+//------------------------------------------------------- i need to change here
+        this.time.delayedCall(198000, () => {
 
             this.textDialogue.y = 430;
             this.textDialogue.x = 240;

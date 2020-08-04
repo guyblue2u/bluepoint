@@ -117,13 +117,17 @@ var loading = new Phaser.Class({
 
 
         //---------- Level 2
+        this.load.image("level2_logo", "./assets/images/level_2/Lvl 2.png");
         this.load.image("level2_back1", "./assets/images/level_2/collisions layer.png");
         this.load.image("level2_back2", "./assets/images/level_2/base walkable area.png");
         this.load.image("level2_back3", "./assets/images/level_2/dust layer.png");
 
         this.load.image("level2_outside", "./assets/images/level_2/Matchless outside.png");
 
-        this.load.image("footsteps", "./assets/images/level_2/footsteps.png");
+        this.load.spritesheet("footsteps", "./assets/images/level_2/footsteps.png", {
+            frameWidth: 6,
+            frameHeight: 6
+        });
 
         this.load.image("level2_back4", "./assets/images/level_2/base.png");
         this.load.image("level2_lights", "./assets/images/level_2/lights_on.jpg");
@@ -328,6 +332,8 @@ var loading = new Phaser.Class({
                 this.scene.start("map");
                 //this.scene.start("tests");
             }
+         else if (urlParams.get('lvl') == "1a") {
+            this.scene.start("level_1");}
 
         });
 
