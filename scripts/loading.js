@@ -1,6 +1,12 @@
 window.onerror = function (e) {
-    document.getElementById('prompt').innerHTML = e.toString();
-    console.log(e);
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    if (urlParams.get('debug') === 'true') {
+
+        document.getElementById('prompt').innerHTML = e.toString();
+        console.log(e);
+    }
 }
 
 
@@ -143,110 +149,110 @@ var loading = new Phaser.Class({
             frameHeight: 32
         });
 
-        this.load.image("GB drinks beer_1","./assets/images/level_2/GB drinks beer/1.png");
-        this.load.image("GB drinks beer_2","./assets/images/level_2/GB drinks beer/2.png");
-        this.load.image("GB drinks beer_3","./assets/images/level_2/GB drinks beer/3.png");
-        this.load.image("GB drinks beer_4","./assets/images/level_2/GB drinks beer/4.png");
-        this.load.image("GB drinks beer_5","./assets/images/level_2/GB drinks beer/5.png");
-        this.load.image("GB drinks beer_6","./assets/images/level_2/GB drinks beer/6.png");
-        this.load.image("GB drinks beer_7","./assets/images/level_2/GB drinks beer/7.png");
-        this.load.image("GB drinks beer_8","./assets/images/level_2/GB drinks beer/8.png");
-        this.load.image("GB drinks beer_9","./assets/images/level_2/GB drinks beer/9.png");
-        this.load.image("GB drinks beer_10","./assets/images/level_2/GB drinks beer/10.png");
-        this.load.image("GB drinks beer_11","./assets/images/level_2/GB drinks beer/11.png");
-        this.load.image("GB drinks beer_12","./assets/images/level_2/GB drinks beer/12.png");
-        this.load.image("GB drinks beer_13","./assets/images/level_2/GB drinks beer/13.png");
+        this.load.image("GB drinks beer_1", "./assets/images/level_2/GB drinks beer/1.png");
+        this.load.image("GB drinks beer_2", "./assets/images/level_2/GB drinks beer/2.png");
+        this.load.image("GB drinks beer_3", "./assets/images/level_2/GB drinks beer/3.png");
+        this.load.image("GB drinks beer_4", "./assets/images/level_2/GB drinks beer/4.png");
+        this.load.image("GB drinks beer_5", "./assets/images/level_2/GB drinks beer/5.png");
+        this.load.image("GB drinks beer_6", "./assets/images/level_2/GB drinks beer/6.png");
+        this.load.image("GB drinks beer_7", "./assets/images/level_2/GB drinks beer/7.png");
+        this.load.image("GB drinks beer_8", "./assets/images/level_2/GB drinks beer/8.png");
+        this.load.image("GB drinks beer_9", "./assets/images/level_2/GB drinks beer/9.png");
+        this.load.image("GB drinks beer_10", "./assets/images/level_2/GB drinks beer/10.png");
+        this.load.image("GB drinks beer_11", "./assets/images/level_2/GB drinks beer/11.png");
+        this.load.image("GB drinks beer_12", "./assets/images/level_2/GB drinks beer/12.png");
+        this.load.image("GB drinks beer_13", "./assets/images/level_2/GB drinks beer/13.png");
 
-        
-        this.load.image("GB Falling_1","./assets/images/level_2/GB Falling/1.png");
-        this.load.image("GB Falling_2","./assets/images/level_2/GB Falling/2.png");
-        this.load.image("GB Falling_3","./assets/images/level_2/GB Falling/3.png");
-        this.load.image("GB Falling_4","./assets/images/level_2/GB Falling/4.png");
-        this.load.image("GB Falling_5","./assets/images/level_2/GB Falling/5.png");
-        this.load.image("GB Falling_6","./assets/images/level_2/GB Falling/6.png");
-        this.load.image("GB Falling_7","./assets/images/level_2/GB Falling/7.png");
-        this.load.image("GB Falling_8","./assets/images/level_2/GB Falling/8.png");
-        this.load.image("GB Falling_9","./assets/images/level_2/GB Falling/9.png");
-        this.load.image("GB Falling_10","./assets/images/level_2/GB Falling/10.png");
 
-        this.load.image("GB falls asleep_1","./assets/images/level_2/GB falls asleep/1.png");
-        this.load.image("GB falls asleep_2","./assets/images/level_2/GB falls asleep/2.png");
-        this.load.image("GB falls asleep_3","./assets/images/level_2/GB falls asleep/3.png");
-        this.load.image("GB falls asleep_4","./assets/images/level_2/GB falls asleep/4.png");
-        this.load.image("GB falls asleep_5","./assets/images/level_2/GB falls asleep/5.png");
-        this.load.image("GB falls asleep_6","./assets/images/level_2/GB falls asleep/6.png");
-        this.load.image("GB falls asleep_7","./assets/images/level_2/GB falls asleep/7.png");
-        this.load.image("GB falls asleep_8","./assets/images/level_2/GB falls asleep/8.png");
-        this.load.image("GB falls asleep_9","./assets/images/level_2/GB falls asleep/9.png");
+        this.load.image("GB Falling_1", "./assets/images/level_2/GB Falling/1.png");
+        this.load.image("GB Falling_2", "./assets/images/level_2/GB Falling/2.png");
+        this.load.image("GB Falling_3", "./assets/images/level_2/GB Falling/3.png");
+        this.load.image("GB Falling_4", "./assets/images/level_2/GB Falling/4.png");
+        this.load.image("GB Falling_5", "./assets/images/level_2/GB Falling/5.png");
+        this.load.image("GB Falling_6", "./assets/images/level_2/GB Falling/6.png");
+        this.load.image("GB Falling_7", "./assets/images/level_2/GB Falling/7.png");
+        this.load.image("GB Falling_8", "./assets/images/level_2/GB Falling/8.png");
+        this.load.image("GB Falling_9", "./assets/images/level_2/GB Falling/9.png");
+        this.load.image("GB Falling_10", "./assets/images/level_2/GB Falling/10.png");
 
-        this.load.image("GB spills beer_1","./assets/images/level_2/GB spills beer/1.png");
-        this.load.image("GB spills beer_2","./assets/images/level_2/GB spills beer/2.png");
-        this.load.image("GB spills beer_3","./assets/images/level_2/GB spills beer/3.png");
-        this.load.image("GB spills beer_4","./assets/images/level_2/GB spills beer/4.png");
-        this.load.image("GB spills beer_5","./assets/images/level_2/GB spills beer/5.png");
-        this.load.image("GB spills beer_6","./assets/images/level_2/GB spills beer/6.png");
-        this.load.image("GB spills beer_7","./assets/images/level_2/GB spills beer/7.png");
-        this.load.image("GB spills beer_8","./assets/images/level_2/GB spills beer/8.png");
-        this.load.image("GB spills beer_9","./assets/images/level_2/GB spills beer/9.png");
-        this.load.image("GB spills beer_10","./assets/images/level_2/GB spills beer/10.png");
-        this.load.image("GB spills beer_11","./assets/images/level_2/GB spills beer/11.png");
+        this.load.image("GB falls asleep_1", "./assets/images/level_2/GB falls asleep/1.png");
+        this.load.image("GB falls asleep_2", "./assets/images/level_2/GB falls asleep/2.png");
+        this.load.image("GB falls asleep_3", "./assets/images/level_2/GB falls asleep/3.png");
+        this.load.image("GB falls asleep_4", "./assets/images/level_2/GB falls asleep/4.png");
+        this.load.image("GB falls asleep_5", "./assets/images/level_2/GB falls asleep/5.png");
+        this.load.image("GB falls asleep_6", "./assets/images/level_2/GB falls asleep/6.png");
+        this.load.image("GB falls asleep_7", "./assets/images/level_2/GB falls asleep/7.png");
+        this.load.image("GB falls asleep_8", "./assets/images/level_2/GB falls asleep/8.png");
+        this.load.image("GB falls asleep_9", "./assets/images/level_2/GB falls asleep/9.png");
 
-        this.load.image("GB Talking_1","./assets/images/level_2/GB Talking/1.png");
-        this.load.image("GB Talking_2","./assets/images/level_2/GB Talking/2.png");
-        this.load.image("GB Talking_3","./assets/images/level_2/GB Talking/3.png");
-        this.load.image("GB Talking_4","./assets/images/level_2/GB Talking/4.png");
-        this.load.image("GB Talking_5","./assets/images/level_2/GB Talking/5.png");
-        this.load.image("GB Talking_6","./assets/images/level_2/GB Talking/6.png");
+        this.load.image("GB spills beer_1", "./assets/images/level_2/GB spills beer/1.png");
+        this.load.image("GB spills beer_2", "./assets/images/level_2/GB spills beer/2.png");
+        this.load.image("GB spills beer_3", "./assets/images/level_2/GB spills beer/3.png");
+        this.load.image("GB spills beer_4", "./assets/images/level_2/GB spills beer/4.png");
+        this.load.image("GB spills beer_5", "./assets/images/level_2/GB spills beer/5.png");
+        this.load.image("GB spills beer_6", "./assets/images/level_2/GB spills beer/6.png");
+        this.load.image("GB spills beer_7", "./assets/images/level_2/GB spills beer/7.png");
+        this.load.image("GB spills beer_8", "./assets/images/level_2/GB spills beer/8.png");
+        this.load.image("GB spills beer_9", "./assets/images/level_2/GB spills beer/9.png");
+        this.load.image("GB spills beer_10", "./assets/images/level_2/GB spills beer/10.png");
+        this.load.image("GB spills beer_11", "./assets/images/level_2/GB spills beer/11.png");
 
-        this.load.image("GB wakes up, looks at RG_1","./assets/images/level_2/GB wakes up, looks at RG/1.png");
-        this.load.image("GB wakes up, looks at RG_2","./assets/images/level_2/GB wakes up, looks at RG/2.png");
-        this.load.image("GB wakes up, looks at RG_3","./assets/images/level_2/GB wakes up, looks at RG/3.png");
-        this.load.image("GB wakes up, looks at RG_4","./assets/images/level_2/GB wakes up, looks at RG/4.png");
-        this.load.image("GB wakes up, looks at RG_5","./assets/images/level_2/GB wakes up, looks at RG/5.png");
-        this.load.image("GB wakes up, looks at RG_6","./assets/images/level_2/GB wakes up, looks at RG/6.png");
-        this.load.image("GB wakes up, looks at RG_7","./assets/images/level_2/GB wakes up, looks at RG/7.png");
-        this.load.image("GB wakes up, looks at RG_8","./assets/images/level_2/GB wakes up, looks at RG/8.png");
-        this.load.image("GB wakes up, looks at RG_9","./assets/images/level_2/GB wakes up, looks at RG/9.png");
-        this.load.image("GB wakes up, looks at RG_10","./assets/images/level_2/GB wakes up, looks at RG/10.png");
-        this.load.image("GB wakes up, looks at RG_11","./assets/images/level_2/GB wakes up, looks at RG/11.png");
-        this.load.image("GB wakes up, looks at RG_12","./assets/images/level_2/GB wakes up, looks at RG/12.png");
-        this.load.image("GB wakes up, looks at RG_13","./assets/images/level_2/GB wakes up, looks at RG/13.png");
-        this.load.image("GB wakes up, looks at RG_14","./assets/images/level_2/GB wakes up, looks at RG/14.png");
-        this.load.image("GB wakes up, looks at RG_15","./assets/images/level_2/GB wakes up, looks at RG/15.png");
-        this.load.image("GB wakes up, looks at RG_16","./assets/images/level_2/GB wakes up, looks at RG/16.png");
+        this.load.image("GB Talking_1", "./assets/images/level_2/GB Talking/1.png");
+        this.load.image("GB Talking_2", "./assets/images/level_2/GB Talking/2.png");
+        this.load.image("GB Talking_3", "./assets/images/level_2/GB Talking/3.png");
+        this.load.image("GB Talking_4", "./assets/images/level_2/GB Talking/4.png");
+        this.load.image("GB Talking_5", "./assets/images/level_2/GB Talking/5.png");
+        this.load.image("GB Talking_6", "./assets/images/level_2/GB Talking/6.png");
 
-        this.load.image("RG checks on GB after he falls_1","./assets/images/level_2/RG checks on GB after he falls/1.png");
-        this.load.image("RG checks on GB after he falls_2","./assets/images/level_2/RG checks on GB after he falls/2.png");
-        this.load.image("RG checks on GB after he falls_3","./assets/images/level_2/RG checks on GB after he falls/3.png");
-        this.load.image("RG checks on GB after he falls_4","./assets/images/level_2/RG checks on GB after he falls/4.png");
+        this.load.image("GB wakes up, looks at RG_1", "./assets/images/level_2/GB wakes up, looks at RG/1.png");
+        this.load.image("GB wakes up, looks at RG_2", "./assets/images/level_2/GB wakes up, looks at RG/2.png");
+        this.load.image("GB wakes up, looks at RG_3", "./assets/images/level_2/GB wakes up, looks at RG/3.png");
+        this.load.image("GB wakes up, looks at RG_4", "./assets/images/level_2/GB wakes up, looks at RG/4.png");
+        this.load.image("GB wakes up, looks at RG_5", "./assets/images/level_2/GB wakes up, looks at RG/5.png");
+        this.load.image("GB wakes up, looks at RG_6", "./assets/images/level_2/GB wakes up, looks at RG/6.png");
+        this.load.image("GB wakes up, looks at RG_7", "./assets/images/level_2/GB wakes up, looks at RG/7.png");
+        this.load.image("GB wakes up, looks at RG_8", "./assets/images/level_2/GB wakes up, looks at RG/8.png");
+        this.load.image("GB wakes up, looks at RG_9", "./assets/images/level_2/GB wakes up, looks at RG/9.png");
+        this.load.image("GB wakes up, looks at RG_10", "./assets/images/level_2/GB wakes up, looks at RG/10.png");
+        this.load.image("GB wakes up, looks at RG_11", "./assets/images/level_2/GB wakes up, looks at RG/11.png");
+        this.load.image("GB wakes up, looks at RG_12", "./assets/images/level_2/GB wakes up, looks at RG/12.png");
+        this.load.image("GB wakes up, looks at RG_13", "./assets/images/level_2/GB wakes up, looks at RG/13.png");
+        this.load.image("GB wakes up, looks at RG_14", "./assets/images/level_2/GB wakes up, looks at RG/14.png");
+        this.load.image("GB wakes up, looks at RG_15", "./assets/images/level_2/GB wakes up, looks at RG/15.png");
+        this.load.image("GB wakes up, looks at RG_16", "./assets/images/level_2/GB wakes up, looks at RG/16.png");
 
-        this.load.image("RG pokes GB_1","./assets/images/level_2/RG pokes GB/1.png");
-        this.load.image("RG pokes GB_2","./assets/images/level_2/RG pokes GB/2.png");
-        this.load.image("RG pokes GB_3","./assets/images/level_2/RG pokes GB/3.png");
-        this.load.image("RG pokes GB_4","./assets/images/level_2/RG pokes GB/4.png");
-        this.load.image("RG pokes GB_5","./assets/images/level_2/RG pokes GB/5.png");
-        this.load.image("RG pokes GB_6","./assets/images/level_2/RG pokes GB/6.png");
-        this.load.image("RG pokes GB_7","./assets/images/level_2/RG pokes GB/7.png");
-        this.load.image("RG pokes GB_8","./assets/images/level_2/RG pokes GB/8.png");
+        this.load.image("RG checks on GB after he falls_1", "./assets/images/level_2/RG checks on GB after he falls/1.png");
+        this.load.image("RG checks on GB after he falls_2", "./assets/images/level_2/RG checks on GB after he falls/2.png");
+        this.load.image("RG checks on GB after he falls_3", "./assets/images/level_2/RG checks on GB after he falls/3.png");
+        this.load.image("RG checks on GB after he falls_4", "./assets/images/level_2/RG checks on GB after he falls/4.png");
 
-        this.load.image("RG talking no beer_1","./assets/images/level_2/RG talking/No beer/1.png");
-        this.load.image("RG talking no beer_2","./assets/images/level_2/RG talking/No beer/2.png");
-        this.load.image("RG talking no beer_3","./assets/images/level_2/RG talking/No beer/3.png");
-        this.load.image("RG talking no beer_4","./assets/images/level_2/RG talking/No beer/4.png");
-        this.load.image("RG talking no beer_5","./assets/images/level_2/RG talking/No beer/5.png");
-        this.load.image("RG talking no beer_6","./assets/images/level_2/RG talking/No beer/6.png");
-        this.load.image("RG talking no beer_7","./assets/images/level_2/RG talking/No beer/7.png");
+        this.load.image("RG pokes GB_1", "./assets/images/level_2/RG pokes GB/1.png");
+        this.load.image("RG pokes GB_2", "./assets/images/level_2/RG pokes GB/2.png");
+        this.load.image("RG pokes GB_3", "./assets/images/level_2/RG pokes GB/3.png");
+        this.load.image("RG pokes GB_4", "./assets/images/level_2/RG pokes GB/4.png");
+        this.load.image("RG pokes GB_5", "./assets/images/level_2/RG pokes GB/5.png");
+        this.load.image("RG pokes GB_6", "./assets/images/level_2/RG pokes GB/6.png");
+        this.load.image("RG pokes GB_7", "./assets/images/level_2/RG pokes GB/7.png");
+        this.load.image("RG pokes GB_8", "./assets/images/level_2/RG pokes GB/8.png");
 
-        this.load.image("RG talking with beer_1","./assets/images/level_2/RG talking/With beer/1.png");
-        this.load.image("RG talking with beer_2","./assets/images/level_2/RG talking/With beer/2.png");
-        this.load.image("RG talking with beer_3","./assets/images/level_2/RG talking/With beer/3.png");
-        this.load.image("RG talking with beer_4","./assets/images/level_2/RG talking/With beer/4.png");
-        this.load.image("RG talking with beer_5","./assets/images/level_2/RG talking/With beer/5.png");
-        this.load.image("RG talking with beer_6","./assets/images/level_2/RG talking/With beer/6.png");
+        this.load.image("RG talking no beer_1", "./assets/images/level_2/RG talking/No beer/1.png");
+        this.load.image("RG talking no beer_2", "./assets/images/level_2/RG talking/No beer/2.png");
+        this.load.image("RG talking no beer_3", "./assets/images/level_2/RG talking/No beer/3.png");
+        this.load.image("RG talking no beer_4", "./assets/images/level_2/RG talking/No beer/4.png");
+        this.load.image("RG talking no beer_5", "./assets/images/level_2/RG talking/No beer/5.png");
+        this.load.image("RG talking no beer_6", "./assets/images/level_2/RG talking/No beer/6.png");
+        this.load.image("RG talking no beer_7", "./assets/images/level_2/RG talking/No beer/7.png");
 
-        this.load.image("RG neutral_nb","./assets/images/level_2/RG neutral_nb.png");
-        this.load.image("RG neutral_wb","./assets/images/level_2/RG neutral_wb.png");
-        this.load.image("GB neutral","./assets/images/level_2/GB neutral.png");
+        this.load.image("RG talking with beer_1", "./assets/images/level_2/RG talking/With beer/1.png");
+        this.load.image("RG talking with beer_2", "./assets/images/level_2/RG talking/With beer/2.png");
+        this.load.image("RG talking with beer_3", "./assets/images/level_2/RG talking/With beer/3.png");
+        this.load.image("RG talking with beer_4", "./assets/images/level_2/RG talking/With beer/4.png");
+        this.load.image("RG talking with beer_5", "./assets/images/level_2/RG talking/With beer/5.png");
+        this.load.image("RG talking with beer_6", "./assets/images/level_2/RG talking/With beer/6.png");
+
+        this.load.image("RG neutral_nb", "./assets/images/level_2/RG neutral_nb.png");
+        this.load.image("RG neutral_wb", "./assets/images/level_2/RG neutral_wb.png");
+        this.load.image("GB neutral", "./assets/images/level_2/GB neutral.png");
 
         //arrows
         this.load.image("level2_up", "./assets/images/level_2/up.png");
@@ -311,15 +317,18 @@ var loading = new Phaser.Class({
 
         this.time.delayedCall(20000, () => { // TEMPORAL FIX, to go to the next scene after 20 seconds
 
-            document.getElementById('prompt').innerHTML = "load with the timer";
-            location.reload(); 
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+
+            if (urlParams.get('debug') === 'true') {
+                document.getElementById('prompt').innerHTML = "load with the timer";
+            }
+            location.reload();
         });
 
 
         this.load.on('complete', () => {
-
-            document.getElementById('prompt').innerHTML = "load correctly without timer";
-
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             if (urlParams.get('lvl') == 1) {
@@ -331,10 +340,14 @@ var loading = new Phaser.Class({
             } else if (urlParams.get('lvl') === null) {
                 this.scene.start("map");
                 //this.scene.start("tests");
+            } else if (urlParams.get('lvl') == "1a") {
+                this.scene.start("level_1");
             }
-         else if (urlParams.get('lvl') == "1a") {
-            this.scene.start("level_1");}
 
+            if (urlParams.get('debug') === 'true') {
+                console.log("va aca")
+                document.getElementById('prompt').innerHTML = "load correctly without timer";
+            }
         });
 
         this.load.on('fileprogress', (file) => {
@@ -345,11 +358,9 @@ var loading = new Phaser.Class({
     },
 
     create: function () {
-        
+
 
     },
-
-
 
 
     update: function () {
