@@ -37,7 +37,7 @@ window.ValidateEmail=(mail)=> {
 
 
 
-window.createSocialMediaMenu=(scene)=> {
+window.createSocialMediaMenu=(scene,twitterMessage)=> {
 
     //---------------Share button
     scene.share = scene.add.image(40, 40, "shareIcon").setScale(0.09);
@@ -126,7 +126,7 @@ window.createSocialMediaMenu=(scene)=> {
     scene.twitter.setInteractive();
     scene.twitter.input.enabled = false;
     scene.twitter.on('pointerup', () => {
-        shareTwitter(`I%20woke%20up%20${scene.score}%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=`);
+        shareTwitter(twitterMessage);
     });
 
     scene.twitter.on('pointerover', () => {

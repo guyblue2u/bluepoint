@@ -21,7 +21,7 @@ var level_1 = new Phaser.Class({
     },
 
     preload: function () {
-        
+        load_files_level_1(this);
     },
 
     create: function () {

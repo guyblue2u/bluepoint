@@ -173,183 +173,38 @@ var hud_1 = new Phaser.Class({
             loop: -1,
         }).stop();
 
-        createSocialMediaMenu(this); // create the social media menu for facebook, twiter and copy link
+        createSocialMediaMenu(this, "Shea%20Stadium%20still%20exists%20in%20%23Bluepoint-"); // create the social media menu for facebook, twiter and copy link
 
-
-        // restart the game 
-        this.restartRect = this.add.rectangle(750, 140, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
-        this.restartText = this.add.text(750, 140, "Restart ", {
-            fontFamily: 'euroStyle',
-            fontSize: 30
-        }).setOrigin(0.5, 0.5).setVisible(false);
-
-        this.restartRect.on('pointerover', () => {
-            this.restartRect.setFillStyle(0x4063FF, 1);
-        });
-        this.restartRect.on('pointerout', () => {
-            this.restartRect.setFillStyle(0x4063FF, 0.6);
-        });
-
-        this.restartRect.on('pointerdown', () => {
-            this.game.sound.stopAll();
-            this.scene.stop("level_1");
-            resetGame();
-            this.scene.start("level_1", {})
-        });
-
-        this.restartRect.tweenIn = this.tweens.add({
-            targets: this.restartRect,
-            y: {
-                from: 40,
-                to: 140
+        
+        createMenu(this, ["Restart ", "Menu ", "Loser Board "], [
+            () => {
+                this.game.sound.stopAll();
+                this.scene.stop("hud_1");
+                //resetGame();
+                this.scene.stop("level_1");
+                this.scene.start("level_1", {})
             },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        }).stop();
-
-        this.restartRect.tweenOut = this.tweens.add({
-            targets: this.restartRect,
-            y: {
-                from: 140,
-                to: 40
+            () => {
+                this.game.sound.stopAll();
+                this.scene.stop("level_1");
+                this.scene.stop();
+                this.scene.start("map");
             },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        }).stop();
+            () => {
+                this.game.sound.stopAll();
+                this.scene.stop("level_1");
+                this.scene.stop();
 
+                this.scene.start("loserBoard", {
+                    type: 3,
+                    name: null,
+                    score: 0,
+                    colectionName: "scores",
+                    level: 1
 
-
-        // ---------- return tu menu
-        this.returnRect = this.add.rectangle(750, 200, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
-        this.returnText = this.add.text(750, 200, "Menu ", {
-            fontFamily: 'euroStyle',
-            fontSize: 30
-        }).setOrigin(0.5, 0.5).setVisible(false);
-
-        this.returnRect.on('pointerover', () => {
-            this.returnRect.setFillStyle(0x4063FF, 1);
-        });
-        this.returnRect.on('pointerout', () => {
-            this.returnRect.setFillStyle(0x4063FF, 0.6);
-        });
-        this.returnRect.on('pointerdown', () => {
-
-            this.game.sound.stopAll();
-            this.scene.stop("level_1");
-            this.scene.start("map");
-        });
-
-        this.returnRect.tweenIn = this.tweens.add({
-            targets: this.returnRect,
-            y: {
-                from: 40,
-                to: 200
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        }).stop();
-
-        this.returnRect.tweenOut = this.tweens.add({
-            targets: this.returnRect,
-            y: {
-                from: 200,
-                to: 40
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        }).stop();
-
-        // go to Loser board 
-        this.loserBoardRect = this.add.rectangle(750, 260, 250, 40).setFillStyle(0x4063FF, 0.6).setInteractive().setVisible(false);
-        this.loserBoardtext = this.add.text(750, 260, "Loser Board ", {
-            fontFamily: 'euroStyle',
-            fontSize: 30
-        }).setOrigin(0.5, 0.5).setVisible(false);
-
-        this.loserBoardRect.on('pointerover', () => {
-            this.loserBoardRect.setFillStyle(0x4063FF, 1);
-        });
-        this.loserBoardRect.on('pointerout', () => {
-            this.loserBoardRect.setFillStyle(0x4063FF, 0.6);
-        });
-
-        this.loserBoardRect.on('pointerdown', () => {
-            this.game.sound.stopAll();
-            this.scene.stop("level_1");
-            resetGame();
-            this.scene.start("loserBoard", {
-                type: 3,
-                name: null,
-                score: 0,
-                colectionName: "scores"
-            })
-        });
-
-        this.loserBoardRect.tweenIn = this.tweens.add({
-            targets: this.loserBoardRect,
-            y: {
-                from: 40,
-                to: 260
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        }).stop();
-
-        this.loserBoardRect.tweenOut = this.tweens.add({
-            targets: this.loserBoardRect,
-            y: {
-                from: 260,
-                to: 40
-            },
-            duration: 200,
-            ease: 'Linear',
-            loop: 0,
-        }).stop();
-
-        //-------------hamburger icon
-        this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
-
-        this.hamburguer.on('pointerover', () => {
-            this.hamburguer.setScale(0.45);
-        });
-        this.hamburguer.on('pointerout', () => {
-            this.hamburguer.setScale(0.4);
-        });
-
-        this.hamburguer.on('pointerdown', () => {
-            if (!this.loserBoardRect.visible) { // show the icons
-                this.loserBoardRect.visible = true;
-                this.loserBoardRect.tweenIn.play();
-                this.returnRect.visible = true;
-                this.returnRect.tweenIn.play();
-                this.restartRect.visible = true;
-                this.restartRect.tweenIn.play();
-                this.time.delayedCall(200, () => {
-                    this.loserBoardtext.setVisible(true);
-                    this.returnText.setVisible(true);
-                    this.restartText.setVisible(true);
-                });
-
-            } else { //hide the icons
-                this.loserBoardtext.setVisible(false);
-                this.returnText.setVisible(false);
-                this.restartText.setVisible(false);
-                this.time.delayedCall(200, () => {
-                    this.loserBoardRect.visible = false;
-                    this.returnRect.visible = false;
-                    this.restartRect.visible = false;
-
-                });
-                this.loserBoardRect.tweenOut.play();
-                this.returnRect.tweenOut.play();
-                this.restartRect.tweenOut.play();
+                })
             }
-        })
+        ], 250, 40, 750, 40)
 
 
         // ----------------- Score
@@ -471,7 +326,8 @@ var hud_1 = new Phaser.Class({
                 score: this.score,
                 name: inputName,
                 colectionName:"scores",
-                topMessage:[" Woke Up " , " People: Shea Stadium still closed. "]
+                topMessage:[" Woke Up " , " People: Shea Stadium still closed. "],
+                level:1
             })
         })
 
@@ -490,7 +346,8 @@ var hud_1 = new Phaser.Class({
                 type: 2,
                 score: this.score,
                 name: undefined,
-                colectionName: "scores"
+                colectionName: "scores",
+                level:1
             })
         })
 

@@ -12,7 +12,7 @@ var level_2 = new Phaser.Class({
     },
 
     preload: function () {
-
+        load_files_level_2(this);
     },
 
     create: function () {
@@ -102,9 +102,14 @@ var level_2 = new Phaser.Class({
         // footsteps
         this.showFootsteps = false;
         this.footsteps = [];
-        this.frameFootsteps={40:0,38:1,37:2,39:3}
-        this.footstepOffsetX=4;
-        this.footstepOffsetY=3;
+        this.frameFootsteps = {
+            40: 0,
+            38: 1,
+            37: 2,
+            39: 3
+        }
+        this.footstepOffsetX = 4;
+        this.footstepOffsetY = 3;
 
         //dust effect
         this.playingParticles = false;
@@ -157,8 +162,8 @@ var level_2 = new Phaser.Class({
 
         this.time.delayedCall(9000, () => { // Fade to black
             this.backgroundInside.destroy();
-            player.avatar.x = 45;
-            player.avatar.y = 225;
+            player.avatar.x = 128;
+            player.avatar.y = 165;
             this.showFootsteps = true;
             this.playingParticles = true;
             this.cameras.main.fadeIn(1000);
@@ -240,16 +245,15 @@ var level_2 = new Phaser.Class({
                 let dist = distance(player.avatar.x, player.avatar.y + 15, this.footsteps[this.footsteps.length - 1].x, this.footsteps[this.footsteps.length - 1].y);
                 if (dist > 8) {
                     let footstep;
-                    if(player.direction==up || player.direction==down){
-                        this.footstepOffsetX*=-1
-                        footstep=this.add.image(player.avatar.x+this.footstepOffsetX, player.avatar.y + 15, 'footsteps');
+                    if (player.direction == up || player.direction == down) {
+                        this.footstepOffsetX *= -1
+                        footstep = this.add.image(player.avatar.x + this.footstepOffsetX, player.avatar.y + 15, 'footsteps');
+                    } else {
+                        this.footstepOffsetY *= -1
+                        footstep = this.add.image(player.avatar.x, player.avatar.y + 15 + this.footstepOffsetY, 'footsteps');
                     }
-                    else{
-                        this.footstepOffsetY*=-1
-                        footstep=this.add.image(player.avatar.x, player.avatar.y + 15 +this.footstepOffsetY, 'footsteps');
-                    }
-                 
-                    footstep.setTexture('footsteps',this.frameFootsteps[player.direction])
+
+                    footstep.setTexture('footsteps', this.frameFootsteps[player.direction])
                     this.footsteps.push(footstep)
                 }
 
@@ -907,10 +911,6 @@ var level_2_3 = new Phaser.Class({
     },
 
     create: function () {
-        this.background2 = this.add.image(0, 0, "level2_back2").setOrigin(0, 0);
-        this.background3 = this.add.image(0, 0, "level2_back3").setOrigin(0, 0);
-        this.background1 = this.add.image(0, 0, "level2_back1").setOrigin(0, 0);
-
         this.cameras.main.zoom = 2;
         this.cameras.main.setBounds(0, 20, 440, 250);
 

@@ -139,15 +139,20 @@ var map = new Phaser.Class({
                 this.scene.start("intro_1");
             }
 
+            if (this.selectedLevel === 2) {
+                this.game.sound.stopAll();
+                this.scene.start("intro_2");
+            }
+
         })
 
 
         map_logo = this.add.image(20, 450, "map_logo").setOrigin(0).setScale(0.8);
 
 
-        createSocialMediaMenu(this); // create the social media menu for facebook, twiter and copy link
+        createSocialMediaMenu(this,"Explore%20%23Bluepoint-"); // create the social media menu for facebook, twiter and copy link
 
-
+        
         //-------------hamburger icon
         this.hamburguer = this.add.image(830, 40, "hambugerIcon").setScale(0.4).setInteractive();
 

@@ -232,20 +232,20 @@ function createNPCS_Level_1() {
 
 // --------------------------------- M E T H O D S ----------------------------------
 
-function resetGame() {
-    controls.joystickLocked = true;
-    controls.buttonsLocked = false;
-    NPCS = [];
-    createNPCS_Level_1();
-    Object.assign(player, {
-        x: 98,
-        y: 141,
-        shirt: "Blue",
-        moving: false,
-        direction: null,
-        avatar: null,
-    })
-}
+// function resetGame() {
+//     controls.joystickLocked = true;
+//     controls.buttonsLocked = false;
+//     NPCS = [];
+//     createNPCS_Level_1();
+//     Object.assign(player, {
+//         x: 98,
+//         y: 141,
+//         shirt: "Blue",
+//         moving: false,
+//         direction: null,
+//         avatar: null,
+//     })
+// }
 
 function minDistance() { // compute the min distance between the player and the NPCS from the npc array
     return NPCS.reduce((acc, val) => {

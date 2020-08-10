@@ -21,6 +21,7 @@ var loserBoard = new Phaser.Class({
         this.name = data.name;
         this.colectionName=data.colectionName;
         this.topMessage=data.topMessage;
+        this.level=data.level;
     },
 
 
@@ -187,8 +188,18 @@ var loserBoard = new Phaser.Class({
             this.twitter.setInteractive();
             this.twitter.input.enabled=false;
             this.twitter.on('pointerup', () => {
-                if (this.sceneType !== 3) shareTwitter(`I%20woke%20up%20${this.score}%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=`);
-                else shareTwitter('Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.');
+
+                if(this.level==1){
+                    if (this.sceneType !== 3) shareTwitter(`I%20woke%20up%20${this.score}%20people%20at%20Shea%20Stadium%20in%20%23Bluepoint-&url=`);
+                    else shareTwitter('Shea%20Stadium%20still%20exists%20in%20%23Bluepoint.');
+
+                }
+                else if(this.level==2){
+                    if (this.sceneType !== 3) shareTwitter(`I%20drank%20${this.score}%20beers%20at%20Matchless%20Bar%20in%20%23Bluepoint-&url=`);
+                    else shareTwitter('Matchless%20Bar%20still%20exists%20in%20%23Bluepoint.');
+                }
+
+
             });
 
             this.twitter.on('pointerover', () => {
@@ -274,7 +285,7 @@ var loserBoard = new Phaser.Class({
                 this.buttonMenu.setFillStyle(0x334fcb);
             });
             this.buttonMenu.on('pointerdown', () => {
-                if (outroMusic.isPlaying) outroMusic.stop();
+                this.game.sound.stopAll();
                 this.scene.stop("level_1");
                 this.scene.start("map");
             })
@@ -346,7 +357,7 @@ var loserBoard = new Phaser.Class({
                 if (inputName.length > 0 && inputEmail.length > 0) {
                     this.name = inputName;
 
-                    testDB(inputName, this.score, inputEmail)
+                    writeData(inputName, this.score, inputEmail, this.colectionName);
                     this.populateTable(this.colectionName)
 
                     this.add.text(444, 30, `${this.name} Woke Up ${this.score} People: Shea Stadium still closed. `, {
@@ -401,8 +412,8 @@ var loserBoard = new Phaser.Class({
             });
             this.buttonPlayAgain.on('pointerdown', () => {
                 this.game.sound.stopAll();
-                this.scene.stop("level_1");
-                this.scene.start("intro_1");
+                //this.scene.stop("level_1");
+                this.scene.start("intro_" + this.level);
             })
 
 
@@ -436,7 +447,7 @@ var loserBoard = new Phaser.Class({
 
             if (!mobileAndTabletCheck()) { // for desktop, let the hover effect
                 this.buttonNextLevel.on('pointerover', () => {
-                    this.buttonNextLevelText.text = "Coming 8/20 "
+                    this.buttonNextLevelText.text = "Coming Soon "
                     this.buttonNextLevel.setFillStyle(0xa9afc9);
                 });
                 this.buttonNextLevel.on('pointerout', () => {
@@ -446,7 +457,7 @@ var loserBoard = new Phaser.Class({
             }
             this.buttonNextLevel.on('pointerdown', () => {
                 if (mobileAndTabletCheck()) {
-                    this.buttonNextLevelText.text = "Coming 8/20 "
+                    this.buttonNextLevelText.text = "Coming Soon "
                     this.buttonNextLevel.setFillStyle(0xa9afc9);
                 }
                 // go to the next level
@@ -456,7 +467,7 @@ var loserBoard = new Phaser.Class({
 
 
         this.separatorLine = this.add.line(0, this.yt1 + this.yt2 / 2, 205, 0, 205, this.yt2, '#9c9c9c'); //line between rank and name
-        testo = this.separatorLine;
+        
 
         backgroundTableGraphics = this.add.graphics();
         backgroundTableGraphics.fillStyle(0xffffff, 0.5);

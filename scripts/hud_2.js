@@ -23,6 +23,7 @@ var hud_2 = new Phaser.Class({
 
     create: function () {
 
+
         this.music = this.sound.add('song2', {
             delay: 0
         }).play();
@@ -91,7 +92,7 @@ var hud_2 = new Phaser.Class({
 
 
 
-        this.textInstruction = this.add.text(480, 160, "Press space bar or interact to continue", {
+        this.dialogInstructionText = this.add.text(480, 160, "Press space bar or interact to continue", {
             fontFamily: 'ZCOOL QingKe HuangYou'
         }).setFontSize(20).setOrigin(0.5, 0.5).setDepth(51);
 
@@ -105,7 +106,7 @@ var hud_2 = new Phaser.Class({
         this.showingDialogue = false;
         this.textTitle.visible = false;
         this.textDialogue.visible = false;
-        this.textInstruction.visible = false;
+        this.dialogInstructionText.visible = false;
         this.dialogueWindow.visible = false;
 
         // GeneralInstructions
@@ -130,7 +131,7 @@ var hud_2 = new Phaser.Class({
         }).stop();
 
 
-        createSocialMediaMenu(this);
+        createSocialMediaMenu(this, "Bar%20Matched%20still%20exists%20in%20%23Bluepoint");
 
         createMenu(this, ["Restart ", "Menu ", "Loser Board "], [
             () => {
@@ -159,7 +160,8 @@ var hud_2 = new Phaser.Class({
                     type: 3,
                     name: null,
                     score: 0,
-                    colectionName: "scores_lvl_2"
+                    colectionName: "scores_lvl_2",
+                    level:2
                 })
             }
         ], 250, 40, 750, 40)
@@ -207,16 +209,70 @@ var hud_2 = new Phaser.Class({
                 x: 100,
                 y: 400,
                 radius: 80,
-                base: this.add.circle(0, 0, 80, 0xCF000000).setAlpha(0.5).setDepth(20),
-                thumb: this.add.circle(0, 0, 40, 0xcccccc).setDepth(20),
+                base: this.add.circle(0, 0, 80, 0xCF000000).setAlpha(0.5).setDepth(20).setVisible(false),
+                thumb: this.add.circle(0, 0, 40, 0xcccccc).setDepth(20).setVisible(false),
             });
 
             this.buttonInteract.setScale(1.5, 1.5);
             this.buttonInteractText.setFontSize(30).setOrigin(0.5).setPosition(this.buttonInteract.x, this.buttonInteract.y);
 
 
-            this.instructionText.text = "use the virtual joystick to move \n Press the button to interact"
-            this.textInstruction.text = "Press interact to continue"
+            this.instructionText.text = "use the virtual joystick to move \n Press the button to interact";
+            this.dialogInstructionText.text = "press the button to continue";
+
+
+            this.arrowUp = this.add.image(100, 330, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 0).setInteractive().setVisible(false);
+            this.arrowDown = this.add.image(100, 450, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 1).setInteractive().setVisible(false);
+            this.arrowRight = this.add.image(160, 390, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 2).setInteractive().setVisible(false);
+            this.arrowLeft = this.add.image(40, 390, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 3).setInteractive().setVisible(false);
+
+
+            this.arrowUp.on('pointerup', () => {
+                this.directionPressed(up);
+                this.arrowUp.setTint(0xffffff);
+            });
+            this.arrowDown.on('pointerup', () => {
+                this.directionPressed(down);
+                this.arrowDown.setTint(0xffffff);
+            });
+            this.arrowRight.on('pointerup', () => {
+                this.directionPressed(right);
+                this.arrowRight.setTint(0xffffff);
+            });
+            this.arrowLeft.on('pointerup', () => {
+                this.directionPressed(left);
+                this.arrowLeft.setTint(0xffffff);
+            });
+
+
+            this.arrowUp.on('pointerdown', () => {
+                this.arrowUp.setTint(0x0000ff);
+            });
+            this.arrowDown.on('pointerdown', () => {
+                this.arrowDown.setTint(0x0000ff);
+            });
+            this.arrowRight.on('pointerdown', () => {
+                this.arrowRight.setTint(0x0000ff);
+            });
+            this.arrowLeft.on('pointerdown', () => {
+                this.arrowLeft.setTint(0x0000ff);
+            });
+
+            this.arrowUp.on('pointerout', () => {
+                this.arrowUp.setTint(0xffffff);
+            });
+            this.arrowDown.on('pointerout', () => {
+                this.arrowDown.setTint(0xffffff);
+            });
+            this.arrowRight.on('pointerout', () => {
+                this.arrowRight.setTint(0xffffff);
+            });
+            this.arrowLeft.on('pointerout', () => {
+                this.arrowLeft.setTint(0xffffff);
+            });
+
+
+
         } else { //-------------------DESKTOP
             this.buttonInteract.on('pointerover', () => {
                 this.buttonInteract.setScale(1, 1.1);
@@ -237,14 +293,21 @@ var hud_2 = new Phaser.Class({
         // ------------------------- Time events
         this.time.delayedCall(50, () => {
             this.showDialogue("I hope Matchless still has booze.", false);
-            this.textInstruction.setVisible(false);
+            this.dialogInstructionText.setVisible(false);
 
         });
 
 
         this.time.delayedCall(10000, () => {
+
+            if (this.joyStick != undefined) { //show the joystick
+                this.joyStick.base.setVisible(true);
+                this.joyStick.thumb.setVisible(true);
+            }
+
+
             this.showDialogue("Let’s see if there’s beer left in any of these cans.");
-            this.textInstruction.visible = true;
+            this.dialogInstructionText.visible = true;
             this.beerPoints = [
                 [59, 145, "Careful, these cans are rusty."],
                 [50, 190, "This one is full...of dust."],
@@ -272,6 +335,11 @@ var hud_2 = new Phaser.Class({
             controls.joystickLocked = true;
             this.showDialogue("Oh it looks like the tap is still hooked up. Let’s check it out.", false);
             this.beerPoints = [];
+
+            if (this.joyStick !== undefined) { //show the joystick
+                this.joyStick.base.setVisible(false);
+                this.joyStick.thumb.setVisible(false);
+            } 
         })
 
 
@@ -279,8 +347,16 @@ var hud_2 = new Phaser.Class({
         //--------------------------------------Second part of the level
         this.time.delayedCall(34000, () => {
             this.arrows = this.showSetArrows(this.score);
-            this.instructionText.text = "Repeat the sequence with joystick or \n arrow keys to refill Guy Blue’s beer."
+            this.instructionText.y = 350;
+            this.instructionText.text = "Repeat the sequence with the \n arrow keys to refill Guy Blue’s beer."
             this.instructionText.setVisible(true);
+
+            if (this.arrowUp !== undefined) {
+                this.arrowUp.setVisible(true);
+                this.arrowDown.setVisible(true);
+                this.arrowRight.setVisible(true);
+                this.arrowLeft.setVisible(true);
+            }
 
             this.arrows.forEach(el => {
                 this.tweens.add({
@@ -294,8 +370,6 @@ var hud_2 = new Phaser.Class({
                     loop: 0,
                 })
             })
-
-
         })
 
 
@@ -349,7 +423,7 @@ var hud_2 = new Phaser.Class({
 
 
         //clear previous events:
-        this.downKey.off('down' );
+        this.downKey.off('down');
         this.upKey.off('down');
         this.leftKey.off('down');
         this.rightKey.off('down');
@@ -393,8 +467,6 @@ var hud_2 = new Phaser.Class({
         });
 
 
-
-
         // time bar
         this.timebar = this.add.rectangle(300, 490, 300, 20).setFillStyle(0x0000ff).setOrigin(0, 0).setVisible(false);
         this.timebarMargin = this.add.rectangle(300, 490, 300, 20).setStrokeStyle(4, 0xffffff).setOrigin(0, 0).setVisible(false);
@@ -425,6 +497,12 @@ var hud_2 = new Phaser.Class({
             this.timebar.setVisible(false);
             this.timebarMargin.setVisible(false);
 
+            if (this.arrowUp !== undefined) {
+                this.arrowUp.setVisible(false);
+                this.arrowDown.setVisible(false);
+                this.arrowRight.setVisible(false);
+                this.arrowLeft.setVisible(false);
+            }
 
             this.level2.endingAnimation();
         })
@@ -434,7 +512,8 @@ var hud_2 = new Phaser.Class({
 
         //dialogs at the end
         this.time.delayedCall(135000, () => {
-            this.textInstruction.text = "";
+
+            this.dialogInstructionText.text = "";
             this.instructionText.text = "";
             this.delay = 30;
             this.level2.animateGuyBlue("GB_Talking");
@@ -495,7 +574,7 @@ var hud_2 = new Phaser.Class({
             this.level2.blueguy.anims.stop();
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_no_beer");
-            this.showDialogue("Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", false, "Red Guy")       
+            this.showDialogue("Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", false, "Red Guy")
         })
 
         this.time.delayedCall(152000, () => {
@@ -595,7 +674,7 @@ var hud_2 = new Phaser.Class({
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_with_beer");
             this.showDialogue("We all have similar tastes and interests if that’s what you mean. ", false, "Red Guy")
-            
+
         })
 
         this.time.delayedCall(183000, () => {
@@ -614,7 +693,7 @@ var hud_2 = new Phaser.Class({
             this.level2.blueguy.setTexture("GB neutral");
             this.level2.animateRedguy("RG_talking_with_beer");
             this.showDialogue("Haha we’ve been called worse.", false, "Red Guy")
-            
+
         })
 
 
@@ -638,7 +717,7 @@ var hud_2 = new Phaser.Class({
             this.scene.launch("level_2_3");
         })
 
-//------------------------------------------------------- i need to change here
+        //------------------------------------------------------- i need to change here
         this.time.delayedCall(198000, () => {
 
             this.textDialogue.y = 430;
@@ -652,7 +731,7 @@ var hud_2 = new Phaser.Class({
 
         this.timedEvent = this.time.delayedCall(198000, () => {
 
-            
+
 
 
             this.textDialogue.visible = false;
@@ -761,7 +840,8 @@ var hud_2 = new Phaser.Class({
                 score: this.score,
                 name: inputName,
                 colectionName: "scores_lvl_2",
-                topMessage: [" drank " , " beers: Matchless still closed. "]
+                topMessage: [" drank ", " beers: Matchless still closed. "],
+                level:2
             })
         })
 
@@ -781,7 +861,8 @@ var hud_2 = new Phaser.Class({
                 type: 2,
                 score: this.score,
                 name: undefined,
-                colectionName: "scores_lvl_2"
+                colectionName: "scores_lvl_2",
+                level:2
             })
         })
 
@@ -842,20 +923,20 @@ var hud_2 = new Phaser.Class({
     dumpJoyStickState: function () {
 
 
-        if (this.isPlaying) {
-            if (Math.abs(this.joyStick.forceX) > 40 || Math.abs(this.joyStick.forceY) > 40) {
-                if (!this.joyStickPressed) {
-                    if (this.joyStick.forceX > 40) this.directionPressed(right);
-                    else if (this.joyStick.forceX < -40) this.directionPressed(left);
-                    else if (this.joyStick.forceY < -40) this.directionPressed(up);
-                    else if (this.joyStick.forceY > 40) this.directionPressed(down);
-                }
-                this.joyStickPressed = true;
-            } else {
-                this.joyStickPressed = false
-            }
-        } else if (!controls.joystickLocked)
-            player.moveJoystic(this.joyStick.forceX, this.joyStick.forceY)
+        // if (this.isPlaying) {
+        //     if (Math.abs(this.joyStick.forceX) > 40 || Math.abs(this.joyStick.forceY) > 40) {
+        //         if (!this.joyStickPressed) {
+        //             if (this.joyStick.forceX > 40) this.directionPressed(right);
+        //             else if (this.joyStick.forceX < -40) this.directionPressed(left);
+        //             else if (this.joyStick.forceY < -40) this.directionPressed(up);
+        //             else if (this.joyStick.forceY > 40) this.directionPressed(down);
+        //         }
+        //         this.joyStickPressed = true;
+        //     } else {
+        //         this.joyStickPressed = false
+        //     }
+        // } else if (!controls.joystickLocked)
+        player.moveJoystic(this.joyStick.forceX, this.joyStick.forceY)
     },
 
     hideDialogue(unlockControls) { // hide the current dialogue or goes to the next one in a sequential dialog
@@ -865,7 +946,7 @@ var hud_2 = new Phaser.Class({
         this.showingDialogue = false;
         this.textTitle.visible = false;
         this.textDialogue.visible = false;
-        this.textInstruction.visible = false;
+        this.dialogInstructionText.visible = false;
         this.dialogueWindow.visible = false;
         if (unlockControls) controls.joystickLocked = false;
 
@@ -894,7 +975,7 @@ var hud_2 = new Phaser.Class({
         this.showingDialogue = true;
         this.textTitle.visible = true;
         this.textDialogue.visible = true;
-        this.textInstruction.visible = true;
+        this.dialogInstructionText.visible = true;
         this.dialogueWindow.visible = true;
         player.returnToIdle();
         player.direction = null;

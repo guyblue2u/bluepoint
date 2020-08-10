@@ -10,10 +10,41 @@ var intro_1 = new Phaser.Class({
         });
     },
 
-    preload: function () {},
+    preload: function () {
+        // loading text
+        this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
+            fontFamily: 'euroStyle',
+            fontSize: 50
+        }).setOrigin(0.5);
+        
+        load_files_intro(this);
+        load_files_level_1(this);
+
+        this.time.delayedCall(2000, () => {
+            this.loadingText.text = "Rendering Environment "
+        });
+        this.time.delayedCall(6000, () => {
+            this.loadingText.text = "Populating Lobby "
+        });
+
+        this.time.delayedCall(10000, () => {
+            this.loadingText.text = "Awaiting Clearance "
+        });
+
+        this.tweens.add({
+            targets: this.loadingText,
+            alpha: 0,
+            duration: 2000,
+            ease: 'Sine.easeInOut',
+            loop: -1,
+            yoyo: true,
+        });
+
+
+    },
 
     create: function () {
-
+        this.loadingText.setVisible(false);
 
         this.background_videoB = this.add.video(444, 260, 'background_intro_1b');
         this.background_videoB.stop();
@@ -110,13 +141,14 @@ var intro_1 = new Phaser.Class({
                     type: 3,
                     name: null,
                     score: 0,
-                    colectionName: "scores"
+                    colectionName: "scores",
+                    level:1
                 })
             }
         ], 250, 40, 750, 40)
 
 
-        createSocialMediaMenu(this); // create the social media menu for facebook, twiter and copy link
+        createSocialMediaMenu(this, "Shea%20Stadium%20still%20exists%20in%20%23Bluepoint-"); // create the social media menu for facebook, twiter and copy link
 
         //--------------------Mute button
         this.mutedIcon = this.add.image(10, 520, "mutedIcon").setScale(0.5).setOrigin(0, 1).setAlpha(0.6);
