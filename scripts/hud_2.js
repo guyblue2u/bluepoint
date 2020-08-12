@@ -789,39 +789,8 @@ var hud_2 = new Phaser.Class({
         //     this.scene.launch("level_2_3");
         // })
 
-        //------------------------------------------------------- i need to change here
-        this.time.delayedCall(203000, () => {
-
-            this.textDialogue.y = 430;
-            this.textDialogue.x = 240;
-            this.textDialogue.setShadow(3, 3, 'rgba(0,0,0,0.9)', 4);
-            this.rectangleDialog.setVisible(true);
-            this.textDialogue.setVisible(true);
-            this.typingEffect("Good, you’re still here. Remind me of your name again?", false);
-        })
 
 
-        this.timedEvent = this.time.delayedCall(208000, () => {
-
-            this.textDialogue.visible = false;
-            this.form.visible = true;
-            this.buttonSkipRect.visible = true;
-            this.buttonSubmitRect.visible = true;
-            this.buttonSubmit.visible = true;
-            this.buttonSkip.visible = true;
-            outroMusic.play();
-            outroMusic.setLoop(true);
-            this.tweens.add({
-                targets: outroMusic,
-                volume: {
-                    from: 0,
-                    to: 0.8
-                },
-                duration: 10000,
-                ease: 'Sine.easeInOut',
-                loop: 0,
-            });
-        })
 
         //for testing directly
         // this.arrows = this.showSetArrows(this.score);
@@ -1190,6 +1159,9 @@ var hud_2 = new Phaser.Class({
                 this.scene.stop("level_2");
                 this.scene.launch("level_2_3");
             })
+            this.showFormAtEnd()
+
+
             return;
         }
         this.numberDialog++;
@@ -1243,6 +1215,41 @@ var hud_2 = new Phaser.Class({
                 this.score++;
                 this.scoreText.text = ("x " + this.score);
             })
+        })
+    },
+
+    showFormAtEnd(){
+        this.time.delayedCall(5000, () => {
+
+            this.textDialogue.y = 430;
+            this.textDialogue.x = 240;
+            this.textDialogue.setShadow(3, 3, 'rgba(0,0,0,0.9)', 4);
+            this.rectangleDialog.setVisible(true);
+            this.textDialogue.setVisible(true);
+            this.typingEffect("Good, you’re still here. Remind me of your name again?", false);
+        })
+
+
+        this.timedEvent = this.time.delayedCall(9000, () => {
+
+            this.textDialogue.visible = false;
+            this.form.visible = true;
+            this.buttonSkipRect.visible = true;
+            this.buttonSubmitRect.visible = true;
+            this.buttonSubmit.visible = true;
+            this.buttonSkip.visible = true;
+            outroMusic.play();
+            outroMusic.setLoop(true);
+            this.tweens.add({
+                targets: outroMusic,
+                volume: {
+                    from: 0,
+                    to: 0.8
+                },
+                duration: 10000,
+                ease: 'Sine.easeInOut',
+                loop: 0,
+            });
         })
     }
 })

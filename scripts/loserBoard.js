@@ -242,7 +242,7 @@ var loserBoard = new Phaser.Class({
             });
             this.buttonPlayAgain.on('pointerdown', () => {
                 this.game.sound.stopAll();
-                this.scene.start(this.level);
+                this.scene.start("level_"+this.level);
             })
 
             // Next Level
