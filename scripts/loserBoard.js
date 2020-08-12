@@ -241,9 +241,8 @@ var loserBoard = new Phaser.Class({
                 this.buttonPlayAgain.setFillStyle(0x334fcb);
             });
             this.buttonPlayAgain.on('pointerdown', () => {
-                resetGame();
                 this.game.sound.stopAll();
-                this.scene.start("mainScene");
+                this.scene.start(this.level);
             })
 
             // Next Level
@@ -256,7 +255,7 @@ var loserBoard = new Phaser.Class({
 
             if (!mobileAndTabletCheck()) { // for desktop, let the hover effect
                 this.buttonNextLevel.on('pointerover', () => {
-                    this.buttonNextLevelText.text = "Coming 8/20 "
+                    this.buttonNextLevelText.text = "Coming Soon "
                     this.buttonNextLevel.setFillStyle(0xa9afc9);
                 });
                 this.buttonNextLevel.on('pointerout', () => {
@@ -266,7 +265,7 @@ var loserBoard = new Phaser.Class({
             }
             this.buttonNextLevel.on('pointerdown', () => {
                 if (mobileAndTabletCheck()) {
-                    this.buttonNextLevelText.text = "Coming 8/20 "
+                    this.buttonNextLevelText.text = "Coming Soon "
                     this.buttonNextLevel.setFillStyle(0xa9afc9);
                 }
                 // go to the next level

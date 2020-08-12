@@ -253,6 +253,7 @@ load_files_level_2= function (scene) {
     scene.load.image("level2_back1", "./assets/images/level_2/collisions layer.png");
     scene.load.image("level2_back2", "./assets/images/level_2/base walkable area.png");
     scene.load.image("level2_back3", "./assets/images/level_2/dust layer.png");
+    scene.load.image("level2_table", "./assets/images/level_2/table.png");
 
     scene.load.image("level2_outside", "./assets/images/level_2/Matchless outside.png");
 

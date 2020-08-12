@@ -168,7 +168,7 @@ var level_2 = new Phaser.Class({
             this.playingParticles = true;
             this.cameras.main.fadeIn(1000);
 
-
+            table=this.add.image(90,127.5,"level2_table").setDepth(150) // table at the corner that should appear over blueGuy
 
         });
 
@@ -201,6 +201,7 @@ var level_2 = new Phaser.Class({
             this.cameras.main.fadeOut(2000);
         })
 
+        //estaba en 34000 !!!!!!=================================================================
         this.time.delayedCall(34000, () => { // go to the next part of the level
             this.scene.launch("level_2_2");
             this.scene.stop();
@@ -876,7 +877,7 @@ var level_2_2 = new Phaser.Class({
             this.redguy.anims.setTimeScale(2);
         })
 
-        this.time.delayedCall(23000, () => {
+        this.time.delayedCall(22500, () => {
             this.redguy.anims.stop();
             this.redguy.anims.setTimeScale(1);
             this.redguy.setTexture("RG neutral_nb");
@@ -923,6 +924,19 @@ var level_2_3 = new Phaser.Class({
         this.player.avatar = this.add.sprite(this.player.x, this.player.y, "blueGuy", 0);
         this.player.avatar.depth = this.player.avatar.y;
         this.player.avatar.play("idleDown" + this.player.shirt);
+
+        this.tweens.add({ // fade in blueguy
+            targets: this.player.avatar,
+            alpha: {
+                from: 0,
+                to: 1
+            },
+            duration: 3000,
+            ease: 'Linear',
+            loop: 0,
+        });
+
+
 
         //---- collapsing
         this.anims.create({
