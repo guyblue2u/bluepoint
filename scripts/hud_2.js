@@ -23,6 +23,17 @@ var hud_2 = new Phaser.Class({
 
     create: function () {
 
+        this.level2 = this.scene.get('level_2_2')
+
+        //when the game loses its focus it should stop the clock
+        this.game.events.on('blur', () => {
+            this.scene.pause();
+            this.time.paused = true
+        });
+        this.game.events.on('focus', () => {
+            this.time.paused = false
+            this.scene.resume();
+        });
 
         this.music = this.sound.add('song2', {
             delay: 0
@@ -52,7 +63,7 @@ var hud_2 = new Phaser.Class({
 
         this.delay = 50; //time between letters for the typing effect
 
-        this.typingEffect = (text, unlockControls, closeAtEnd) => {
+        this.typingEffect = (text, unlockControls, closeAtEnd, timeToClose) => {
 
             if (unlockControls === undefined) unlockControls = true;
             if (closeAtEnd === undefined) closeAtEnd = true;
@@ -75,7 +86,7 @@ var hud_2 = new Phaser.Class({
 
             if (this.eventCloseDialog !== undefined) this.eventCloseDialog.remove(false); //stop all the timer events, if exist
             if (closeAtEnd) this.eventCloseDialog = this.time.addEvent({ // create the event that closes the dialog box after 2 seconds of finished
-                delay: text.length * 50 + 2000,
+                delay: text.length * 50 + timeToClose,
                 callback: () => {
                     this.hideDialogue(unlockControls);
                 },
@@ -88,7 +99,7 @@ var hud_2 = new Phaser.Class({
         this.dialogueWindow = this.add.image(400, 100, "messageBoard").setScale(3.5, 1.7).setDepth(50).setInteractive();
 
         this.dialogueWindow.on('pointerdown', () => {
-        
+
             if (!controls.buttonsLocked) {
                 if (this.textDialogue.text !== this.messageToShow) {
                     this.textDialogue.text = this.messageToShow;
@@ -96,11 +107,17 @@ var hud_2 = new Phaser.Class({
                 } else this.hideDialogue();
             }
 
-            if (this.numberDialog !== -1) { //dialogs at the end
+            if (this.numberDialog !== 0) { //dialogs at the end
                 if (this.textDialogue.text !== this.messageToShow) {
                     this.textDialogue.text = this.messageToShow;
                     if (this.eventTyping !== undefined) this.eventTyping.remove(false);
-                } else this.nextDialog();
+                } else {
+                    if (this.numberDialog === 8) {
+                        this.hideDialogue();
+                        return
+                    }
+                    this.nextDialog();
+                }
             }
 
         })
@@ -150,7 +167,7 @@ var hud_2 = new Phaser.Class({
         }).stop();
 
 
-        createSocialMediaMenu(this, "Bar%20Matched%20still%20exists%20in%20%23Bluepoint");
+        createSocialMediaMenu(this, "Bar%20Matchless%20still%20exists%20in%20%23Bluepoint%20");
 
         createMenu(this, ["Restart ", "Menu ", "Loser Board "], [
             () => {
@@ -160,7 +177,6 @@ var hud_2 = new Phaser.Class({
                 this.scene.stop("level_2_3");
                 this.scene.stop();
                 this.scene.start("level_2");
-                console.log("starts again")
             },
             () => {
                 this.game.sound.stopAll();
@@ -207,11 +223,18 @@ var hud_2 = new Phaser.Class({
                 } else this.hideDialogue();
             }
 
-            if (this.numberDialog !== -1) { //dialogs at the end
+            if (this.numberDialog !== 0) { //dialogs at the end
                 if (this.textDialogue.text !== this.messageToShow) {
+
                     this.textDialogue.text = this.messageToShow;
                     if (this.eventTyping !== undefined) this.eventTyping.remove(false);
-                } else this.nextDialog();
+                } else {
+                    if (this.numberDialog === 8) {
+                        this.hideDialogue();
+                        return
+                    }
+                    this.nextDialog();
+                }
             }
 
         });
@@ -247,11 +270,14 @@ var hud_2 = new Phaser.Class({
             this.instructionText.text = "use the virtual joystick to move \n Press the button to interact";
             this.dialogInstructionText.text = "tap to continue";
 
+            let centerX = 130;
+            let centerY = 350;
+            let offset = 80
 
-            this.arrowUp = this.add.image(100, 330, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 0).setInteractive().setVisible(false);
-            this.arrowDown = this.add.image(100, 450, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 1).setInteractive().setVisible(false);
-            this.arrowRight = this.add.image(160, 390, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 2).setInteractive().setVisible(false);
-            this.arrowLeft = this.add.image(40, 390, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 3).setInteractive().setVisible(false);
+            this.arrowUp = this.add.image(centerX, centerY - offset, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 0).setInteractive().setVisible(false).setScale(1.3);
+            this.arrowDown = this.add.image(centerX, centerY + offset, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 1).setInteractive().setVisible(false).setScale(1.3);
+            this.arrowRight = this.add.image(centerX + offset, centerY, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 2).setInteractive().setVisible(false).setScale(1.3);
+            this.arrowLeft = this.add.image(centerX - offset, centerY, "arrows_mobile").setDepth(50).setTexture("arrows_mobile", 3).setInteractive().setVisible(false).setScale(1.3);
 
 
             this.arrowUp.on('pointerup', () => {
@@ -319,7 +345,7 @@ var hud_2 = new Phaser.Class({
 
         // ------------------------- Time events
         this.time.delayedCall(50, () => {
-            this.showDialogue("I hope Matchless still has booze.", false);
+            this.showDialogue("I hope Matchless still has booze.", false, undefined, true, 4000);
             this.dialogInstructionText.setVisible(false);
 
         });
@@ -333,7 +359,7 @@ var hud_2 = new Phaser.Class({
             }
 
 
-            this.showDialogue("Let’s see if there’s beer left in any of these cans.");
+            this.showDialogue("Let’s see if there’s beer left in any of these cans.", undefined, undefined, true, 4000);
             this.dialogInstructionText.setVisible(false);
             this.beerPoints = [
                 [59, 145, "Careful, these cans are rusty."],
@@ -385,6 +411,20 @@ var hud_2 = new Phaser.Class({
                 this.arrowLeft.setVisible(true);
             }
 
+            this.tweens.add({
+                targets: this.instructionText,
+                alpha: {
+                    from: 0.2,
+                    to: 1
+                },
+                duration: 500,
+                ease: 'Sine.easeInOut',
+                loop: 6,
+                yoyo: true
+            })
+
+
+
             this.arrows.forEach(el => {
                 this.tweens.add({
                     targets: el,
@@ -399,8 +439,7 @@ var hud_2 = new Phaser.Class({
             })
         })
 
-
-        this.time.delayedCall(37000, () => { //start the game         
+        this.time.delayedCall(39000, () => { //start the game         
 
             this.instructionText.setVisible(false);
 
@@ -499,7 +538,7 @@ var hud_2 = new Phaser.Class({
         this.timebarMargin = this.add.rectangle(300, 490, 300, 20).setStrokeStyle(4, 0xffffff).setOrigin(0, 0).setVisible(false);
 
 
-        this.level2 = this.scene.get('level_2_2');
+
 
         //stop the game
         this.time.delayedCall(107000, () => {
@@ -535,271 +574,54 @@ var hud_2 = new Phaser.Class({
         })
 
         this.finalDialogs_A = [
-            ["Huh, I must still be dreaming. This guy can’t be real. ", "Guy Blue",4000],
-            ["Hey bud, looks like you took a little doze there. ", "Red Guy",4000],
-            ["What the hell is going on?", "Guy Blue",3000],
-            ["Well I think there’s a show over at Silent Barn a little later.", "Red Guy",4000],
-            ["No, I mean what the fuck happened? Look around, this place is a dump. ", "Guy Blue",4000],
-            ["Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", "Red Guy",5000],
-            ["You’re out of your mind. No, wait, I’m out of MY mind. This is all nuts. Ah, fuck it, want a beer? ", "Guy Blue",5000],
-            ["Please, thanks. ", "Red Guy",3000],
-            ["So you said there’s a show tonight? At Silent Barn? ", "Guy Blue",4000],
-            ["Yeah. I’m supposed to meet my friends there later. ", "Red Guy",4000],
-            ["And Silent Barn is in the same state as this place? ", "Guy Blue",4000],
-            ["Yeah more or less. Are you new to Bluepoint? ", "Red Guy",4000],
-            ["Feels like it. And your friends, I’m guessing they’re all like you? ", "Guy Blue",4000],
-            ["We all have similar tastes and interests if that’s what you mean. ", "Red Guy",4000],
-            ["Right…so you’re all nuts. ", "Guy Blue",3000],
-            ["Haha we’ve been called worse. ", "Red Guy",3000],
+            ["Huh, I must still be dreaming. This guy can’t be real. ", "Guy Blue", 4000],
+            ["Hey bud, looks like you took a little doze there. ", "Red Guy", 4000],
+            ["What the hell is going on?", "Guy Blue", 3000],
+            ["Well I think there’s a show over at Silent Barn a little later.", "Red Guy", 4000],
+            ["No, I mean what the fuck happened? Look around, this place is a dump. ", "Guy Blue", 4000],
+            ["Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", "Red Guy", 5000],
+            ["You’re out of your mind. No, wait, I’m out of MY mind. This is all nuts. Ah, fuck it, want a beer? ", "Guy Blue", 5000],
+            ["Please, thanks. ", "Red Guy", 3000],
+            ["   ", "   ", 3000],
+            ["So you said there’s a show tonight? At Silent Barn? ", "Guy Blue", 4000],
+            ["Yeah. I’m supposed to meet my friends there later. ", "Red Guy", 4000],
+            ["And Silent Barn is in the same state as this place? ", "Guy Blue", 4000],
+            ["Yeah more or less. Are you new to Bluepoint? ", "Red Guy", 4000],
+            ["Feels like it. And your friends, I’m guessing they’re all like you? ", "Guy Blue", 4000],
+            ["We all have similar tastes and interests if that’s what you mean. ", "Red Guy", 4000],
+            ["Right…so you’re all nuts. ", "Guy Blue", 3000],
+            ["Haha we’ve been called worse. ", "Red Guy", 3000],
         ]
 
         this.finalDialogs_B = [
-            ["Wuuh, I must still be dream—hicc*—ing. Thiiis guy can’t be real. ", "Guy Blue",4000],
-            ["Hey bud, looks like you took a little doze there. ", "Red Guy",4000],
-            ["What the hElll is g-g-going on? ", "Guy Blue",3000],
-            ["Well I think there’s a show over at Silent Barn a little later.", "Red Guy",4000],
-            ["N-N-No, I mean what the fuck—hicc*—happened? Look around, this place issSsssa dump-uh!! ", "Guy Blue",5000],
-            ["Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", "Red Guy",5000],
-            ["Youuuu’re outt of your d-d-amn mind. No—hicc*— I’m outTta my mind. Thirrs issaaall nuts. Aaahh, F-Fuck it. Want-ta a beer? ", "Guy Blue",5000],
-            ["Please, thanks. ", "Red Guy",3000],
-            ["Sssooo you saird there’s a show-w tonight? —Hicc*— At Silent Barn? ", "Guy Blue",4000],
-            ["Yeah. I’m supposed to meet my friends there later. ", "Red Guy",4000],
-            ["And Silent Barn is’n the same state—hicc*— as th-this place? ", "Guy Blue",4000],
-            ["Yeah more or less. Are you new to Bluepoint? ", "Red Guy",4000],
-            [" S-sure feels liiike it. An-n-nd your frainnds, I’m guessing they’re all—hicc*— like you? ", "Guy Blue",5000],
-            ["We all have similar tastes and interests if that’s what you mean. ", "Red Guy",4000],
-            ["Buuuurppp*—…y-yer all nutssss. ", "Guy Blue",3000],
-            ["Haha we’ve been called worse. ", "Red Guy",3000],
+            ["Wuuh, I must still be dream—hicc*—ing. Thiiis guy can’t be real. ", "Guy Blue", 4000],
+            ["Hey bud, looks like you took a little doze there. ", "Red Guy", 4000],
+            ["What the hElll is g-g-going on? ", "Guy Blue", 3000],
+            ["Well I think there’s a show over at Silent Barn a little later.", "Red Guy", 4000],
+            ["N-N-No, I mean what the fuck—hicc*—happened? Look around, this place issSsssa dump-uh!! ", "Guy Blue", 5000],
+            ["Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", "Red Guy", 5000],
+            ["Youuuu’re outt of your d-d-amn mind. No—hicc*— I’m outTta my mind. Thirrs issaaall nuts. Aaahh, F-Fuck it. Want-ta a beer? ", "Guy Blue", 5000],
+            ["   ", "   ", 3000],
+            ["Please, thanks. ", "Red Guy", 3000],
+            ["Sssooo you saird there’s a show-w tonight? —Hicc*— At Silent Barn? ", "Guy Blue", 4000],
+            ["Yeah. I’m supposed to meet my friends there later. ", "Red Guy", 4000],
+            ["And Silent Barn is’n the same state—hicc*— as th-this place? ", "Guy Blue", 4000],
+            ["Yeah more or less. Are you new to Bluepoint? ", "Red Guy", 4000],
+            [" S-sure feels liiike it. An-n-nd your frainnds, I’m guessing they’re all—hicc*— like you? ", "Guy Blue", 5000],
+            ["We all have similar tastes and interests if that’s what you mean. ", "Red Guy", 4000],
+            ["Buuuurppp*—…y-yer all nutssss. ", "Guy Blue", 3000],
+            ["Haha we’ve been called worse. ", "Red Guy", 3000],
         ]
-        this.numberDialog = -1;
+        this.numberDialog = 0;
 
 
-
-        this.time.delayedCall(135000, () => {
+        this.time.delayedCall(132000, () => {
             this.delay = 30;
             this.nextDialog();
         })
 
 
-
-        // //dialogs at the end
-        // this.time.delayedCall(135000, () => {
-
-        //     this.dialogInstructionText.text = "";
-        //     this.instructionText.text = "";
-        //     this.delay = 30;
-        //     this.level2.animateGuyBlue("GB_Talking");
-        //     if (this.score < 5) {
-        //         this.showDialogue("Huh, I must still be dreaming. This guy can’t be real. ", false, "Guy Blue")
-        //     } else {
-        //         this.showDialogue("Wuuh, I must still be dream—hicc*—ing. Thiiis guy can’t be real. ", false, "Guy Blue")
-        //     }
-        // })
-
-        // this.time.delayedCall(138000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.animateRedguy("RG_talking_no_beer");
-
-        //     if (this.score < 5) {
-        //         this.showDialogue("Hey bud, looks like you took a little doze there. ", false, "Red Guy")
-        //     } else {
-        //         this.showDialogue("Hey bud, looks like you took a little doze there.  ", false, "Red Guy")
-        //     }
-        // })
-
-
-        // this.time.delayedCall(138000, () => {
-        //     this.level2.animateGuyBlue("GB_Talking");
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.redguy.setTexture("RG neutral_nb");
-
-
-        //     if (this.score < 5) {
-        //         this.showDialogue("What the hell is going on?", false, "Guy Blue")
-        //     } else {
-        //         this.showDialogue("What the hElll is g-g-going on? ", false, "Guy Blue")
-        //     }
-        // })
-
-
-        // this.time.delayedCall(141000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.animateRedguy("RG_talking_no_beer");
-        //     this.showDialogue("Well I think there’s a show over at Silent Barn a little later.", false, "Red Guy")
-
-        // })
-
-        // this.time.delayedCall(145000, () => {
-        //     this.level2.animateGuyBlue("GB_Talking");
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.redguy.setTexture("RG neutral_nb");
-        //     if (this.score < 5) {
-        //         this.showDialogue("No, I mean what the fuck happened? Look around, this place is a dump. ", false, "Guy Blue")
-        //     } else {
-        //         this.showDialogue("N-N-No, I mean what the fuck—hicc*—happened? Look around, this place issSsssa dump-uh!! ", false, "Guy Blue")
-        //     }
-        // })
-
-        // this.time.delayedCall(149000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.animateRedguy("RG_talking_no_beer");
-        //     this.showDialogue("Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", false, "Red Guy")
-        // })
-
-        // this.time.delayedCall(152000, () => {
-        //     this.level2.animateGuyBlue("GB_Talking");
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.redguy.setTexture("RG neutral_nb");
-        //     if (this.score < 5) {
-        //         this.showDialogue("You’re out of your mind. No, wait, I’m out of MY mind. This is all nuts. Ah, fuck it, want a beer? ", false, "Guy Blue")
-        //     } else {
-        //         this.showDialogue("Youuuu’re outt of your d-d-amn mind. No—hicc*— I’m outTta my mind. Thirrs issaaall nuts. Aaahh, F-Fuck it. Want-ta a beer? ", false, "Guy Blue")
-        //     }
-        // })
-
-        // this.time.delayedCall(156000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.animateRedguy("RG_talking_no_beer");
-        //     this.showDialogue("Please, thanks. ", false, "Red Guy")
-        // })
-
-
-
-        // this.time.delayedCall(159000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.redguy.setTexture("RG neutral_nb");
-
-        //     this.level2.fillBeer();
-        //     this.time.delayedCall(800, () => {
-        //         this.level2.animateGuyBlue("GB_drinks_beer");
-
-        //         this.level2.fillBeer();
-        //         this.time.delayedCall(800, () => {
-        //             this.level2.redguy.setTexture("RG talking with beer_1");
-        //             this.score++;
-        //             this.scoreText.text = ("x " + this.score);
-        //         })
-
-        //     })
-
-        // })
-
-
-
-        // this.time.delayedCall(162000, () => {
-        //     this.level2.animateGuyBlue("GB_Talking");
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.redguy.setTexture("RG neutral_wb");
-        //     if (this.score < 5) {
-        //         this.showDialogue("So you said there’s a show tonight? At Silent Barn?", false, "Guy Blue")
-        //     } else {
-        //         this.showDialogue("GB: Sssooo you saird there’s a show-w tonight? —Hicc*— At Silent Barn? ", false, "Guy Blue")
-        //     }
-        // })
-
-        // this.time.delayedCall(166000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.animateRedguy("RG_talking_with_beer");
-        //     this.showDialogue("Yeah. I’m supposed to meet my friends there later. ", false, "Red Guy")
-        // })
-
-
-        // this.time.delayedCall(169000, () => {
-        //     this.level2.animateGuyBlue("GB_Talking");
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.redguy.setTexture("RG neutral_wb");
-        //     if (this.score < 5) {
-        //         this.showDialogue("And Silent Barn is in the same state as this place? ", false, "Guy Blue")
-        //     } else {
-        //         this.showDialogue("And Silent Barn is’n the same state—hicc*— as th-this place? ", false, "Guy Blue")
-        //     }
-        // })
-
-
-        // this.time.delayedCall(173000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.animateRedguy("RG_talking_with_beer");
-        //     this.showDialogue("Yeah more or less. Are you new to Bluepoint? ", false, "Red Guy")
-        // })
-
-        // this.time.delayedCall(176000, () => {
-        //     this.level2.animateGuyBlue("GB_Talking");
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.redguy.setTexture("RG neutral_wb");
-        //     if (this.score < 5) {
-        //         this.showDialogue("Feels like it. And your friends, I’m guessing they’re all like you? ", false, "Guy Blue")
-        //     } else {
-        //         this.showDialogue("S-sure feels liiike it. An-n-nd your frainnds, I’m guessing they’re all—hicc*— like you? ", false, "Guy Blue")
-        //     }
-        // })
-
-        // this.time.delayedCall(180000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.animateRedguy("RG_talking_with_beer");
-        //     this.showDialogue("We all have similar tastes and interests if that’s what you mean. ", false, "Red Guy")
-
-        // })
-
-        // this.time.delayedCall(183000, () => {
-        //     this.level2.animateGuyBlue("GB_Talking");
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.redguy.setTexture("RG neutral_wb");
-        //     if (this.score < 5) {
-        //         this.showDialogue("Right…so you’re all nuts.", false, "Guy Blue")
-        //     } else {
-        //         this.showDialogue("Buuuurppp*—…y-yer all nutssss.", false, "Guy Blue")
-        //     }
-        // })
-
-        // this.time.delayedCall(186000, () => {
-        //     this.level2.blueguy.anims.stop();
-        //     this.level2.blueguy.setTexture("GB neutral");
-        //     this.level2.animateRedguy("RG_talking_with_beer");
-        //     this.showDialogue("Haha we’ve been called worse.", false, "Red Guy")
-
-        // })
-
-
-        // this.time.delayedCall(189000, () => {
-        //     this.level2.redguy.anims.stop();
-        //     this.level2.animateGuyBlue("GB_Falling")
-        //     this.level2.redguy.setTexture("RG neutral_wb");
-
-
-        //     this.time.delayedCall(1000, () => {
-        //         this.level2.animateRedguy("RG_checks_on_GB_after_he_falls");
-        //     })
-
-        // })
-
-        // this.time.delayedCall(192000, () => {
-        //     this.level2.cameras.main.fadeOut(1000);
-        // })
-        // this.time.delayedCall(193000, () => {
-        //     this.scene.stop("level_2");
-        //     this.scene.launch("level_2_3");
-        // })
-
-
-
-
-        //for testing directly
-        // this.arrows = this.showSetArrows(this.score);
-        // this.timebar.setVisible(true);
-        // this.timebarMargin.setVisible(true);
-        // this.isPlaying = true;
-
         //------------------form
-
         graphics = this.add.graphics();
         graphics.fillStyle(0x1f317d, 0.6);
         this.rectangleDialog = graphics.fillRect(200, 400, 500, 110).setVisible(false);
@@ -916,18 +738,18 @@ var hud_2 = new Phaser.Class({
         if (this.isPlaying) {
             if (this.timeForAnswer > 0) {
                 this.timeForAnswer -= delta;
-                this.timebar.width = (this.timeForAnswer / this.initialTime) * 300;
-            } else {
+                this.timebar.width = Math.sqrt(this.timeForAnswer / this.initialTime) * 300;
+            } else { // time is over
                 this.arrows.forEach(element => {
                     element.setTint(0xff0000);
                 });
 
                 this.isPlaying = false;
-                this.delayedCallGame5 = this.time.delayedCall(500, () => {
+                this.level2.animateGuyBlue("GB_spills_beer");
+                this.delayedCallGame5 = this.time.delayedCall(1500, () => {
                     this.arrows.forEach(element => {
                         element.destroy();
                     });
-
                     this.arrows = this.showSetArrows(this.score);
                     this.currentArrow = 0;
                     this.timebar.width = 300;
@@ -1001,14 +823,15 @@ var hud_2 = new Phaser.Class({
         }, [999])
     },
 
-    showDialogue(message, unlockControls, title, closeAtEnd) { // shows the dialogue window with a specific message
+    showDialogue(message, unlockControls, title, closeAtEnd, timeToClose) { // shows the dialogue window with a specific message
 
         if (unlockControls === undefined) unlockControls = true;
         if (title === undefined) title = "Guy Blue"
         if (closeAtEnd === undefined) closeAtEnd = true;
+        if (timeToClose === undefined) timeToClose = 2000;
 
         if (message != null) {
-            this.typingEffect(message, unlockControls, closeAtEnd);
+            this.typingEffect(message, unlockControls, closeAtEnd, timeToClose);
             this.textTitle.text = title
         }
         this.showingDialogue = true;
@@ -1084,7 +907,7 @@ var hud_2 = new Phaser.Class({
         } else { //wrong key 
             this.arrows[this.currentArrow].setTint(0xff0000);
             this.isPlaying = false;
-            this.delayedCallGame1 = this.time.delayedCall(1800, () => {
+            this.delayedCallGame1 = this.time.delayedCall(2800, () => {
                 this.arrows.forEach(element => {
                     element.destroy();
                 });
@@ -1107,7 +930,7 @@ var hud_2 = new Phaser.Class({
             this.delayedCallGame3 = this.time.delayedCall(800, () => {
                 this.level2.animateGuyBlue("GB_drinks_beer");
             })
-            this.delayedCallGame4 = this.time.delayedCall(1800, () => {
+            this.delayedCallGame4 = this.time.delayedCall(2800, () => {
                 this.arrows.forEach(element => {
                     element.destroy();
                 });
@@ -1125,7 +948,7 @@ var hud_2 = new Phaser.Class({
     guyBlueTalks() {
         this.level2.animateGuyBlue("GB_Talking");
         this.level2.redguy.anims.stop();
-        if(this.numberDialog<8)  this.level2.redguy.setTexture("RG neutral_nb");
+        if (this.numberDialog < 8) this.level2.redguy.setTexture("RG neutral_nb");
         else this.level2.redguy.setTexture("RG neutral_wb");
     },
     redguyTalks_no_beer() {
@@ -1142,7 +965,7 @@ var hud_2 = new Phaser.Class({
     nextDialog() {
         if (this.nextCall !== undefined) this.nextCall.remove(false);
 
-        if (this.numberDialog >= this.finalDialogs_A.length - 1) { //finish the dialogs
+        if (this.numberDialog >= this.finalDialogs_A.length) { //finish the dialogs
             this.hideDialogue();
             this.level2.redguy.anims.stop();
             this.level2.animateGuyBlue("GB_Falling")
@@ -1156,20 +979,21 @@ var hud_2 = new Phaser.Class({
                 this.level2.cameras.main.fadeOut(1000);
             })
             this.time.delayedCall(3000, () => {
-                this.scene.stop("level_2");
-                this.scene.launch("level_2_3");
+                //this.scene.stop("level_2_2");
+                this.level2.scene.start("level_2_3");
             })
             this.showFormAtEnd()
 
 
             return;
         }
-        this.numberDialog++;
 
-        if (this.numberDialog == 8) {
+
+        if (this.numberDialog == 8) { //pass the beer
             this.passBeer();
             this.hideDialogue();
-            this.nextCall = this.time.delayedCall(2000, () => {
+            this.nextCall = this.time.delayedCall(4000, () => {
+                this.numberDialog++;
                 this.nextDialog();
             })
             return;
@@ -1190,13 +1014,16 @@ var hud_2 = new Phaser.Class({
             })
         }
 
-        if (this.finalDialogs_A[this.numberDialog][1] === "Guy Blue") this.guyBlueTalks();
-        else {
+        if (this.finalDialogs_A[this.numberDialog][1] === "Guy Blue") {
+            this.guyBlueTalks();
+            this.textTitle.setFill('#0000ff');
+        } else {
+            this.textTitle.setFill('#ff0000');
             if (this.numberDialog > 8) this.redguyTalks_beer();
             else this.redguyTalks_no_beer();
         }
+        this.numberDialog++;
 
- 
     },
 
     passBeer() {
@@ -1206,11 +1033,11 @@ var hud_2 = new Phaser.Class({
         this.level2.redguy.setTexture("RG neutral_nb");
 
         this.level2.fillBeer();
-        this.time.delayedCall(800, () => {
+        this.time.delayedCall(1200, () => {
             this.level2.animateGuyBlue("GB_drinks_beer");
 
             this.level2.fillBeer();
-            this.time.delayedCall(800, () => {
+            this.time.delayedCall(1200, () => {
                 this.level2.redguy.setTexture("RG talking with beer_1");
                 this.score++;
                 this.scoreText.text = ("x " + this.score);
@@ -1218,7 +1045,7 @@ var hud_2 = new Phaser.Class({
         })
     },
 
-    showFormAtEnd(){
+    showFormAtEnd() {
         this.time.delayedCall(5000, () => {
 
             this.textDialogue.y = 430;
@@ -1226,11 +1053,11 @@ var hud_2 = new Phaser.Class({
             this.textDialogue.setShadow(3, 3, 'rgba(0,0,0,0.9)', 4);
             this.rectangleDialog.setVisible(true);
             this.textDialogue.setVisible(true);
-            this.typingEffect("Good, you’re still here. Remind me of your name again?", false);
+            this.typingEffect("Good, you’re still here. Remind me of your name again?", false, true, 2000);
         })
 
 
-        this.timedEvent = this.time.delayedCall(9000, () => {
+        this.time.delayedCall(9000, () => {
 
             this.textDialogue.visible = false;
             this.form.visible = true;

@@ -141,9 +141,17 @@ var loading = new Phaser.Class({
             } else if (urlParams.get('lvl') == "1a") {
                 this.scene.start("level_1");
             }
+            else if(urlParams.get('lvl')==='lb'){
+                this.scene.start("loserBoard", {
+                    type: 2,
+                    score: 5,
+                    name: undefined,
+                    colectionName: "scores_lvl_2",
+                    level: 2
+                })
+            }
 
             if (urlParams.get('debug') === 'true') {
-                console.log("va aca")
                 document.getElementById('prompt').innerHTML = "load correctly without timer";
             }
         });
@@ -162,7 +170,7 @@ var loading = new Phaser.Class({
 
 
     update: function () {
-        document.getElementById('prompt').innerHTML = "update";
+       // document.getElementById('prompt').innerHTML = "update";
 
     }  
 

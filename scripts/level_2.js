@@ -16,6 +16,17 @@ var level_2 = new Phaser.Class({
     },
 
     create: function () {
+
+        //when the game loses its focus it should stop the clock
+        this.game.events.on('blur', () => {
+            this.scene.pause();
+            this.time.paused = true
+        });
+        this.game.events.on('focus', () => {
+            this.time.paused = false
+            this.scene.resume();
+        });
+
         this.background2 = this.add.image(0, 0, "level2_back2").setOrigin(0, 0);
         this.background3 = this.add.image(0, 0, "level2_back3").setOrigin(0, 0);
         this.background1 = this.add.image(0, 0, "level2_back1").setOrigin(0, 0);
@@ -168,7 +179,7 @@ var level_2 = new Phaser.Class({
             this.playingParticles = true;
             this.cameras.main.fadeIn(1000);
 
-            table=this.add.image(90,127.5,"level2_table").setDepth(150) // table at the corner that should appear over blueGuy
+            table = this.add.image(90, 127.5, "level2_table").setDepth(150) // table at the corner that should appear over blueGuy
 
         });
 
@@ -201,10 +212,9 @@ var level_2 = new Phaser.Class({
             this.cameras.main.fadeOut(2000);
         })
 
-        //estaba en 34000 !!!!!!=================================================================
         this.time.delayedCall(34000, () => { // go to the next part of the level
-            this.scene.launch("level_2_2");
-            this.scene.stop();
+            this.scene.start("level_2_2");
+            //this.scene.stop();
         })
 
 
@@ -218,10 +228,6 @@ var level_2 = new Phaser.Class({
 
     update: function () {
 
-        if (this.TKey.isDown) {
-            this.scene.launch("level_2_2");
-            this.scene.stop();
-        }
 
         if (!controls.joystickLocked) {
             if (this.downKey.isDown || this.SKey.isDown) {
@@ -314,6 +320,17 @@ var level_2_2 = new Phaser.Class({
     },
 
     create: function () {
+
+        //when the game loses its focus it should stop the clock
+        this.game.events.on('blur', () => {
+            this.scene.pause();
+            this.time.paused = true
+        });
+        this.game.events.on('focus', () => {
+            this.time.paused = false
+            this.scene.resume();
+        });
+
         this.cameras.main.zoom = 2;
         this.cameras.main.setBounds(0, 0, 440, 250);
 
@@ -378,7 +395,7 @@ var level_2_2 = new Phaser.Class({
                     key: 'GB neutral'
                 }
             ],
-            frameRate: 10,
+            frameRate: 8,
             repeat: 0
         });
         this.anims.create({
@@ -508,7 +525,7 @@ var level_2_2 = new Phaser.Class({
                     key: 'GB neutral'
                 }
             ],
-            frameRate: 10,
+            frameRate: 8,
             repeat: 0
         });
 
@@ -730,15 +747,8 @@ var level_2_2 = new Phaser.Class({
         })
 
 
-
-        this.blueguy = this.add.sprite(0, 0, "GB drinks beer_1").setDepth(100).setScale(0.5).setOrigin(0);
+        this.blueguy = this.add.sprite(0, 0, "GB Talking_1").setDepth(100).setScale(0.5).setOrigin(0);
         this.redguy = this.add.sprite(0, 0, "RG talking no beer_1").setDepth(100).setScale(0.5).setOrigin(0).setVisible(false);
-
-
-
-
-
-        //------------------------------------------------------------------------------------------
 
 
         this.add.image(0, 0, "level2_back4").setOrigin(0, 0);
@@ -764,25 +774,6 @@ var level_2_2 = new Phaser.Class({
                 yoyo: true
             })
         })
-
-        //this.scene.launch("hud_2");
-
-
-
-        //add the player
-        // this.poly = new Phaser.Geom.Polygon([
-        //     new Phaser.Geom.Point(0, 0),
-        //     new Phaser.Geom.Point(444, 0),
-        //     new Phaser.Geom.Point(444, 252),
-        //     new Phaser.Geom.Point(0, 252)]);
-
-
-        //     this.colls = [
-        //         [122, 215, 10]]
-        //         loadAnimationsPlayer(this);
-        // player = new Player_Lvl_2(30, 180, this.poly, this.colls);
-        // player.avatar = this.add.sprite(player.x, player.y, "blueGuy", 0);
-
     },
 
     update: function () {
@@ -806,7 +797,6 @@ var level_2_2 = new Phaser.Class({
     animateRedguy: function (animation) {
         this.redguy.anims.play(animation);
     },
-
 
     showRedguy: function () {
         this.redguy.setVisible(true);
@@ -858,7 +848,6 @@ var level_2_2 = new Phaser.Class({
             })
         })
 
-
         this.time.delayedCall(14000, () => {
             this.rgFlickeringTween.stop();
             this.redguy.alpha = 1;
@@ -888,11 +877,7 @@ var level_2_2 = new Phaser.Class({
             this.blueguy.anims.stop();
             this.blueguy.setTexture("GB neutral");
         })
-
-
     }
-
-
 })
 
 
@@ -912,9 +897,21 @@ var level_2_3 = new Phaser.Class({
     },
 
     create: function () {
+
+        //when the game loses its focus it should stop the clock
+        this.game.events.on('blur', () => {
+            this.scene.pause();
+            this.time.paused = true
+        });
+        this.game.events.on('focus', () => {
+            this.time.paused = false
+            this.scene.resume();
+        });
+
+
         this.cameras.main.zoom = 2;
         this.cameras.main.setBounds(0, 20, 440, 250);
-
+        this.cameras.main.setBackgroundColor(0x000000);
 
         loadAnimationsPlayer(this);
 
@@ -935,7 +932,6 @@ var level_2_3 = new Phaser.Class({
             ease: 'Linear',
             loop: 0,
         });
-
 
 
         //---- collapsing
@@ -981,7 +977,6 @@ var level_2_3 = new Phaser.Class({
 
         timedEvent = this.time.delayedCall(2500 + initialTime, () => {
             this.player.avatar.play("collapse" + this.player.shirt);
-
         })
 
 
@@ -1006,8 +1001,6 @@ var level_2_3 = new Phaser.Class({
 
         timedEvent = this.time.delayedCall(7000 + initialTime, () => {
             this.player.avatar.play("standUp" + this.player.shirt);
-
-
         });
 
         timedEvent = this.time.delayedCall(8000, () => {
@@ -1035,11 +1028,7 @@ var level_2_3 = new Phaser.Class({
                 rect.speed = Math.random() * 4 + 1;
                 this.particles.push(rect);
             })
-
-            console.log(this.particles.length);
         });
-
-
 
         this.cameras.main.fadeIn(1000);
 
