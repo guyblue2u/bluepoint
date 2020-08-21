@@ -601,8 +601,8 @@ var hud_2 = new Phaser.Class({
             ["N-N-No, I mean what the fuck—hicc*—happened? Look around, this place issSsssa dump-uh!! ", "Guy Blue", 5000],
             ["Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", "Red Guy", 5000],
             ["Youuuu’re outt of your d-d-amn mind. No—hicc*— I’m outTta my mind. Thirrs issaaall nuts. Aaahh, F-Fuck it. Want-ta a beer? ", "Guy Blue", 5000],
-            ["   ", "   ", 3000],
             ["Please, thanks. ", "Red Guy", 3000],
+            ["   ", "   ", 3000],
             ["Sssooo you saird there’s a show-w tonight? —Hicc*— At Silent Barn? ", "Guy Blue", 4000],
             ["Yeah. I’m supposed to meet my friends there later. ", "Red Guy", 4000],
             ["And Silent Barn is’n the same state—hicc*— as th-this place? ", "Guy Blue", 4000],
@@ -738,7 +738,7 @@ var hud_2 = new Phaser.Class({
         if (this.isPlaying) {
             if (this.timeForAnswer > 0) {
                 this.timeForAnswer -= delta;
-                this.timebar.width = Math.sqrt(this.timeForAnswer / this.initialTime) * 300;
+                this.timebar.width = Math.ceil(Math.sqrt(this.timeForAnswer / this.initialTime) * 300);
             } else { // time is over
                 this.arrows.forEach(element => {
                     element.setTint(0xff0000);
