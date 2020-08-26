@@ -240,15 +240,18 @@ let files_level_2_loaded=false;
 load_files_level_2= function (scene) {
     if(files_level_2_loaded) return;
 
-    scene.load.spritesheet("blueGuy", "./assets/images/level_1/guy blue sprites.png", {
-        frameWidth: 36,
-        frameHeight: 36
-    }); // blue character
+    scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
+    scene.load.audio("song2", "./assets/audio/New Pallet Theme.mp3");
 
-    scene.load.spritesheet("collapsingBlue", "./assets/images/level_1/collapsing_blue.png", {
-        frameWidth: 36,
-        frameHeight: 36
-    });
+    // scene.load.spritesheet("blueGuy", "./assets/images/level_1/guy blue sprites.png", {
+    //     frameWidth: 36,
+    //     frameHeight: 36
+    // }); // blue character
+
+    // scene.load.spritesheet("collapsingBlue", "./assets/images/level_1/collapsing_blue.png", {
+    //     frameWidth: 36,
+    //     frameHeight: 36
+    // });
 
     // scene.load.image("messageBoard", "./assets/images/level_1/dialogue window rectangle.png"); // dialogue window       
     // scene.load.image("startButton", "./assets/images/level_1/start_button.png"); // start button       
@@ -400,8 +403,7 @@ load_files_level_2= function (scene) {
     // scene.load.image("level2_left", "./assets/images/level_2/left.png");
     // scene.load.image("level2_right", "./assets/images/level_2/right.png");
 
-    scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
-    scene.load.audio("song2", "./assets/audio/New Pallet Theme.mp3");
+
     files_level_2_loaded=true;
 }
 
