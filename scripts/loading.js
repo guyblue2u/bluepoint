@@ -240,18 +240,21 @@ let files_level_2_loaded=false;
 load_files_level_2= function (scene) {
     if(files_level_2_loaded) return;
 
-    scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
-    scene.load.audio("song2", "./assets/audio/New Pallet Theme.mp3");
 
-    // scene.load.spritesheet("blueGuy", "./assets/images/level_1/guy blue sprites.png", {
-    //     frameWidth: 36,
-    //     frameHeight: 36
-    // }); // blue character
+    let filesRoute="https://raw.githubusercontent.com/davidmoncas/music_game/master/"
 
-    // scene.load.spritesheet("collapsingBlue", "./assets/images/level_1/collapsing_blue.png", {
-    //     frameWidth: 36,
-    //     frameHeight: 36
-    // });
+    scene.load.audio("outro", filesRoute+"assets/audio/Bluepoint Outro Music.mp3");
+    scene.load.audio("song2", filesRoute+"assets/audio/New Pallet Theme.mp3");
+
+    scene.load.spritesheet("blueGuy", "https://raw.githubusercontent.com/davidmoncas/music_game/master/assets/images/level_1/guy blue sprites.png", {
+        frameWidth: 36,
+        frameHeight: 36
+    }); // blue character
+
+    scene.load.spritesheet("collapsingBlue", "https://raw.githubusercontent.com/davidmoncas/music_game/master/assets/images/level_1/collapsing_blue.png", {
+        frameWidth: 36,
+        frameHeight: 36
+    });
 
     // scene.load.image("messageBoard", "./assets/images/level_1/dialogue window rectangle.png"); // dialogue window       
     // scene.load.image("startButton", "./assets/images/level_1/start_button.png"); // start button       
