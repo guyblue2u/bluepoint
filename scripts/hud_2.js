@@ -35,14 +35,14 @@ var hud_2 = new Phaser.Class({
             this.scene.resume();
         });
 
-        this.music = this.sound.add('song2', {
-            delay: 0
-        }).play();
+        // this.music = this.sound.add('song2', {
+        //     delay: 0
+        // }).play();
 
 
-        outroMusic = this.sound.add('outro', {
-            delay: 0
-        }).setVolume(0);
+        // outroMusic = this.sound.add('outro', {
+        //     delay: 0
+        // }).setVolume(0);
 
         this.playTime = 0;
         this.textToShow = "";
@@ -1065,18 +1065,18 @@ var hud_2 = new Phaser.Class({
             this.buttonSubmitRect.visible = true;
             this.buttonSubmit.visible = true;
             this.buttonSkip.visible = true;
-            outroMusic.play();
-            outroMusic.setLoop(true);
-            this.tweens.add({
-                targets: outroMusic,
-                volume: {
-                    from: 0,
-                    to: 0.8
-                },
-                duration: 10000,
-                ease: 'Sine.easeInOut',
-                loop: 0,
-            });
+            // outroMusic.play();
+            // outroMusic.setLoop(true);
+            // this.tweens.add({
+            //     targets: outroMusic,
+            //     volume: {
+            //         from: 0,
+            //         to: 0.8
+            //     },
+            //     duration: 10000,
+            //     ease: 'Sine.easeInOut',
+            //     loop: 0,
+            // });
         })
     }
 })

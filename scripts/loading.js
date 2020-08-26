@@ -400,8 +400,8 @@ load_files_level_2= function (scene) {
     scene.load.image("level2_left", "./assets/images/level_2/left.png");
     scene.load.image("level2_right", "./assets/images/level_2/right.png");
 
-    scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
-    scene.load.audio("song2", "./assets/audio/New Pallet Theme.mp3");
+    //scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
+    //scene.load.audio("song2", "./assets/audio/New Pallet Theme.mp3");
     files_level_2_loaded=true;
 }
 
