@@ -12,11 +12,6 @@ var intro_1 = new Phaser.Class({
 
     preload: function () {
 
-        // this.load.video('background_intro_1', './assets/videos/start screen background.mp4');
-        // this.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
-        // this.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
-
-
         // loading text
         this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
             fontFamily: 'euroStyle',
