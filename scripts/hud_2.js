@@ -594,22 +594,22 @@ var hud_2 = new Phaser.Class({
         ]
 
         this.finalDialogs_B = [
-            ["Wuuh, I must still be dream—hicc*—ing. Thiiis guy can’t be real. ", "Guy Blue", 4000],
+            [" Wuuh, I must still be dream—hicc*—ing. Thiiis guy can’t be real. ", "Guy Blue", 4000],
             ["Hey bud, looks like you took a little doze there. ", "Red Guy", 4000],
-            ["What the hElll is g-g-going on? ", "Guy Blue", 3000],
+            ["What the hEll is g-g-going on? ", "Guy Blue", 3000],
             ["Well I think there’s a show over at Silent Barn a little later.", "Red Guy", 4000],
-            ["N-N-No, I mean what the fuck—hicc*—happened? Look around, this place issSsssa dump-uh!! ", "Guy Blue", 5000],
+            ["N-No, I mean what the fuck—hicc*—happened? Look around, this place is a dump.  ", "Guy Blue", 5000],
             ["Yeah it’s a bit dive-y. I like that though. That’s getting harder to find in this neighborhood. ", "Red Guy", 5000],
-            ["Youuuu’re outt of your d-d-amn mind. No—hicc*— I’m outTta my mind. Thirrs issaaall nuts. Aaahh, F-Fuck it. Want-ta a beer? ", "Guy Blue", 5000],
+            ["Youu’re out of your d-d-amn mind. No—hicc*— I must be out of my mind. This—hicc*—is all  nuts. Fuck it. Want a beer? ", "Guy Blue", 5000],
             ["Please, thanks. ", "Red Guy", 3000],
             ["   ", "   ", 3000],
-            ["Sssooo you saird there’s a show-w tonight? —Hicc*— At Silent Barn? ", "Guy Blue", 4000],
+            ["Sooo you said there’s a show—hicc*— tonight? At—hicc*— Silent Barn? ", "Guy Blue", 4000],
             ["Yeah. I’m supposed to meet my friends there later. ", "Red Guy", 4000],
-            ["And Silent Barn is’n the same state—hicc*— as th-this place? ", "Guy Blue", 4000],
+            ["And Silent Barn is in the same state—hicc*— as th-this place? ", "Guy Blue", 4000],
             ["Yeah more or less. Are you new to Bluepoint? ", "Red Guy", 4000],
-            [" S-sure feels liiike it. An-n-nd your frainnds, I’m guessing they’re all—hicc*— like you? ", "Guy Blue", 5000],
+            ["S-sure feels like it. And your friends, I’m guessing they’re all—hicc*— like you? ", "Guy Blue", 5000],
             ["We all have similar tastes and interests if that’s what you mean. ", "Red Guy", 4000],
-            ["Buuuurppp*—…y-yer all nutssss. ", "Guy Blue", 3000],
+            ["Hicc*—…y-yer all nuts. ", "Guy Blue", 3000],
             ["Haha we’ve been called worse. ", "Red Guy", 3000],
         ]
         this.numberDialog = 0;
