@@ -181,21 +181,11 @@ let files_level_1_loaded = false;
 load_files_level_1 = function (scene) {
     if (files_level_1_loaded) return;
 
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    if (urlParams.get('debug') === 'true') {
-        scene.load.on('fileprogress', (file,percent) => {
-            document.getElementById('prompt').innerHTML = (file.src + " : " + percent*100 + "%");
-        });
-    }
-
-
     scene.load.image("black", "./assets/images/level_1/black.png");
     scene.load.image("background_1", "./assets/images/level_1/base1.png");
     scene.load.image("background_2", "./assets/images/level_1/base2.png");
     scene.load.image("bloom", "./assets/images/level_1/lights_bloom.png");
     scene.load.image("whiteSquare", "./assets/images/level_1/white_square.png");
-
 
 
     scene.load.spritesheet("discoBall", "./assets/images/level_1/disco ball.png", {
@@ -429,9 +419,9 @@ load_files_intro = function (scene) {
     scene.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
     scene.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
     
-    scene.load.video('background_intro_1', './assets/videos/start screen background.mp4');
-    scene.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
-    scene.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
+    // scene.load.video('background_intro_1', './assets/videos/start screen background.mp4');
+    // scene.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
+    // scene.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
 
     files_intro_loaded = true;
 }
