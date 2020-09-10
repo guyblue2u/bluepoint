@@ -11,12 +11,18 @@ var intro_1 = new Phaser.Class({
     },
 
     preload: function () {
+
+        this.load.video('background_intro_1', './assets/videos/start screen background.mp4');
+        this.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
+        this.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
+
+
         // loading text
         this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
             fontFamily: 'euroStyle',
             fontSize: 50
         }).setOrigin(0.5);
-        
+
         load_files_intro(this);
         load_files_level_1(this);
 
@@ -142,7 +148,7 @@ var intro_1 = new Phaser.Class({
                     name: null,
                     score: 0,
                     colectionName: "scores",
-                    level:1
+                    level: 1
                 })
             }
         ], 250, 40, 750, 40)
