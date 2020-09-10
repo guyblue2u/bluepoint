@@ -48,21 +48,21 @@ function writeData(_name, _score,_email,colectionName){
 	
 }
 
-let items=[];
-function getData(colectionName){
+// let items=[];
+// function getData(colectionName){
 	
-	db.collection(colectionName).orderBy("score","desc").get().then(function(querySnapshot) {
-		console.log(querySnapshot);
-		querySnapshot.forEach(function(doc) {
+// 	db.collection(colectionName).orderBy("score","desc").get().then(function(querySnapshot) {
+// 		//console.log(querySnapshot);
+// 		querySnapshot.forEach(function(doc) {
 			
 			
-			items.push({name: doc.data().name  , score: doc.data().score} )
+// 			items.push({name: doc.data().name  , score: doc.data().score} )
 			
 			
-		});
-	});
+// 		});
+// 	});
 	
-}	
+// }	
 
 
 

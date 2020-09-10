@@ -26,6 +26,7 @@ var loading = new Phaser.Class({
 
         //this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
+
         this.load.html('form', './scripts/form.html');
 
 
@@ -141,8 +142,7 @@ var loading = new Phaser.Class({
                 //this.scene.start("tests");
             } else if (urlParams.get('lvl') == "1a") {
                 this.scene.start("level_1");
-            }
-            else if(urlParams.get('lvl')==='lb'){
+            } else if (urlParams.get('lvl') === 'lb') {
                 this.scene.start("loserBoard", {
                     type: 2,
                     score: 5,
@@ -171,22 +171,30 @@ var loading = new Phaser.Class({
 
 
     update: function () {
-       // document.getElementById('prompt').innerHTML = "update";
+        // document.getElementById('prompt').innerHTML = "update";
 
-    }  
+    }
 
 })
 
-let files_level_1_loaded=false;
-load_files_level_1= function (scene) {
-    if(files_level_1_loaded) return;
+let files_level_1_loaded = false;
+load_files_level_1 = function (scene) {
+    if (files_level_1_loaded) return;
+
+    if (urlParams.get('debug') === 'true') {
+        scene.load.on('fileprogress', (file) => {
+            document.getElementById('prompt').innerHTML = (file.src);
+        });
+    }
+
+
     scene.load.image("black", "./assets/images/level_1/black.png");
     scene.load.image("background_1", "./assets/images/level_1/base1.png");
     scene.load.image("background_2", "./assets/images/level_1/base2.png");
     scene.load.image("bloom", "./assets/images/level_1/lights_bloom.png");
     scene.load.image("whiteSquare", "./assets/images/level_1/white_square.png");
-    
-    
+
+
 
     scene.load.spritesheet("discoBall", "./assets/images/level_1/disco ball.png", {
         frameWidth: 36,
@@ -233,13 +241,13 @@ load_files_level_1= function (scene) {
 
     scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
     scene.load.audio("song", "./assets/audio/Gutted.mp3");
-    files_level_1_loaded=true;
+    files_level_1_loaded = true;
 }
 
 
-let files_level_2_loaded=false;
-load_files_level_2= function (scene) {
-    if(files_level_2_loaded) return;
+let files_level_2_loaded = false;
+load_files_level_2 = function (scene) {
+    if (files_level_2_loaded) return;
 
     scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
     scene.load.audio("song2", "./assets/audio/New Pallet Theme.mp3");
@@ -405,21 +413,21 @@ load_files_level_2= function (scene) {
     scene.load.image("level2_right", "./assets/images/level_2/right.png");
 
 
-    files_level_2_loaded=true;
+    files_level_2_loaded = true;
 }
 
-let files_intro_loaded=false;
-load_files_intro= function (scene) {
-    if(files_intro_loaded) return
+let files_intro_loaded = false;
+load_files_intro = function (scene) {
+    if (files_intro_loaded) return
     //--------- Intro
-   scene.load.video('background_intro_1', './assets/videos/start screen background.mp4');
-   scene.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
-   scene.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
+    scene.load.video('background_intro_1', './assets/videos/start screen background.mp4');
+    scene.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
+    scene.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
 
-   scene.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
-   scene.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
-   scene.load.audio("start_Sound", "./assets/audio/Start Sound.m4a");
-   scene.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
-   files_intro_loaded=true;
-   scene.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
+    scene.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
+    scene.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
+    scene.load.audio("start_Sound", "./assets/audio/Start Sound.m4a");
+    scene.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
+    files_intro_loaded = true;
+    scene.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
 }

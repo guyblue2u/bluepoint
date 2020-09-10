@@ -263,12 +263,12 @@ var loserBoard = new Phaser.Class({
                     this.buttonNextLevel.setFillStyle(0x334fcb);
                 });
             }
-            this.buttonNextLevel.on('pointerdown', () => {
+            this.buttonNextLevel.on('pointerdown', () => {                // go to the next level
                 if (mobileAndTabletCheck()) {
                     this.buttonNextLevelText.text = "Coming Soon "
                     this.buttonNextLevel.setFillStyle(0xa9afc9);
                 }
-                // go to the next level
+
             })
 
             // Menu
@@ -384,7 +384,7 @@ var loserBoard = new Phaser.Class({
                 rect.speed = Math.random() * 4 + 1;
                 this.particles.push(rect);
             })
-            this.tweens.add({ // camera zoom in again
+            this.tweens.add({ 
                 targets: this.particlesAlpha,
                 alpha: {
                     from: 0,
@@ -459,7 +459,6 @@ var loserBoard = new Phaser.Class({
                     this.buttonNextLevelText.text = "Coming Soon "
                     this.buttonNextLevel.setFillStyle(0xa9afc9);
                 }
-                // go to the next level
             })
 
         }
