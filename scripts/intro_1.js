@@ -47,15 +47,15 @@ var intro_1 = new Phaser.Class({
     create: function () {
         this.loadingText.setVisible(false);
 
-        this.background_videoB = this.add.video(444, 260, 'background_intro_1b').setLoop(true);
-        this.background_videoB.stop();
+        // this.background_videoB = this.add.video(444, 260, 'background_intro_1b').setLoop(true);
+        // this.background_videoB.stop();
 
-        this.background_videoA = this.add.video(444, 260, 'background_intro_1a').setLoop(true);
-        this.background_videoA.stop();
+        // this.background_videoA = this.add.video(444, 260, 'background_intro_1a').setLoop(true);
+        // this.background_videoA.stop();
 
 
-        this.background_video = this.add.video(444, 260, 'background_intro_1').setLoop(true);
-        this.background_video.play(true);
+        // this.background_video = this.add.video(444, 260, 'background_intro_1').setLoop(true);
+        // this.background_video.play(true);
 
 
         rythm = this.sound.add('intro_Rythm', {
