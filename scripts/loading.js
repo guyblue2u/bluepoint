@@ -241,8 +241,8 @@ load_files_level_1 = function (scene) {
         frameHeight: 36
     });
 
-    // scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
-    // scene.load.audio("song", "./assets/audio/Gutted.mp3");
+    scene.load.audio("outro", "./assets/audio/Bluepoint Outro Music.mp3");
+    scene.load.audio("song", "./assets/audio/Gutted.mp3");
     files_level_1_loaded = true;
 }
 
