@@ -426,10 +426,10 @@ load_files_intro = function (scene) {
     // scene.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
     // scene.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
 
-    // scene.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
+     scene.load.audio("intro_Synth", "./assets/audio/Bluepoint Intro Synth.mp3");
      scene.load.audio("intro_Rythm", "./assets/audio/Bluepoint Intro Rhythm.mp3");
-    // scene.load.audio("start_Sound", "./assets/audio/Start Sound.m4a");
-    // scene.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
+     scene.load.audio("start_Sound", "./assets/audio/Start Sound.m4a");
+     scene.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
     scene.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
     files_intro_loaded = true;
 }
