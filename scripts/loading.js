@@ -184,8 +184,8 @@ load_files_level_1 = function (scene) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     if (urlParams.get('debug') === 'true') {
-        scene.load.on('fileprogress', (file) => {
-            document.getElementById('prompt').innerHTML = (file.src);
+        scene.load.on('fileprogress', (file,percent) => {
+            document.getElementById('prompt').innerHTML = (file.src + " : " + percent*100 + "%");
         });
     }
 
