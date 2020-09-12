@@ -12,6 +12,11 @@ var intro_1 = new Phaser.Class({
 
     preload: function () {
 
+        //fix for the IOs bug in which videos doens't load, it will restart the page after 20 seconds
+        this.refreshPage= this.time.delayedCall(15000,()=>{
+            window.location.replace(location.protocol + '//' + location.host + location.pathname+ "?lvl=1");
+        })
+
         // loading text
         this.loadingText = this.add.text(444, 260, "Loading Bluepoint ", {
             fontFamily: 'euroStyle',
@@ -45,6 +50,11 @@ var intro_1 = new Phaser.Class({
     },
 
     create: function () {
+
+        //remove the delayed call that refresh the page
+        this.refreshPage.destroy()
+
+
         this.loadingText.setVisible(false);
 
         this.background_videoB = this.add.video(444, 260, 'background_intro_1b').setLoop(true);

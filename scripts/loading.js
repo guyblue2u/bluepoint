@@ -419,9 +419,9 @@ load_files_intro = function (scene) {
     scene.load.audio("loading", "./assets/audio/Bluepoint Loading Sound.m4a");
     scene.load.image("mutedIcon", "./assets/images/level_1/unmute-icon-12.png");
     
-    // scene.load.video('background_intro_1', './assets/videos/start screen background.mp4');
-    // scene.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
-    // scene.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
+    scene.load.video('background_intro_1', './assets/videos/start screen background.mp4');
+    scene.load.video('background_intro_1a', './assets/videos/Transition to Intro.mp4');
+    scene.load.video('background_intro_1b', './assets/videos/Intro Background.mp4');
 
     files_intro_loaded = true;
 }
